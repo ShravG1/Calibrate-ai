@@ -38,10 +38,28 @@ export function OutfitCard({ outfitData, onLogWorn, ownedIds, onFeedback, feedba
   const [showModal, setShowModal] = useState(false)
   const [logged, setLogged] = useState(false)
   const [rated, setRated] = useState(null)
+  const [shared, setShared] = useState(false)
 
   if (!outfitData) return null
-  const { items, isMorningOrEvening, hour } = outfitData
+  const { items, isMorningOrEvening, hour, feelsLike } = outfitData
   const streak = calcStreak(feedbackLog)
+
+  const handleShare = async () => {
+    const summary = items
+      .filter(i => i.tier !== 'tiny')
+      .map(i => `${i.emoji} ${i.name.toLowerCase()}`)
+      .join(' + ')
+    const text = `Layers says: ${summary} for ${Math.round(feelsLike)}°C 🧥`
+    try {
+      if (navigator.share) {
+        await navigator.share({ text, title: 'Layers' })
+      } else {
+        await navigator.clipboard.writeText(text)
+      }
+      setShared(true)
+      setTimeout(() => setShared(false), 2000)
+    } catch { /* user cancelled */ }
+  }
   const main   = items.filter(i => i.tier === 'main')
   const extras = items.filter(i => i.tier === 'extra')
   const tiny   = items.filter(i => i.tier === 'tiny')
@@ -61,11 +79,20 @@ export function OutfitCard({ outfitData, onLogWorn, ownedIds, onFeedback, feedba
         {/* Header */}
         <div className="px-4 pt-4 pb-2 flex items-center justify-between">
           <h2 className="text-white font-semibold text-sm">Today's Layers</h2>
-          {isMorningOrEvening && (
-            <span className="text-[10px] text-amber-300 bg-amber-400/10 px-2 py-0.5 rounded-full">
-              {hour < 9 ? 'Morning chill' : 'Evening chill'}
-            </span>
-          )}
+          <div className="flex items-center gap-2">
+            {isMorningOrEvening && (
+              <span className="text-[10px] text-amber-300 bg-amber-400/10 px-2 py-0.5 rounded-full">
+                {hour < 9 ? 'Morning chill' : 'Evening chill'}
+              </span>
+            )}
+            <button
+              onClick={handleShare}
+              className="text-zinc-500 hover:text-white text-sm active:scale-90 transition-all"
+              title="Share outfit"
+            >
+              {shared ? '✓' : '↗'}
+            </button>
+          </div>
         </div>
 
         {/* Main items */}

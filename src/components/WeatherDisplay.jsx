@@ -90,9 +90,10 @@ export function WeatherDisplay({ weather, location, hourly, unit = '°C', onLoca
           </div>
         </div>
 
-        <div className="flex gap-4 mt-3 pt-3 border-t border-zinc-800/40 text-xs text-zinc-500">
+        <div className="flex gap-4 mt-3 pt-3 border-t border-zinc-800/40 text-xs text-zinc-500 flex-wrap">
           <span>💨 {windMph} mph</span>
           <span>🌧️ {rainProb}%</span>
+          {weather.relative_humidity_2m != null && <span>💧 {Math.round(weather.relative_humidity_2m)}%</span>}
           {weather.uv_index > 0 && <span>☀️ UV {Math.round(weather.uv_index)}</span>}
         </div>
       </div>

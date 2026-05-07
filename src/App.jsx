@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useWeather }           from './hooks/useWeather.js'
 import { usePreferences }       from './hooks/usePreferences.js'
 import { useOutfitEngine }      from './hooks/useOutfitEngine.js'
 import { useEveningForecast }   from './hooks/useEveningForecast.js'
 import { useMorningPeak }       from './hooks/useMorningPeak.js'
 import { usePushNotifications } from './hooks/usePushNotifications.js'
+import { usePullToRefresh }     from './hooks/usePullToRefresh.js'
 
 import { WeatherDisplay }      from './components/WeatherDisplay.jsx'
 import { OutfitCard }          from './components/OutfitCard.jsx'
@@ -20,6 +21,9 @@ import { DailyMoodPrompt } from './components/DailyMoodPrompt.jsx'
 import { InstallHint } from './components/InstallHint.jsx'
 import { TomorrowCard } from './components/TomorrowCard.jsx'
 import { WeeklyPattern } from './components/WeeklyPattern.jsx'
+import { WeeklyForecast } from './components/WeeklyForecast.jsx'
+import { RainTimeline } from './components/RainTimeline.jsx'
+import { SavedLocations } from './components/SavedLocations.jsx'
 import { LogoMark } from './components/LogoMark.jsx'
 
 const TABS = ['home', 'history', 'settings']
@@ -33,9 +37,13 @@ export default function App() {
   const [showLocationSearch, setShowLocationSearch] = useState(false)
 
   const {
-    weather, hourly, location, loading, error,
+    weather, hourly, daily, location, loading, error,
     geoBlocked, searchLocation, selectLocation, refresh,
+    savedLocations, saveCurrentLocation, removeSavedLocation, switchToSaved,
   } = useWeather()
+
+  const homeScrollRef = useRef(null)
+  const { pull, refreshing, triggerDistance } = usePullToRefresh(homeScrollRef, refresh)
 
   const {
     prefs, completeOnboarding, recordFeedback, logDailyMood, acknowledgeColdDrop,
@@ -133,7 +141,13 @@ export default function App() {
       <main className="flex-1 min-h-0 relative">
         {/* HOME TAB */}
         {tab === 'home' && (
-          <div className="h-full overflow-y-auto pb-6">
+          <div ref={homeScrollRef} className="h-full overflow-y-auto pb-6 relative" style={{ transform: `translateY(${pull}px)`, transition: pull === 0 ? 'transform 0.2s ease' : 'none' }}>
+            {/* Pull-to-refresh indicator */}
+            {(pull > 0 || refreshing) && (
+              <div className="absolute -top-12 left-0 right-0 flex justify-center" style={{ opacity: Math.min(pull / triggerDistance, 1) }}>
+                <div className={`w-8 h-8 border-2 rounded-full ${refreshing ? 'border-indigo-500 border-t-transparent animate-spin' : 'border-zinc-600 border-t-indigo-500'}`} style={{ transform: refreshing ? 'none' : `rotate(${pull * 4}deg)` }}/>
+              </div>
+            )}
             {loading && !weather && (
               <div className="flex flex-col items-center justify-center h-48 gap-3 mt-8">
                 <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
@@ -154,6 +168,13 @@ export default function App() {
 
             {weather && (
               <>
+                <SavedLocations
+                  saved={savedLocations}
+                  current={location}
+                  onSwitch={switchToSaved}
+                  onSave={saveCurrentLocation}
+                  onRemove={removeSavedLocation}
+                />
                 <WeatherDisplay
                   weather={weather}
                   location={location}
@@ -172,6 +193,8 @@ export default function App() {
                 <PackSomethingBanner alert={eveningAlert} />
                 <MorningPeakBanner peak={morningPeak} />
                 <UVAlert weather={weather} hourly={hourly} settings={settings} />
+                <RainTimeline hourly={hourly}/>
+                <WeeklyForecast daily={daily} unit={settings.tempUnit ?? '°C'}/>
                 <WeeklyPattern feedbackLog={prefs.feedbackLog} bucketAdjustments={prefs.bucketAdjustments}/>
                 <DailyMoodPrompt
                   hour={outfitData?.hour ?? new Date().getHours()}
@@ -204,8 +227,8 @@ export default function App() {
                     onClick={async () => {
                       const hour = parseInt((settings.notifTime || '07:30').split(':')[0]) || 7
                       await requestPermission({
-                        lat: location?.latitude,
-                        lon: location?.longitude,
+                        lat: location?.lat,
+                        lon: location?.lon,
                         city: location?.name,
                         localHour: hour,
                       })
