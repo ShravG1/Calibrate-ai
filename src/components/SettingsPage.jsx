@@ -14,7 +14,7 @@ export function saveSettings(settings) {
   localStorage.setItem(LS_SETTINGS_KEY, JSON.stringify(settings))
 }
 
-export function SettingsPage({ onResetPrefs, onResetOnboarding, wardrobe = [], onWardrobeChange, customExtras = [], onAddCustom, onRemoveCustom }) {
+export function SettingsPage({ onResetPrefs, onResetOnboarding, wardrobe = [], onWardrobeChange, customExtras = [], onAddCustom, onRemoveCustom, onShowReinstall }) {
   const [wardrobeOpen, setWardrobeOpen] = useState(false)
   const [settings, setSettings] = useState(() => ({
     eveningCheckHour: 19,
@@ -178,9 +178,15 @@ export function SettingsPage({ onResetPrefs, onResetOnboarding, wardrobe = [], o
         </button>
         <button
           onClick={onResetOnboarding}
-          className="w-full py-2.5 bg-zinc-800 text-zinc-500 rounded-xl text-sm hover:bg-zinc-700 transition-colors"
+          className="w-full py-2.5 bg-zinc-800 text-zinc-500 rounded-xl text-sm hover:bg-zinc-700 transition-colors mb-2"
         >
           Reset onboarding (testing)
+        </button>
+        <button
+          onClick={onShowReinstall}
+          className="w-full py-2.5 bg-zinc-800 text-zinc-500 rounded-xl text-sm hover:bg-zinc-700 transition-colors flex items-center justify-center gap-2"
+        >
+          <span>🔄</span><span>App not updating? Reinstall guide</span>
         </button>
       </Section>
 

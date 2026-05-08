@@ -36,6 +36,10 @@
   60% { opacity: 1; }
   100% { transform: translateY(18px); opacity: 0; }
 }
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -51,6 +55,7 @@
   100% { opacity: 0; transform: translateY(20px); }
 }
 
+.animate-slide-down { animation: slide-down 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
 .animate-pulse-sun { animation: pulse-sun 2.5s ease-in-out infinite; }
 .animate-drift-cloud { animation: drift-cloud 4s ease-in-out infinite; }
 .animate-fall-rain { animation: fall-rain 1.2s ease-in infinite; }

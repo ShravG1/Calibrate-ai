@@ -6,6 +6,7 @@ import { useEveningForecast }   from './hooks/useEveningForecast.js'
 import { useMorningPeak }       from './hooks/useMorningPeak.js'
 import { usePushNotifications } from './hooks/usePushNotifications.js'
 import { usePullToRefresh }     from './hooks/usePullToRefresh.js'
+import { useAppUpdate }        from './hooks/useAppUpdate.js'
 
 import { WeatherDisplay }      from './components/WeatherDisplay.jsx'
 import { OutfitCard }          from './components/OutfitCard.jsx'
@@ -25,6 +26,8 @@ import { WeeklyForecast } from './components/WeeklyForecast.jsx'
 import { RainTimeline } from './components/RainTimeline.jsx'
 import { SavedLocations } from './components/SavedLocations.jsx'
 import { LogoMark } from './components/LogoMark.jsx'
+import { UpdateBanner } from './components/UpdateBanner.jsx'
+import { ReinstallSheet } from './components/ReinstallSheet.jsx'
 
 const TABS = ['home', 'history', 'settings']
 const TAB_LABELS = { home: 'Home', history: 'History', settings: 'Settings' }
@@ -35,6 +38,9 @@ export default function App() {
   const [settings, setSettings]             = useState(loadSettings)
   const [notifPromptShown, setNotifPromptShown] = useState(false)
   const [showLocationSearch, setShowLocationSearch] = useState(false)
+  const [showReinstall, setShowReinstall]   = useState(false)
+
+  const { needsReload, applyUpdate } = useAppUpdate()
 
   const {
     weather, hourly, daily, location, loading, error,
@@ -257,6 +263,7 @@ export default function App() {
             customExtras={prefs.customExtras ?? []}
             onAddCustom={addCustomExtra}
             onRemoveCustom={removeCustomExtra}
+            onShowReinstall={() => setShowReinstall(true)}
           />
         )}
       </main>
@@ -278,6 +285,12 @@ export default function App() {
           </button>
         ))}
       </nav>
+
+      {/* Update banner */}
+      {needsReload && <UpdateBanner onApply={applyUpdate}/>}
+
+      {/* Reinstall guide */}
+      {showReinstall && <ReinstallSheet onClose={() => setShowReinstall(false)}/>}
 
       {/* Location change overlay */}
       {showLocationSearch && (
