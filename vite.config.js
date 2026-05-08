@@ -27,18 +27,11 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         importScripts: ['/push-handler.js'],
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/api\.open-meteo\.com\/.*/,
-            handler: 'NetworkFirst',
-            options: { cacheName: 'weather-api', expiration: { maxAgeSeconds: 600 } },
-          },
-          {
-            urlPattern: /^https:\/\/geocoding-api\.open-meteo\.com\/.*/,
-            handler: 'CacheFirst',
-            options: { cacheName: 'geocoding-api', expiration: { maxAgeSeconds: 86400 } },
-          },
-        ],
+        // Don't intercept external API calls — let the browser handle them.
+        // When NetworkFirst has no cache and the network fails it throws a fatal
+        // "no-response" error that kills the whole fetch rather than letting the
+        // app's own error handling take over.
+        navigateFallback: '/index.html',
       },
     }),
   ],
