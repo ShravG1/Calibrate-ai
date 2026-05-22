@@ -1,0 +1,303 @@
+<!doctype html>
+<!--
+  Shrav — AI & Automation services site (single-file version).
+
+  This is a self-contained copy of the real React site, made for pasting
+  into a Claude.ai conversation so you can tweak the look visually.
+  It is NOT the production code — the real site lives in src/.
+  Once you're happy with a change here, tell Claude Code what you changed.
+-->
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shrav — AI &amp; Automation for Small Businesses</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+            colors: {
+              ink: '#070b1a',
+              'ink-soft': '#0c1226',
+              'ink-card': '#0f1730',
+              mist: '#e6ecff',
+              'mist-dim': '#9aa6cc',
+              electric: '#38bdf8',
+              violet: '#818cf8',
+            },
+          },
+        },
+      }
+    </script>
+    <style>
+      html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+      body { font-family: 'Plus Jakarta Sans', sans-serif; }
+      .text-gradient {
+        background: linear-gradient(120deg, #7dd3fc, #818cf8 55%, #c4b5fd);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      .glow-ring {
+        box-shadow: 0 0 0 1px rgba(56,189,248,.25), 0 0 40px -8px rgba(56,189,248,.35);
+      }
+      @keyframes aurora {
+        0%,100% { transform: translate3d(0,0,0) scale(1); }
+        50% { transform: translate3d(4%,-3%,0) scale(1.12); }
+      }
+      .aurora-blob { animation: aurora 18s ease-in-out infinite; }
+      /* Scroll-reveal */
+      .reveal { opacity: 0; transform: translateY(22px); transition: opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1); }
+      .reveal.in { opacity: 1; transform: none; }
+      /* Service accordion */
+      .svc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .32s cubic-bezier(.22,1,.36,1); }
+      .svc-card.open .svc-panel { grid-template-rows: 1fr; }
+      .svc-panel > div { overflow: hidden; }
+      .svc-card.open .svc-plus { transform: rotate(135deg); }
+      .svc-plus { transition: transform .3s cubic-bezier(.22,1,.36,1); }
+      @media (prefers-reduced-motion: reduce) {
+        .aurora-blob { animation: none; }
+        .reveal { transition: none; opacity: 1; transform: none; }
+      }
+    </style>
+  </head>
+
+  <body class="bg-ink text-mist antialiased">
+    <!-- ===================== NAV ===================== -->
+    <header id="nav" class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors duration-300">
+      <nav class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
+        <a href="#top" class="flex items-center gap-2.5 text-[17px] font-extrabold tracking-tight">
+          <span class="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-electric to-violet text-ink">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 4h4.4C16.6 4 19 6.3 19 9.8c0 2.6-1.4 4.6-3.7 5.5L20 21h-4.9l-3.2-4.4H11V12h.7c1.7 0 2.7-.8 2.7-2.2S13.4 7.6 11.7 7.6H11V21H8z"/></svg>
+          </span>
+          Shrav
+        </a>
+        <div class="hidden items-center gap-1 md:flex">
+          <a href="#why" class="rounded-lg px-3 py-2 text-sm font-medium text-mist-dim hover:text-mist">Why AI</a>
+          <a href="#services" class="rounded-lg px-3 py-2 text-sm font-medium text-mist-dim hover:text-mist">Services</a>
+          <a href="#pricing" class="rounded-lg px-3 py-2 text-sm font-medium text-mist-dim hover:text-mist">Pricing</a>
+          <a href="#work" class="rounded-lg px-3 py-2 text-sm font-medium text-mist-dim hover:text-mist">Case Studies</a>
+          <a href="#about" class="rounded-lg px-3 py-2 text-sm font-medium text-mist-dim hover:text-mist">About</a>
+        </div>
+        <a href="#contact" class="rounded-xl bg-mist px-4 py-2.5 text-sm font-semibold text-ink transition-transform hover:scale-105 active:scale-95">Let’s talk</a>
+      </nav>
+    </header>
+
+    <!-- ===================== HERO ===================== -->
+    <section id="top" class="relative flex min-h-screen items-center overflow-hidden px-5 pt-28 pb-20 sm:px-8">
+      <div class="pointer-events-none absolute inset-0">
+        <div class="aurora-blob absolute -left-32 -top-40 h-[34rem] w-[34rem] rounded-full bg-electric/20 blur-[120px]"></div>
+        <div class="aurora-blob absolute -right-40 top-20 h-[32rem] w-[32rem] rounded-full bg-violet/20 blur-[120px]" style="animation-delay:-9s"></div>
+      </div>
+      <div class="mx-auto w-full max-w-5xl">
+        <div class="reveal inline-flex items-center gap-2 rounded-full border border-white/10 bg-ink-soft/70 px-3.5 py-1.5 text-xs font-medium text-mist-dim">
+          <span class="h-2 w-2 rounded-full bg-electric"></span>
+          Taking on three projects, completely free
+        </div>
+        <h1 class="reveal mt-6 max-w-4xl text-[2.6rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+          AI and automation for <span class="text-gradient">small businesses</span> that haven’t got time to waste.
+        </h1>
+        <p class="reveal mt-6 max-w-2xl text-lg leading-relaxed text-mist-dim sm:text-xl">
+          I’m Shrav. I take the repetitive, time-eating tasks off your plate — the rotas, the emails, the spreadsheets, the same questions answered ten times a day — and automate them. So you can get back to actually growing the business.
+        </p>
+        <div class="reveal mt-9 flex flex-col gap-3 sm:flex-row">
+          <a href="#contact" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-electric to-violet px-7 py-4 text-base font-semibold text-ink glow-ring transition-transform hover:scale-105 active:scale-95">Get your free project →</a>
+          <a href="#services" class="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-ink-soft/60 px-7 py-4 text-base font-semibold text-mist hover:border-electric/40">See what I can build</a>
+        </div>
+        <div class="reveal mt-12 grid max-w-2xl grid-cols-3 gap-4 border-t border-white/10 pt-7">
+          <div><p class="text-sm font-bold sm:text-base">Hours back</p><p class="text-xs text-mist-dim sm:text-sm">every single week</p></div>
+          <div><p class="text-sm font-bold sm:text-base">Fewer mistakes</p><p class="text-xs text-mist-dim sm:text-sm">than doing it by hand</p></div>
+          <div><p class="text-sm font-bold sm:text-base">Built for you</p><p class="text-xs text-mist-dim sm:text-sm">not off a shelf</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== WHY AI ===================== -->
+    <section id="why" class="px-5 py-24 sm:px-8 sm:py-32">
+      <div class="mx-auto max-w-6xl">
+        <div class="reveal">
+          <p class="text-sm font-semibold uppercase tracking-[0.2em] text-electric">Why bother with AI</p>
+          <h2 class="mt-3 max-w-3xl text-3xl font-extrabold tracking-tight sm:text-5xl">You don’t need to understand the tech. You just need it to work.</h2>
+          <p class="mt-5 max-w-2xl text-lg leading-relaxed text-mist-dim">“AI” and “automation” sound complicated. They’re not, really. It just means handing the repetitive jobs to software so your time goes where it matters. Here’s the honest version.</p>
+        </div>
+        <div class="mt-14 grid gap-5 md:grid-cols-3">
+          <div class="reveal h-full rounded-3xl border border-white/10 bg-ink-card/60 p-7">
+            <h3 class="text-xl font-bold">It saves you time</h3>
+            <p class="mt-2.5 leading-relaxed text-mist-dim">Anything you do the same way every day — chasing rotas, sending emails, copying numbers between spreadsheets — a computer can do in the background while you get on with real work.</p>
+          </div>
+          <div class="reveal h-full rounded-3xl border border-white/10 bg-ink-card/60 p-7">
+            <h3 class="text-xl font-bold">It makes fewer mistakes</h3>
+            <p class="mt-2.5 leading-relaxed text-mist-dim">People get tired, distracted, interrupted. A well-built system does the boring bits the same careful way every single time. No missed shifts, no typos in the payroll.</p>
+          </div>
+          <div class="reveal h-full rounded-3xl border border-white/10 bg-ink-card/60 p-7">
+            <h3 class="text-xl font-bold">It grows with you</h3>
+            <p class="mt-2.5 leading-relaxed text-mist-dim">Twice the customers shouldn’t mean twice the admin. Once a task is automated, it handles ten jobs or a thousand without you hiring extra hands to keep up.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SERVICES ===================== -->
+    <section id="services" class="px-5 py-24 sm:px-8 sm:py-32">
+      <div class="mx-auto max-w-6xl">
+        <div class="reveal">
+          <p class="text-sm font-semibold uppercase tracking-[0.2em] text-electric">What I do</p>
+          <h2 class="mt-3 max-w-3xl text-3xl font-extrabold tracking-tight sm:text-5xl">Five ways I can take work off your hands.</h2>
+          <p class="mt-5 max-w-2xl text-lg leading-relaxed text-mist-dim">Every business is different, so nothing here is one-size-fits-all. Tap any card to see the kind of thing that’s possible — then we’ll shape it around what you actually need.</p>
+        </div>
+        <div id="svc-list" class="mt-12 grid gap-4"></div>
+      </div>
+    </section>
+
+    <!-- ===================== PRICING ===================== -->
+    <section id="pricing" class="px-5 py-24 sm:px-8 sm:py-32">
+      <div class="mx-auto max-w-5xl">
+        <div class="reveal relative overflow-hidden rounded-[2rem] border border-electric/25 bg-ink-card/70 p-7 sm:p-12">
+          <div class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-electric/15 blur-[100px]"></div>
+          <span class="inline-flex items-center gap-2 rounded-full border border-electric/30 bg-electric/10 px-3.5 py-1.5 text-xs font-semibold text-electric">Early phase — limited spots</span>
+          <h2 class="mt-6 max-w-3xl text-3xl font-extrabold tracking-tight sm:text-5xl">Three projects. <span class="text-gradient">Completely free.</span> No catch.</h2>
+          <p class="mt-5 max-w-2xl text-lg leading-relaxed text-mist-dim">I’m early into doing this externally, and I’d rather build a portfolio of work I’m genuinely proud of than rush to charge. So right now I’m taking on three projects at no cost. You get the full thing built; I get a real result to show. After these three, everything moves to paid — but these ones are on me.</p>
+          <div class="mt-9 grid gap-8 sm:grid-cols-[1.4fr_1fr] sm:items-center">
+            <ul class="space-y-3.5 text-mist">
+              <li class="flex gap-3"><span class="text-electric">✓</span> A real project, properly built — not a demo or a trial</li>
+              <li class="flex gap-3"><span class="text-electric">✓</span> We scope it together so it solves a problem you actually have</li>
+              <li class="flex gap-3"><span class="text-electric">✓</span> Honest advice on what’s worth automating and what isn’t</li>
+              <li class="flex gap-3"><span class="text-electric">✓</span> No invoice at the end, and no obligation to carry on</li>
+            </ul>
+            <div class="rounded-2xl border border-white/10 bg-ink/60 p-6 text-center">
+              <p class="text-sm text-mist-dim">Your cost</p>
+              <p class="mt-1 text-5xl font-extrabold tracking-tight">£0</p>
+              <p class="mt-1 text-sm text-mist-dim">for the first three</p>
+              <a href="#contact" class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric to-violet px-5 py-3.5 text-sm font-semibold text-ink transition-transform hover:scale-105 active:scale-95">Claim a spot →</a>
+            </div>
+          </div>
+          <p class="mt-7 text-sm text-mist-dim">Genuinely no strings — if it’s useful and you want to keep working together afterwards, brilliant. If not, you keep what’s been built and we part as friends.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CASE STUDIES ===================== -->
+    <section id="work" class="px-5 py-24 sm:px-8 sm:py-32">
+      <div class="mx-auto max-w-6xl">
+        <div class="reveal">
+          <p class="text-sm font-semibold uppercase tracking-[0.2em] text-electric">Case studies</p>
+          <h2 class="mt-3 max-w-3xl text-3xl font-extrabold tracking-tight sm:text-5xl">Real projects, written up properly.</h2>
+          <p class="mt-5 max-w-2xl text-lg leading-relaxed text-mist-dim">These are placeholders for now — the first finished projects will land here, each with the problem it solved, what was built, and the result it delivered.</p>
+        </div>
+        <div id="cs-list" class="mt-12 grid gap-5 md:grid-cols-3"></div>
+      </div>
+    </section>
+
+    <!-- ===================== ABOUT ===================== -->
+    <section id="about" class="px-5 py-24 sm:px-8 sm:py-32">
+      <div class="mx-auto max-w-5xl">
+        <div class="grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-center">
+          <div class="reveal relative mx-auto w-full max-w-xs">
+            <div class="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-electric/25 to-violet/25 blur-2xl"></div>
+            <div class="relative grid aspect-[4/5] place-items-center overflow-hidden rounded-[1.8rem] border border-white/10 bg-ink-card">
+              <span class="text-6xl font-extrabold text-gradient">S</span>
+            </div>
+          </div>
+          <div class="reveal">
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-electric">About Shrav</p>
+            <h2 class="mt-3 text-3xl font-extrabold tracking-tight sm:text-5xl">Hi, I’m Shrav.</h2>
+            <div class="mt-5 space-y-4 text-lg leading-relaxed text-mist-dim">
+              <p>I’ve spent the last while building AI and automation inside my own company — rotas, customer messages, dashboards, the lot. The kind of work that quietly gives you your evenings back.</p>
+              <p>It worked well enough that I want to do it for other people too. So that’s what this is: the same hands-on help, offered to small businesses that don’t have a tech team and don’t want one.</p>
+              <p>No jargon, no big agency runaround. You talk to me, I build the thing, and I explain it in plain English. That’s the whole deal.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section id="contact" class="px-5 py-24 sm:px-8 sm:py-32">
+      <div class="mx-auto max-w-5xl">
+        <div class="reveal relative overflow-hidden rounded-[2rem] border border-white/10 bg-ink-card/70 p-7 sm:p-12">
+          <div class="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-electric/15 blur-[100px]"></div>
+          <div class="grid gap-10 md:grid-cols-2">
+            <div>
+              <p class="text-sm font-semibold uppercase tracking-[0.2em] text-electric">Let’s talk</p>
+              <h2 class="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Tell me what’s eating your time.</h2>
+              <p class="mt-4 leading-relaxed text-mist-dim">No pressure and no sales pitch. Send a quick message about your business and what’s driving you mad, and I’ll come back with honest thoughts on whether I can help.</p>
+              <a href="mailto:meshavie@gmail.com" class="mt-7 flex items-center gap-3 rounded-xl border border-white/10 bg-ink/60 px-4 py-3 text-sm font-medium hover:border-electric/40">✉ meshavie@gmail.com</a>
+            </div>
+            <form class="flex flex-col gap-4" onsubmit="event.preventDefault();this.reset();alert('In the real site this opens your email app.');">
+              <input type="text" required placeholder="Your name" class="rounded-xl border border-white/10 bg-ink/70 px-4 py-3 text-mist outline-none focus:border-electric/50" />
+              <input type="text" placeholder="Your business" class="rounded-xl border border-white/10 bg-ink/70 px-4 py-3 text-mist outline-none focus:border-electric/50" />
+              <textarea required rows="4" placeholder="What’s taking up your time?" class="resize-none rounded-xl border border-white/10 bg-ink/70 px-4 py-3 text-mist outline-none focus:border-electric/50"></textarea>
+              <button type="submit" class="rounded-xl bg-gradient-to-r from-electric to-violet px-6 py-3.5 text-base font-semibold text-ink transition-transform hover:scale-105 active:scale-95">Send it over →</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="border-t border-white/10 px-5 py-10 sm:px-8">
+      <div class="mx-auto max-w-6xl text-sm text-mist-dim">© <span id="year"></span> Shrav. AI and automation for small businesses.</div>
+    </footer>
+
+    <script>
+      // --- Content data (mirrors src/data.jsx) ---
+      const services = [
+        { n: 'Team & Operations', s: 'Shift management and HR that lives on your team’s phones — less admin for you, fewer headaches for them.', p: ['Staff request cover, swap or part-swap shifts straight from an app on their phone — no group chat chaos.','Hours and pay tracked automatically, so payroll stops being a Sunday-night job.','Flags where rota costs are creeping up and where you could trim them.','Optional performance stats and analytics if you want a clearer picture of how the team is doing.'] },
+        { n: 'Customer Engagement', s: 'Stay in front of your customers without spending your evenings writing emails or answering the same questions.', p: ['Mass email outreach built from targeted templates that pull straight from your existing Excel data.','AI chatbots embedded on your website to answer visitors instantly, day or night.','AI agents that handle routine customer support queries on their own, and hand the tricky ones to you.'] },
+        { n: 'Digital Products', s: 'A proper online presence — a website or app that looks the part and actually works for your customers.', p: ['Custom websites with smooth animations and a clean, modern design that feels current.','PWA apps that install straight from a link — no App Store, no approval queue, no fees.','Push notifications built in, so you can reach customers the way the big apps do.'] },
+        { n: 'Data Intelligence', s: 'Turn the messy data you already have into clear dashboards you’ll actually look at.', p: ['Takes any raw data you’ve got — spreadsheets, exports, sales records — and cleans it up.','Builds it into clear, visual dashboards rather than walls of numbers.','Helps you make fast, informed decisions without needing a data analyst on payroll.'] },
+        { n: 'Tutoring', s: 'Prefer to learn it yourself? One-to-one sessions to get you confidently using these tools.', p: ['One-to-one teaching sessions tailored to you and your business.','Learn how to set up and run specific tools yourself, at your own pace.','Charged at a premium rate compared with the other services — it’s hands-on time, just the two of us.'] },
+      ];
+
+      document.getElementById('svc-list').innerHTML = services.map((sv, i) => `
+        <div class="svc-card reveal rounded-3xl border border-white/10 bg-ink-card/60">
+          <button class="flex w-full items-start gap-5 p-6 text-left sm:p-7" onclick="this.closest('.svc-card').classList.toggle('open')">
+            <span class="grid h-13 w-13 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-electric/20 to-violet/20 text-electric font-bold">${String(i+1).padStart(2,'0')}</span>
+            <span class="min-w-0 flex-1">
+              <h3 class="text-xl font-bold sm:text-2xl">${sv.n}</h3>
+              <p class="mt-2 leading-relaxed text-mist-dim">${sv.s}</p>
+              <span class="mt-3 inline-block text-sm font-semibold text-electric">What this looks like</span>
+            </span>
+            <span class="svc-plus grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/10 text-mist">+</span>
+          </button>
+          <div class="svc-panel"><div><ul class="space-y-3 border-t border-white/10 px-6 py-6 sm:px-7">
+            ${sv.p.map(pt => `<li class="flex gap-3"><span class="text-electric">✓</span><span class="leading-relaxed text-mist-dim">${pt}</span></li>`).join('')}
+          </ul></div></div>
+        </div>`).join('');
+
+      const cs = `
+        <article class="reveal flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-ink-card/60">
+          <div class="grid aspect-[16/10] place-items-center border-b border-white/10 bg-ink-soft text-xs text-mist-dim">Project image</div>
+          <div class="flex flex-1 flex-col gap-4 p-6">
+            <h3 class="text-lg font-bold">Project Title Placeholder</h3>
+            <div><p class="text-[11px] font-bold uppercase tracking-[0.16em] text-electric/80">The problem</p><p class="mt-1.5 text-sm leading-relaxed text-mist-dim">A short description of the problem this business was facing before we started.</p></div>
+            <div><p class="text-[11px] font-bold uppercase tracking-[0.16em] text-electric/80">The solution</p><p class="mt-1.5 text-sm leading-relaxed text-mist-dim">What was built and how it fit into their day-to-day.</p></div>
+            <div><p class="text-[11px] font-bold uppercase tracking-[0.16em] text-electric/80">The outcome</p><p class="mt-1.5 text-sm leading-relaxed text-mist-dim">The measurable result: time saved, errors reduced, money kept.</p></div>
+          </div>
+        </article>`;
+      document.getElementById('cs-list').innerHTML = cs.repeat(3);
+
+      // --- Nav background on scroll ---
+      const nav = document.getElementById('nav');
+      addEventListener('scroll', () => {
+        nav.classList.toggle('bg-ink/80', scrollY > 16);
+        nav.classList.toggle('backdrop-blur-xl', scrollY > 16);
+        nav.classList.toggle('border-white/10', scrollY > 16);
+      }, { passive: true });
+
+      // --- Scroll reveal ---
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { rootMargin: '-80px' });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
