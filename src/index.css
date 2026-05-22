@@ -73,23 +73,3 @@
     display: none;
   }
 }
-
-@keyframes aurora {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(4%, -3%, 0) scale(1.12);
-  }
-}
-
-.aurora-blob {
-  animation: aurora 18s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .aurora-blob {
-    animation: none;
-  }
-}

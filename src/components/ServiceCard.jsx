@@ -1,5 +1,11 @@
-import { useId, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useId, useRef, useState } from 'react'
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+  useReducedMotion,
+} from 'framer-motion'
 import { PlusIcon, CheckIcon } from '../icons.jsx'
 
 export default function ServiceCard({ service, index }) {
@@ -7,8 +13,38 @@ export default function ServiceCard({ service, index }) {
   const panelId = useId()
   const Icon = service.icon
 
+  const cardRef = useRef(null)
+  const reduce = useReducedMotion()
+  const rotateX = useMotionValue(0)
+  const rotateY = useMotionValue(0)
+  const spring = { stiffness: 150, damping: 18, mass: 0.5 }
+  const sRotateX = useSpring(rotateX, spring)
+  const sRotateY = useSpring(rotateY, spring)
+
+  const handleTilt = (e) => {
+    if (reduce || !cardRef.current) return
+    const r = cardRef.current.getBoundingClientRect()
+    const px = (e.clientX - r.left) / r.width - 0.5
+    const py = (e.clientY - r.top) / r.height - 0.5
+    rotateY.set(px * 7)
+    rotateX.set(-py * 5)
+  }
+
+  const resetTilt = () => {
+    rotateX.set(0)
+    rotateY.set(0)
+  }
+
   return (
-    <div
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleTilt}
+      onMouseLeave={resetTilt}
+      style={{
+        rotateX: sRotateX,
+        rotateY: sRotateY,
+        transformPerspective: 1100,
+      }}
       className={`group relative overflow-hidden rounded-3xl border bg-ink-card/60 transition-colors ${
         open ? 'border-electric/40' : 'border-line hover:border-electric/25'
       }`}
@@ -76,6 +112,6 @@ export default function ServiceCard({ service, index }) {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   )
 }

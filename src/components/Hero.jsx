@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowIcon } from '../icons.jsx'
+import MeshBackground from './MeshBackground.jsx'
+import MagneticButton from './MagneticButton.jsx'
 
 const ease = [0.22, 1, 0.36, 1]
 
@@ -17,25 +19,7 @@ export default function Hero() {
       id="top"
       className="relative flex min-h-[100svh] items-center overflow-hidden px-5 pt-28 pb-20 sm:px-8"
     >
-      {/* Aurora background */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="aurora-blob absolute -left-32 -top-40 h-[34rem] w-[34rem] rounded-full bg-electric/20 blur-[120px]" />
-        <div
-          className="aurora-blob absolute -right-40 top-20 h-[32rem] w-[32rem] rounded-full bg-violet/20 blur-[120px]"
-          style={{ animationDelay: '-9s' }}
-        />
-        <div className="absolute inset-0 grain opacity-60" />
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(120,140,200,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(120,140,200,0.05) 1px, transparent 1px)',
-            backgroundSize: '64px 64px',
-            maskImage:
-              'radial-gradient(ellipse 70% 60% at 50% 35%, #000 40%, transparent 100%)',
-          }}
-        />
-      </div>
+      <MeshBackground />
 
       <div className="mx-auto w-full max-w-5xl">
         <motion.div
@@ -72,13 +56,13 @@ export default function Hero() {
           {...fade(0.24)}
           className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
         >
-          <a
+          <MagneticButton
             href="#contact"
-            className="group inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-electric to-violet px-7 py-4 text-base font-semibold text-ink transition-transform hover:scale-[1.03] active:scale-95 glow-ring"
+            className="group inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-electric to-violet px-7 py-4 text-base font-semibold text-ink glow-ring"
           >
             Get your free project
             <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
-          </a>
+          </MagneticButton>
           <a
             href="#services"
             className="inline-flex items-center justify-center gap-2 rounded-2xl border border-line bg-ink-soft/60 px-7 py-4 text-base font-semibold text-mist backdrop-blur transition-colors hover:border-electric/40"
