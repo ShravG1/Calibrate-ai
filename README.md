@@ -1,29 +1,44 @@
-# Layers
+# Shrav — AI & Automation Services
 
-A mobile-first PWA that recommends what to wear based on live weather and how you actually feel in different temperatures.
+A personal landing site for Shrav's AI and automation services for small
+businesses. Dark, futuristic, and warm — built to be sent to friends and
+friends-of-friends.
 
-## Features
-- Live weather (Open-Meteo), driven by feels-like temperature
-- Personal wardrobe — recommends from items you actually own
-- Learns over time from "too cold / just right / too warm" feedback
-- Evening drop alerts ("pack something")
-- Daily push notification (Cloudflare Worker + cron)
-- Installable PWA, dark UI, offline support
+## Tech
+
+- React + Vite
+- Tailwind CSS v4
+- Framer Motion (entrance animations, smooth scroll)
+- Deployed on Vercel
+
+## Sections
+
+Hero · Why AI · Services (five expandable cards) · Pricing (three free
+projects) · Case Studies (placeholder layout) · About Shrav · Contact.
 
 ## Dev
+
 ```bash
 npm install
 npm run dev
 ```
 
-## Deploy
+## Build
+
 ```bash
 npm run build
-npx wrangler pages deploy dist --project-name=whattowear --branch=main
 ```
 
-## Worker (push)
-```bash
-cd worker
-npx wrangler deploy
-```
+## Editing content
+
+- Services and case studies live in `src/data.jsx`.
+- Contact email / WhatsApp number are at the bottom of `src/data.jsx`
+  (set `whatsapp` to a number like `447000000000` to show the WhatsApp
+  button; leave it blank to hide it).
+- Case Studies use placeholder copy and image slots — swap real project
+  details and screenshots in once they're ready.
+
+## Deploy (Vercel)
+
+Import the repo into Vercel. Framework preset: **Vite**. Build command
+`npm run build`, output directory `dist`.
