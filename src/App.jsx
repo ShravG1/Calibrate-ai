@@ -1,3 +1,4 @@
+import { useLenis } from './hooks/useLenis.js'
 import Nav from './components/Nav.jsx'
 import Hero from './components/Hero.jsx'
 import WhyAI from './components/WhyAI.jsx'
@@ -9,6 +10,8 @@ import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
 
 export default function App() {
+  useLenis()
+
   return (
     <div className="min-h-screen bg-ink text-mist">
       <Nav />
