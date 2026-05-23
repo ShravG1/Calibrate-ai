@@ -4,9 +4,9 @@ import { useReducedMotion } from 'framer-motion'
 const HOVER_SELECTOR =
   'a, button, [role="button"], input, textarea, select, [data-cursor-hover]'
 
-const TRAIL_LENGTH = 30          // ~300ms history at 60fps
-const AMPLITUDE = 6              // wave peak, px
-const WAVELENGTHS = 2            // visible cycles across the trail
+const TRAIL_LENGTH = 10          // ~170ms history at 60fps — a streak, not a tail
+const AMPLITUDE = 1.5            // wave peak, px — almost straight
+const WAVELENGTHS = 1            // single cycle across the streak
 const DRAIN_PER_FRAME = 3        // retract speed when hovered
 
 // Wave-trail cursor — a small teal head dot follows the pointer
@@ -27,7 +27,6 @@ export default function Cursor() {
 
   const pointer = useRef({ x: -200, y: -200 })
   const history = useRef([])
-  const tRef = useRef(0)
   const hoveredRef = useRef(false)
   const visibleRef = useRef(false)
   const reduceRef = useRef(false)
@@ -124,7 +123,6 @@ export default function Cursor() {
     if (!active) return
 
     const tick = () => {
-      tRef.current += 1
       const hx = pointer.current.x
       const hy = pointer.current.y
       const r = reduceRef.current
@@ -163,7 +161,6 @@ export default function Cursor() {
         if (r || N < 2) {
           path.setAttribute('d', '')
         } else {
-          const phase = tRef.current * 0.12
           const pts = new Array(N)
           for (let i = 0; i < N; i++) {
             const p = history.current[i]
@@ -173,9 +170,7 @@ export default function Cursor() {
             // and zero at the tail (so the gradient fade reads clean).
             const env = Math.sin(t * Math.PI)
             const w =
-              Math.sin(t * Math.PI * 2 * WAVELENGTHS + phase) *
-              AMPLITUDE *
-              env
+              Math.sin(t * Math.PI * 2 * WAVELENGTHS) * AMPLITUDE * env
             pts[i] = { x: p.x, y: p.y + w }
           }
           path.setAttribute('d', catmullRom(pts))
