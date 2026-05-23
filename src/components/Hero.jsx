@@ -1,6 +1,5 @@
 import { useRef } from 'react'
 import { ArrowIcon } from '../icons.jsx'
-import MeshBackground from './MeshBackground.jsx'
 import MagneticButton from './MagneticButton.jsx'
 import { useHeroIntro } from '../hooks/useHeroIntro.js'
 
@@ -16,10 +15,8 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[100svh] items-center overflow-hidden px-5 pt-28 pb-20 sm:px-8"
+      className="relative flex min-h-[100svh] items-center px-5 pt-28 pb-20 sm:px-8"
     >
-      <MeshBackground />
-
       <div className="mx-auto w-full max-w-5xl">
         <div
           ref={badgeRef}
@@ -34,7 +31,7 @@ export default function Hero() {
 
         <h1
           ref={headlineRef}
-          className="mt-6 max-w-4xl text-[2.6rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl"
+          className="mt-6 max-w-4xl text-[2.25rem] font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-[4rem]"
         >
           AI and automation for{' '}
           <span className="text-gradient">small businesses</span> that
@@ -45,10 +42,10 @@ export default function Hero() {
           ref={subheadRef}
           className="mt-6 max-w-2xl text-lg leading-relaxed text-mist-dim sm:text-xl"
         >
-          I’m Shrav. I take the repetitive, time-eating tasks off your plate —
-          the rotas, the emails, the spreadsheets, the same questions answered
-          ten times a day — and automate them. So you can get back to actually
-          growing the business.
+          We take the repetitive, time-eating tasks off your plate — the rotas,
+          the emails, the spreadsheets, the same questions answered ten times a
+          day — and automate them. So you can get back to actually growing the
+          business.
         </p>
 
         <div

@@ -36,12 +36,17 @@ export default function Nav() {
       >
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
           <a href="#top" className="flex items-center gap-2.5 font-extrabold tracking-tight">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-electric to-violet text-ink">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 4h4.4C16.6 4 19 6.3 19 9.8c0 2.6-1.4 4.6-3.7 5.5L20 21h-4.9l-3.2-4.4H11V12h.7c1.7 0 2.7-.8 2.7-2.2S13.4 7.6 11.7 7.6H11V21H8z" />
-              </svg>
+            <img
+              src="/idlemode-logo.svg"
+              alt="Idlemode"
+              width="36"
+              height="36"
+              className="h-9 w-9 rounded-xl"
+            />
+            <span className="font-display text-[17px]">
+              <span className="text-mist">IDLE</span>
+              <span className="text-electric">MODE</span>
             </span>
-            <span className="text-[17px]">Shrav</span>
           </a>
 
           <div className="hidden items-center gap-1 md:flex">

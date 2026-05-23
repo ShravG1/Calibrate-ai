@@ -8,12 +8,16 @@ import CaseStudies from './components/CaseStudies.jsx'
 import About from './components/About.jsx'
 import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
+import MeshBackground from './components/MeshBackground.jsx'
+import Cursor from './components/Cursor.jsx'
 
 export default function App() {
   useLenis()
 
   return (
     <div className="min-h-screen bg-ink text-mist">
+      <MeshBackground />
+      <Cursor />
       <Nav />
       <main>
         <Hero />

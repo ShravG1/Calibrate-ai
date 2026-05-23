@@ -15,12 +15,17 @@ export default function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <a href="#top" className="flex items-center gap-2.5 font-extrabold">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-electric to-violet text-ink">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 4h4.4C16.6 4 19 6.3 19 9.8c0 2.6-1.4 4.6-3.7 5.5L20 21h-4.9l-3.2-4.4H11V12h.7c1.7 0 2.7-.8 2.7-2.2S13.4 7.6 11.7 7.6H11V21H8z" />
-              </svg>
+            <img
+              src="/idlemode-logo.svg"
+              alt="Idlemode"
+              width="32"
+              height="32"
+              className="h-8 w-8 rounded-lg"
+            />
+            <span className="font-display">
+              <span className="text-mist">IDLE</span>
+              <span className="text-electric">MODE</span>
             </span>
-            Shrav
           </a>
           <p className="mt-3 max-w-sm text-sm leading-relaxed text-mist-dim">
             AI and automation for small businesses — built by a real person you
@@ -42,7 +47,7 @@ export default function Footer() {
       </div>
 
       <div className="mx-auto mt-8 flex max-w-6xl flex-col gap-2 border-t border-line pt-6 text-xs text-mist-dim sm:flex-row sm:items-center sm:justify-between">
-        <p>© {new Date().getFullYear()} Shrav. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Idlemode. All rights reserved.</p>
         <a href={`mailto:${contact.email}`} className="hover:text-mist">
           {contact.email}
         </a>
