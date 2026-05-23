@@ -1,19 +1,18 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
 import { ArrowIcon } from '../icons.jsx'
 import MeshBackground from './MeshBackground.jsx'
 import MagneticButton from './MagneticButton.jsx'
-
-const ease = [0.22, 1, 0.36, 1]
-
-function fade(delay) {
-  return {
-    initial: { opacity: 0, y: 24 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.7, delay, ease },
-  }
-}
+import { useHeroIntro } from '../hooks/useHeroIntro.js'
 
 export default function Hero() {
+  const badgeRef = useRef(null)
+  const headlineRef = useRef(null)
+  const subheadRef = useRef(null)
+  const ctasRef = useRef(null)
+  const statsRef = useRef(null)
+
+  useHeroIntro({ badgeRef, headlineRef, subheadRef, ctasRef, statsRef })
+
   return (
     <section
       id="top"
@@ -22,8 +21,8 @@ export default function Hero() {
       <MeshBackground />
 
       <div className="mx-auto w-full max-w-5xl">
-        <motion.div
-          {...fade(0)}
+        <div
+          ref={badgeRef}
           className="inline-flex items-center gap-2 rounded-full border border-line bg-ink-soft/70 px-3.5 py-1.5 text-xs font-medium text-mist-dim backdrop-blur"
         >
           <span className="relative flex h-2 w-2">
@@ -31,29 +30,29 @@ export default function Hero() {
             <span className="relative inline-flex h-2 w-2 rounded-full bg-electric" />
           </span>
           Taking on three projects, completely free
-        </motion.div>
+        </div>
 
-        <motion.h1
-          {...fade(0.08)}
+        <h1
+          ref={headlineRef}
           className="mt-6 max-w-4xl text-[2.6rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl"
         >
           AI and automation for{' '}
           <span className="text-gradient">small businesses</span> that
           haven’t got time to waste.
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          {...fade(0.16)}
+        <p
+          ref={subheadRef}
           className="mt-6 max-w-2xl text-lg leading-relaxed text-mist-dim sm:text-xl"
         >
           I’m Shrav. I take the repetitive, time-eating tasks off your plate —
           the rotas, the emails, the spreadsheets, the same questions answered
           ten times a day — and automate them. So you can get back to actually
           growing the business.
-        </motion.p>
+        </p>
 
-        <motion.div
-          {...fade(0.24)}
+        <div
+          ref={ctasRef}
           className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
         >
           <MagneticButton
@@ -69,10 +68,10 @@ export default function Hero() {
           >
             See what I can build
           </a>
-        </motion.div>
+        </div>
 
-        <motion.div
-          {...fade(0.34)}
+        <div
+          ref={statsRef}
           className="mt-12 grid max-w-2xl grid-cols-3 gap-4 border-t border-line pt-7"
         >
           {[
@@ -85,7 +84,7 @@ export default function Hero() {
               <p className="text-xs text-mist-dim sm:text-sm">{small}</p>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )
