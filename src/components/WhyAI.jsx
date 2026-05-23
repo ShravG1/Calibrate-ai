@@ -27,7 +27,7 @@ export default function WhyAI() {
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-electric">
             Why bother with AI
           </p>
-          <h2 className="mt-3 max-w-3xl text-3xl font-extrabold tracking-tight sm:text-5xl">
+          <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight sm:text-5xl">
             You don’t need to understand the tech. You just need it to work.
           </h2>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-mist-dim">

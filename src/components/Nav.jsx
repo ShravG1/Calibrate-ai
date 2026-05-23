@@ -35,7 +35,7 @@ export default function Nav() {
         }`}
       >
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
-          <a href="#top" className="flex items-center gap-2.5 font-extrabold tracking-tight">
+          <a href="#top" className="flex items-center gap-2.5">
             <img
               src="/idlemode-logo.svg"
               alt="Idlemode"
@@ -43,7 +43,7 @@ export default function Nav() {
               height="36"
               className="h-9 w-9 rounded-xl"
             />
-            <span className="font-display text-[17px]">
+            <span className="font-display text-[17px] font-medium tracking-[0.04em]">
               <span className="text-mist">IDLE</span>
               <span className="text-electric">MODE</span>
             </span>

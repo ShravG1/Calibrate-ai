@@ -20,7 +20,7 @@ export default function CaseStudies() {
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-electric">
             Case studies
           </p>
-          <h2 className="mt-3 max-w-3xl text-3xl font-extrabold tracking-tight sm:text-5xl">
+          <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight sm:text-5xl">
             Real projects, written up properly.
           </h2>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-mist-dim">

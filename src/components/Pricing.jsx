@@ -22,7 +22,7 @@ export default function Pricing() {
                 Early phase — limited spots
               </span>
 
-              <h2 className="mt-6 max-w-3xl text-3xl font-extrabold tracking-tight sm:text-5xl">
+              <h2 className="mt-6 max-w-3xl text-3xl font-semibold tracking-tight sm:text-5xl">
                 Three projects.{' '}
                 <span className="text-gradient">Completely free.</span> No
                 catch.
@@ -50,7 +50,7 @@ export default function Pricing() {
 
                 <div className="rounded-2xl border border-line bg-ink/60 p-6 text-center">
                   <p className="text-sm text-mist-dim">Your cost</p>
-                  <p className="mt-1 text-5xl font-extrabold tracking-tight">
+                  <p className="mt-1 text-5xl font-bold tracking-tight">
                     £0
                   </p>
                   <p className="mt-1 text-sm text-mist-dim">

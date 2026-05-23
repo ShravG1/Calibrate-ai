@@ -14,7 +14,7 @@ export default function Footer() {
     <footer className="border-t border-line px-5 py-10 sm:px-8">
       <div className="mx-auto flex max-w-6xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <a href="#top" className="flex items-center gap-2.5 font-extrabold">
+          <a href="#top" className="flex items-center gap-2.5">
             <img
               src="/idlemode-logo.svg"
               alt="Idlemode"
@@ -22,7 +22,7 @@ export default function Footer() {
               height="32"
               className="h-8 w-8 rounded-lg"
             />
-            <span className="font-display">
+            <span className="font-display text-base font-medium tracking-[0.04em]">
               <span className="text-mist">IDLE</span>
               <span className="text-electric">MODE</span>
             </span>

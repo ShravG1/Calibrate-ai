@@ -31,7 +31,7 @@ export default function Hero() {
 
         <h1
           ref={headlineRef}
-          className="mt-6 max-w-4xl text-[2.25rem] font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-[4rem]"
+          className="mt-6 max-w-4xl text-[2.5rem] font-bold leading-[1.05] tracking-tight sm:text-[3.25rem] lg:text-[4.5rem]"
         >
           AI and automation for{' '}
           <span className="text-gradient">small businesses</span> that

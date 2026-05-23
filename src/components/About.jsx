@@ -35,7 +35,7 @@ export default function About() {
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-electric">
                 Meet the founder
               </p>
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-5xl">
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-5xl">
                 Hi, I’m Shrav.
               </h2>
               <div className="mt-5 space-y-4 text-lg leading-relaxed text-mist-dim">

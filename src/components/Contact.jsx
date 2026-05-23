@@ -47,7 +47,7 @@ export default function Contact() {
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-electric">
                   Let’s talk
                 </p>
-                <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+                <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
                   Tell me what’s eating your time.
                 </h2>
                 <p className="mt-4 leading-relaxed text-mist-dim">
