@@ -1,41 +1,44 @@
-import { useEffect, useState } from 'react'
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useReducedMotion,
-} from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { useReducedMotion } from 'framer-motion'
 
 const HOVER_SELECTOR =
   'a, button, [role="button"], input, textarea, select, [data-cursor-hover]'
 
-// Custom site cursor. A small dot tracks the pointer with a stiff spring; a
-// thin outline ring trails it with a softer spring. Over interactive elements
-// the dot fades and the ring grows; elements with [data-cursor-label] swap
-// the dot for a tracked caption inside the ring.
+const TRAIL_LENGTH = 30          // ~300ms history at 60fps
+const AMPLITUDE = 6              // wave peak, px
+const WAVELENGTHS = 2            // visible cycles across the trail
+const DRAIN_PER_FRAME = 3        // retract speed when hovered
+
+// Wave-trail cursor — a small teal head dot follows the pointer
+// ~instantly, while a single SVG path traces the last ~30 sample
+// positions and ripples with a sine displacement that echoes the
+// Idlemode logo. All per-frame work is done via refs/rAF so React
+// never re-renders during animation.
 export default function Cursor() {
   const reduce = useReducedMotion()
   const [active, setActive] = useState(false)
   const [hovered, setHovered] = useState(false)
   const [label, setLabel] = useState('')
   const [visible, setVisible] = useState(false)
+  const [size, setSize] = useState(() => ({
+    w: typeof window !== 'undefined' ? window.innerWidth : 0,
+    h: typeof window !== 'undefined' ? window.innerHeight : 0,
+  }))
 
-  const x = useMotionValue(-100)
-  const y = useMotionValue(-100)
+  const pointer = useRef({ x: -200, y: -200 })
+  const history = useRef([])
+  const tRef = useRef(0)
+  const hoveredRef = useRef(false)
+  const visibleRef = useRef(false)
+  const reduceRef = useRef(false)
 
-  const dotXSpring = useSpring(x, { stiffness: 900, damping: 45, mass: 0.25 })
-  const dotYSpring = useSpring(y, { stiffness: 900, damping: 45, mass: 0.25 })
-  const ringXSpring = useSpring(x, { stiffness: 180, damping: 22, mass: 0.55 })
-  const ringYSpring = useSpring(y, { stiffness: 180, damping: 22, mass: 0.55 })
+  const svgRef = useRef(null)
+  const pathRef = useRef(null)
+  const gradRef = useRef(null)
+  const headRef = useRef(null)
+  const rafRef = useRef(0)
 
-  const dotX = reduce ? x : dotXSpring
-  const dotY = reduce ? y : dotYSpring
-  const ringX = reduce ? x : ringXSpring
-  const ringY = reduce ? y : ringYSpring
-
-  // Decide once whether to render at all. Touch / coarse-pointer devices keep
-  // the native cursor (they don't have one to replace, but we mustn't ship a
-  // floating dot when they tap).
+  // Touch / coarse-pointer devices keep their native cursor.
   useEffect(() => {
     if (typeof window === 'undefined') return
     const mq = window.matchMedia('(hover: hover) and (pointer: fine)')
@@ -45,21 +48,32 @@ export default function Cursor() {
     return () => mq.removeEventListener?.('change', update)
   }, [])
 
-  // Hide the native cursor only while ours is mounted.
   useEffect(() => {
     if (!active) return
     document.documentElement.classList.add('cursor-none')
     return () => document.documentElement.classList.remove('cursor-none')
   }, [active])
 
-  // Pointer + hover tracking via event delegation — robust to dynamic DOM.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const onResize = () =>
+      setSize({ w: window.innerWidth, h: window.innerHeight })
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
+  // Mirror state into refs so the rAF loop can read without re-subscribing.
+  useEffect(() => { hoveredRef.current = hovered }, [hovered])
+  useEffect(() => { visibleRef.current = visible }, [visible])
+  useEffect(() => { reduceRef.current = !!reduce }, [reduce])
+
   useEffect(() => {
     if (!active) return
 
     const onMove = (e) => {
-      x.set(e.clientX)
-      y.set(e.clientY)
-      if (!visible) setVisible(true)
+      pointer.current.x = e.clientX
+      pointer.current.y = e.clientY
+      if (!visibleRef.current) setVisible(true)
     }
 
     const resolve = (target) => {
@@ -80,8 +94,8 @@ export default function Cursor() {
     }
 
     const onOut = (e) => {
-      const hitNext = resolve(e.relatedTarget)
-      if (!hitNext) {
+      const next = resolve(e.relatedTarget)
+      if (!next) {
         setHovered(false)
         setLabel('')
       }
@@ -103,49 +117,167 @@ export default function Cursor() {
       document.documentElement.removeEventListener('mouseleave', onLeave)
       document.documentElement.removeEventListener('mouseenter', onEnter)
     }
-  }, [active, x, y, visible])
+  }, [active])
+
+  // rAF loop. All per-frame work happens here via refs + DOM writes.
+  useEffect(() => {
+    if (!active) return
+
+    const tick = () => {
+      tRef.current += 1
+      const hx = pointer.current.x
+      const hy = pointer.current.y
+      const r = reduceRef.current
+
+      // Position the head element.
+      const headEl = headRef.current
+      if (headEl) {
+        headEl.style.transform =
+          `translate3d(${hx}px, ${hy}px, 0) translate(-50%, -50%)`
+      }
+
+      // History bookkeeping.
+      if (!r) {
+        if (hoveredRef.current) {
+          if (history.current.length > 0) {
+            history.current.length = Math.max(
+              0,
+              history.current.length - DRAIN_PER_FRAME,
+            )
+          }
+        } else {
+          history.current.unshift({ x: hx, y: hy })
+          if (history.current.length > TRAIL_LENGTH) {
+            history.current.length = TRAIL_LENGTH
+          }
+        }
+      } else if (history.current.length) {
+        history.current.length = 0
+      }
+
+      // Draw the path.
+      const path = pathRef.current
+      const grad = gradRef.current
+      if (path) {
+        const N = history.current.length
+        if (r || N < 2) {
+          path.setAttribute('d', '')
+        } else {
+          const phase = tRef.current * 0.12
+          const pts = new Array(N)
+          for (let i = 0; i < N; i++) {
+            const p = history.current[i]
+            const t = i / (N - 1)
+            // Taper amplitude with a half-sine envelope so the wave
+            // is zero at the head (so the dot sits on the pointer)
+            // and zero at the tail (so the gradient fade reads clean).
+            const env = Math.sin(t * Math.PI)
+            const w =
+              Math.sin(t * Math.PI * 2 * WAVELENGTHS + phase) *
+              AMPLITUDE *
+              env
+            pts[i] = { x: p.x, y: p.y + w }
+          }
+          path.setAttribute('d', catmullRom(pts))
+          if (grad) {
+            const head = pts[0]
+            const tail = pts[N - 1]
+            grad.setAttribute('x1', String(head.x))
+            grad.setAttribute('y1', String(head.y))
+            grad.setAttribute('x2', String(tail.x))
+            grad.setAttribute('y2', String(tail.y))
+          }
+        }
+      }
+
+      rafRef.current = requestAnimationFrame(tick)
+    }
+    rafRef.current = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafRef.current)
+  }, [active])
 
   if (!active) return null
 
-  const ringSize = reduce ? 32 : hovered ? 56 : 32
-  const showDot = !hovered
+  const morphed = hovered && !reduce
+  const fade = visible ? 1 : 0
 
   return (
     <>
-      <motion.div
+      <svg
+        ref={svgRef}
         aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-[9999]"
-        style={{ x: ringX, y: ringY, opacity: visible ? 1 : 0 }}
-        transition={{ opacity: { duration: 0.15 } }}
+        width={size.w}
+        height={size.h}
+        viewBox={`0 0 ${size.w} ${size.h}`}
+        className="pointer-events-none fixed inset-0 z-[9998]"
+        style={{ opacity: fade, transition: 'opacity 180ms ease' }}
       >
-        <motion.div
-          className="flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-electric/70"
-          animate={{ width: ringSize, height: ringSize }}
-          transition={{ type: 'spring', stiffness: 280, damping: 24, mass: 0.5 }}
-        >
-          {label && (
-            <span className="select-none whitespace-nowrap font-display text-[10px] font-semibold uppercase tracking-[0.22em] text-mist">
-              {label}
-            </span>
-          )}
-        </motion.div>
-      </motion.div>
-
-      <motion.div
-        aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-[9999]"
-        style={{ x: dotX, y: dotY }}
-      >
-        <motion.div
-          className="-translate-x-1/2 -translate-y-1/2 rounded-full bg-electric shadow-[0_0_12px_rgba(0,255,204,0.55)]"
-          animate={{
-            width: 8,
-            height: 8,
-            opacity: visible && showDot ? 1 : 0,
-          }}
-          transition={{ duration: 0.18, ease: 'easeOut' }}
+        <defs>
+          <linearGradient
+            ref={gradRef}
+            id="cursor-trail-gradient"
+            gradientUnits="userSpaceOnUse"
+            x1="0"
+            y1="0"
+            x2="0"
+            y2="0"
+          >
+            <stop offset="0%" stopColor="#00ffcc" stopOpacity="1" />
+            <stop offset="100%" stopColor="#00ffcc" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <path
+          ref={pathRef}
+          d=""
+          fill="none"
+          stroke="url(#cursor-trail-gradient)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
-      </motion.div>
+      </svg>
+
+      <div
+        ref={headRef}
+        aria-hidden
+        className={`pointer-events-none fixed left-0 top-0 z-[9999] flex items-center justify-center rounded-full ${
+          morphed
+            ? 'h-6 w-6 border-[1.5px] border-electric bg-transparent shadow-[0_0_18px_rgba(0,255,204,0.35)]'
+            : 'h-1.5 w-1.5 border-0 bg-electric shadow-[0_0_10px_rgba(0,255,204,0.6)]'
+        }`}
+        style={{
+          opacity: fade,
+          willChange: 'transform',
+          transition:
+            'width 200ms ease, height 200ms ease, background-color 200ms ease, border-width 200ms ease, opacity 180ms ease',
+        }}
+      >
+        {morphed && label && (
+          <span className="select-none whitespace-nowrap font-display text-[10px] font-semibold uppercase tracking-[0.22em] text-mist">
+            {label}
+          </span>
+        )}
+      </div>
     </>
   )
+}
+
+// Catmull-Rom → cubic Bezier path. Uniform parameterisation.
+function catmullRom(pts) {
+  if (pts.length < 2) return ''
+  const out = [`M ${pts[0].x.toFixed(2)} ${pts[0].y.toFixed(2)}`]
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i - 1] || pts[i]
+    const p1 = pts[i]
+    const p2 = pts[i + 1]
+    const p3 = pts[i + 2] || p2
+    const c1x = p1.x + (p2.x - p0.x) / 6
+    const c1y = p1.y + (p2.y - p0.y) / 6
+    const c2x = p2.x - (p3.x - p1.x) / 6
+    const c2y = p2.y - (p3.y - p1.y) / 6
+    out.push(
+      `C ${c1x.toFixed(2)} ${c1y.toFixed(2)}, ${c2x.toFixed(2)} ${c2y.toFixed(2)}, ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`,
+    )
+  }
+  return out.join(' ')
 }
