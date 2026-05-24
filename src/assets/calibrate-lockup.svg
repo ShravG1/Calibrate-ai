@@ -1,0 +1,95 @@
+<svg width="580" height="120" viewBox="0 0 580 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Wave gradients -->
+    <linearGradient id="wg" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%"   stop-color="#00ffcc" stop-opacity="0"/>
+      <stop offset="20%"  stop-color="#00ffcc"/>
+      <stop offset="50%"  stop-color="#00aaff"/>
+      <stop offset="80%"  stop-color="#0055ff"/>
+      <stop offset="100%" stop-color="#0055ff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="eg" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%"   stop-color="#00ffcc" stop-opacity="0"/>
+      <stop offset="20%"  stop-color="#00ffcc" stop-opacity="0.25"/>
+      <stop offset="50%"  stop-color="#00aaff" stop-opacity="0.25"/>
+      <stop offset="80%"  stop-color="#0055ff" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#0055ff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#00ccff" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#00ccff" stop-opacity="0.1"/>
+    </linearGradient>
+    <radialGradient id="dga" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#00ffcc"/>
+      <stop offset="100%" stop-color="#00ffcc" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="dgb" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#0055ff"/>
+      <stop offset="100%" stop-color="#0055ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bgr" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#0b1830"/>
+      <stop offset="100%" stop-color="#060c18"/>
+    </radialGradient>
+    <!-- Underline gradient -->
+    <linearGradient id="ul" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#00ffcc" stop-opacity="0"/>
+      <stop offset="15%"  stop-color="#00ffcc"/>
+      <stop offset="75%"  stop-color="#0044ff"/>
+      <stop offset="100%" stop-color="#0044ff" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="cc"><circle cx="60" cy="60" r="50"/></clipPath>
+    <filter id="gw">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gs">
+      <feGaussianBlur stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="ul-glow" x="-10%" y="-200%" width="120%" height="500%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ── Icon mark ── -->
+  <circle cx="60" cy="60" r="58" fill="url(#bgr)"/>
+  <circle cx="60" cy="60" r="56" fill="none" stroke="#0d1e38" stroke-width="1.2"/>
+  <circle cx="60" cy="60" r="50" fill="none" stroke="url(#rg)" stroke-width="0.8"/>
+  <line x1="10" y1="60" x2="110" y2="60" stroke="#0a1828" stroke-width="0.7" clip-path="url(#cc)"/>
+
+  <!-- Echo waves -->
+  <path d="M 10 60 C 26 88, 44 88, 60 60 C 76 32, 94 32, 110 60"
+    fill="none" stroke="url(#eg)" stroke-width="10" stroke-linecap="round"
+    clip-path="url(#cc)" transform="translate(0 13)"/>
+  <path d="M 10 60 C 26 88, 44 88, 60 60 C 76 32, 94 32, 110 60"
+    fill="none" stroke="url(#eg)" stroke-width="10" stroke-linecap="round"
+    clip-path="url(#cc)" transform="translate(0 -13)"/>
+
+  <!-- Main wave -->
+  <path d="M 10 60 C 26 88, 44 88, 60 60 C 76 32, 94 32, 110 60"
+    fill="none" stroke="url(#wg)" stroke-width="4"
+    stroke-linecap="round" clip-path="url(#cc)" filter="url(#gw)"/>
+
+  <!-- Dots -->
+  <circle cx="12"  cy="60" r="8" fill="url(#dga)" opacity="0.4"/>
+  <circle cx="12"  cy="60" r="4" fill="#00ffcc" filter="url(#gs)"/>
+  <circle cx="12"  cy="60" r="1.8" fill="#fff"/>
+  <circle cx="108" cy="60" r="8" fill="url(#dgb)" opacity="0.4"/>
+  <circle cx="108" cy="60" r="4" fill="#0055ff" filter="url(#gs)"/>
+  <circle cx="108" cy="60" r="1.8" fill="#fff"/>
+
+  <!-- ── Wordmark ── -->
+  <text
+    x="140"
+    y="72"
+    font-family="'Plus Jakarta Sans', 'DM Sans', 'Helvetica Neue', Arial, sans-serif"
+    font-weight="700"
+    font-size="56"
+    fill="#ffffff"
+    letter-spacing="-1">Calibrate</text>
+
+  <!-- Glow underline -->
+  <rect x="140" y="86" width="400" height="3" rx="1.5" fill="url(#ul)" filter="url(#ul-glow)"/>
+</svg>

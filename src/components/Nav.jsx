@@ -9,6 +9,145 @@ const links = [
   { href: '#about', label: 'About' },
 ]
 
+// Inline lockup so the embedded Plus Jakarta Sans text renders.
+function CalibrateLockup({ className = '' }) {
+  return (
+    <svg
+      viewBox="0 0 580 120"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="Calibrate"
+      className={className}
+    >
+      <defs>
+        <linearGradient id="nav-wg" x1="0%" y1="50%" x2="100%" y2="50%">
+          <stop offset="0%" stopColor="#00ffcc" stopOpacity="0" />
+          <stop offset="20%" stopColor="#00ffcc" />
+          <stop offset="50%" stopColor="#00aaff" />
+          <stop offset="80%" stopColor="#0055ff" />
+          <stop offset="100%" stopColor="#0055ff" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient id="nav-eg" x1="0%" y1="50%" x2="100%" y2="50%">
+          <stop offset="0%" stopColor="#00ffcc" stopOpacity="0" />
+          <stop offset="20%" stopColor="#00ffcc" stopOpacity="0.25" />
+          <stop offset="50%" stopColor="#00aaff" stopOpacity="0.25" />
+          <stop offset="80%" stopColor="#0055ff" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="#0055ff" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient id="nav-rg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#00ccff" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#00ccff" stopOpacity="0.1" />
+        </linearGradient>
+        <radialGradient id="nav-dga" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#00ffcc" />
+          <stop offset="100%" stopColor="#00ffcc" stopOpacity="0" />
+        </radialGradient>
+        <radialGradient id="nav-dgb" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#0055ff" />
+          <stop offset="100%" stopColor="#0055ff" stopOpacity="0" />
+        </radialGradient>
+        <radialGradient id="nav-bgr" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#0b1830" />
+          <stop offset="100%" stopColor="#060c18" />
+        </radialGradient>
+        <linearGradient id="nav-ul" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#00ffcc" stopOpacity="0" />
+          <stop offset="15%" stopColor="#00ffcc" />
+          <stop offset="75%" stopColor="#0044ff" />
+          <stop offset="100%" stopColor="#0044ff" stopOpacity="0" />
+        </linearGradient>
+        <clipPath id="nav-cc">
+          <circle cx="60" cy="60" r="50" />
+        </clipPath>
+        <filter id="nav-gw">
+          <feGaussianBlur stdDeviation="3" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <filter id="nav-gs">
+          <feGaussianBlur stdDeviation="2" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <filter id="nav-ul-glow" x="-10%" y="-200%" width="120%" height="500%">
+          <feGaussianBlur stdDeviation="3" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      <circle cx="60" cy="60" r="58" fill="url(#nav-bgr)" />
+      <circle cx="60" cy="60" r="56" fill="none" stroke="#0d1e38" strokeWidth="1.2" />
+      <circle cx="60" cy="60" r="50" fill="none" stroke="url(#nav-rg)" strokeWidth="0.8" />
+      <line x1="10" y1="60" x2="110" y2="60" stroke="#0a1828" strokeWidth="0.7" clipPath="url(#nav-cc)" />
+
+      <path
+        d="M 10 60 C 26 88, 44 88, 60 60 C 76 32, 94 32, 110 60"
+        fill="none"
+        stroke="url(#nav-eg)"
+        strokeWidth="10"
+        strokeLinecap="round"
+        clipPath="url(#nav-cc)"
+        transform="translate(0 13)"
+      />
+      <path
+        d="M 10 60 C 26 88, 44 88, 60 60 C 76 32, 94 32, 110 60"
+        fill="none"
+        stroke="url(#nav-eg)"
+        strokeWidth="10"
+        strokeLinecap="round"
+        clipPath="url(#nav-cc)"
+        transform="translate(0 -13)"
+      />
+
+      <path
+        d="M 10 60 C 26 88, 44 88, 60 60 C 76 32, 94 32, 110 60"
+        fill="none"
+        stroke="url(#nav-wg)"
+        strokeWidth="4"
+        strokeLinecap="round"
+        clipPath="url(#nav-cc)"
+        filter="url(#nav-gw)"
+      />
+
+      <circle cx="12" cy="60" r="8" fill="url(#nav-dga)" opacity="0.4" />
+      <circle cx="12" cy="60" r="4" fill="#00ffcc" filter="url(#nav-gs)" />
+      <circle cx="12" cy="60" r="1.8" fill="#fff" />
+      <circle cx="108" cy="60" r="8" fill="url(#nav-dgb)" opacity="0.4" />
+      <circle cx="108" cy="60" r="4" fill="#0055ff" filter="url(#nav-gs)" />
+      <circle cx="108" cy="60" r="1.8" fill="#fff" />
+
+      <text
+        x="140"
+        y="72"
+        fontFamily="'Plus Jakarta Sans', 'DM Sans', 'Helvetica Neue', Arial, sans-serif"
+        fontWeight="700"
+        fontSize="56"
+        fill="#ffffff"
+        letterSpacing="-1"
+      >
+        Calibrate
+      </text>
+
+      <rect
+        x="140"
+        y="86"
+        width="400"
+        height="3"
+        rx="1.5"
+        fill="url(#nav-ul)"
+        filter="url(#nav-ul-glow)"
+      />
+    </svg>
+  )
+}
+
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
@@ -35,18 +174,8 @@ export default function Nav() {
         }`}
       >
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
-          <a href="#top" className="flex items-center gap-2.5">
-            <img
-              src="/idlemode-logo.svg"
-              alt="Idlemode"
-              width="36"
-              height="36"
-              className="h-9 w-9 rounded-xl"
-            />
-            <span className="font-display text-[17px] font-medium tracking-[0.04em]">
-              <span className="text-mist">IDLE</span>
-              <span className="text-electric">MODE</span>
-            </span>
+          <a href="#top" aria-label="Calibrate" className="flex items-center">
+            <CalibrateLockup className="block h-9 w-auto sm:h-10" />
           </a>
 
           <div className="hidden items-center gap-1 md:flex">

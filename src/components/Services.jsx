@@ -15,15 +15,15 @@ export default function Services() {
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-electric">
-            What I do
+            What’s possible. Here’s how we help.
           </p>
           <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight sm:text-5xl">
-            Five ways I can take work off your hands.
+            Most businesses have more to automate than they realise.
           </h2>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-mist-dim">
-            Every business is different, so nothing here is one-size-fits-all.
-            Tap any card to see the kind of thing that’s possible — then we’ll
-            shape it around what you actually need.
+            Every business is different and none of this is off the shelf. These
+            are starting points — the real solution gets shaped around what you
+            actually need.
           </p>
         </Reveal>
 

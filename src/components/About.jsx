@@ -18,8 +18,8 @@ export default function About() {
                 />
                 <div className="absolute inset-0 grid place-items-center p-8">
                   <img
-                    src="/idlemode-logo.svg"
-                    alt="Idlemode"
+                    src="/calibrate-icon.svg"
+                    alt="Calibrate"
                     className="h-32 w-32 drop-shadow-[0_0_30px_rgba(0,255,204,0.35)]"
                   />
                 </div>
@@ -33,39 +33,42 @@ export default function About() {
           <Reveal delay={0.1}>
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-electric">
-                Meet the founder
+                The person behind Calibrate
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-5xl">
                 Hi, I’m Shrav.
               </h2>
               <div className="mt-5 space-y-4 text-lg leading-relaxed text-mist-dim">
                 <p>
-                  I’ve spent the last few years building AI and automation
-                  inside my own company — rotas, customer messages, dashboards,
-                  the lot. The kind of work that quietly gives you your evenings
-                  back.
+                  For the past two years I’ve been building apps, automations
+                  and dashboards — some for the company I work in, some on the
+                  side for anyone with a problem worth solving. Shift systems,
+                  data tools, customer facing apps — if it can be built or
+                  automated, I’ve probably had a go at it.
                 </p>
                 <p>
-                  It worked well enough that I wanted to do it for other people
-                  too. That’s what Idlemode is: the same hands-on help, offered
-                  to small businesses that don’t have a tech team and don’t
-                  want one.
+                  Calibrate is me taking that external. I’m not an agency, I’m
+                  not a consultant in a suit — I’m someone who genuinely enjoys
+                  figuring out how to make a business run better, and right now
+                  I’m looking for the right projects to build a portfolio
+                  around.
                 </p>
                 <p>
-                  No jargon, no big agency runaround. You talk to me, I build
-                  the thing, and I explain it in plain English. That’s the whole
-                  deal.
+                  That’s the opportunity here. You get something real built for
+                  your business at little to no cost. I get a result I can point
+                  to. It’s a good deal for both of us — and I’ll make sure it
+                  stays that way.
                 </p>
               </div>
               <div className="mt-7 inline-flex items-center gap-3 rounded-full border border-line bg-ink-soft/70 px-3.5 py-1.5 text-xs font-medium text-mist-dim backdrop-blur">
                 <img
-                  src="/idlemode-logo.svg"
+                  src="/calibrate-icon.svg"
                   alt=""
                   width="20"
                   height="20"
                   className="h-5 w-5 rounded-md"
                 />
-                Shrav · founder of Idlemode
+                Shrav · founder of Calibrate
               </div>
             </div>
           </Reveal>

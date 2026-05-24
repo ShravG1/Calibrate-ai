@@ -96,7 +96,7 @@ export default function ServiceCard({ service, index }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.28, ease: 'easeOut' }}
             className="overflow-hidden"
           >
             <ul className="space-y-3 border-t border-line px-6 py-6 sm:px-7">

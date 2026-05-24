@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* Idlemode palette — locked to brand brief */
+  /* Calibrate palette — locked to brand brief */
   --color-ink: #060c18;            /* page background */
   --color-ink-soft: #0a1220;       /* surface / card */
   --color-ink-card: #0f1830;       /* raised surface */

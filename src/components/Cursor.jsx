@@ -12,7 +12,7 @@ const DRAIN_PER_FRAME = 3        // retract speed when hovered
 // Wave-trail cursor — a small teal head dot follows the pointer
 // ~instantly, while a single SVG path traces the last ~30 sample
 // positions and ripples with a sine displacement that echoes the
-// Idlemode logo. All per-frame work is done via refs/rAF so React
+// Calibrate logo. All per-frame work is done via refs/rAF so React
 // never re-renders during animation.
 export default function Cursor() {
   const reduce = useReducedMotion()

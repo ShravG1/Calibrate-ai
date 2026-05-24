@@ -15,7 +15,7 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const subject = `Free project enquiry — ${form.name || 'a friend'}`
+    const subject = `Project enquiry — ${form.name || 'a friend'}`
     const body = [
       `Name: ${form.name}`,
       `Business: ${form.business}`,
@@ -30,7 +30,7 @@ export default function Contact() {
 
   const waHref = contact.whatsapp
     ? `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
-        'Hi Shrav — I saw your site and I’d love to chat about a project.',
+        'Hi — I saw your site and I’d love to chat about a project.',
       )}`
     : null
 
@@ -52,8 +52,8 @@ export default function Contact() {
                 </h2>
                 <p className="mt-4 leading-relaxed text-mist-dim">
                   No pressure and no sales pitch. Send a quick message about
-                  your business and what’s driving you mad, and I’ll come back
-                  with honest thoughts on whether I can help.
+                  your business and what’s driving you mad — I’ll come back
+                  with honest thoughts on whether we can help.
                 </p>
 
                 <div className="mt-7 flex flex-col gap-3">

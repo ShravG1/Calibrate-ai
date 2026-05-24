@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local copy / brand-spec reference — not tracked
+COPY.md
+CALIBRATE_SPEC.md

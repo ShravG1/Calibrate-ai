@@ -4,18 +4,18 @@ import { ClockIcon, ShieldIcon, ScaleIcon } from '../icons.jsx'
 const reasons = [
   {
     icon: ClockIcon,
-    title: 'It saves you time',
-    body: 'Anything you do the same way every day — chasing rotas, sending emails, copying numbers between spreadsheets — a computer can do in the background while you get on with real work.',
+    title: 'More time on what matters',
+    body: 'Most business owners spend more time managing than building. Automation flips that — the repeat jobs get handled, and your focus goes where it actually counts.',
   },
   {
     icon: ShieldIcon,
-    title: 'It makes fewer mistakes',
-    body: 'People get tired, distracted, interrupted. A well-built system does the boring bits the same careful way every single time. No missed shifts, no typos in the payroll.',
+    title: 'A business that runs itself',
+    body: "The best systems don't need you watching over them. They run in the background, handle the jobs, and only come to you when something actually needs a human.",
   },
   {
     icon: ScaleIcon,
-    title: 'It grows with you',
-    body: 'Twice the customers shouldn’t mean twice the admin. Once a task is automated, it handles ten jobs or a thousand without you hiring extra hands to keep up.',
+    title: 'Scale without the stress',
+    body: "Twice the customers shouldn't mean twice the workload. The right systems grow with you quietly in the background — no extra overhead, no extra stress.",
   },
 ]
 
@@ -24,16 +24,17 @@ export default function WhyAI() {
     <section id="why" className="relative px-5 py-24 sm:px-8 sm:py-32">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-electric">
-            Why bother with AI
+          <p className="max-w-2xl text-sm font-semibold leading-relaxed text-electric sm:text-base">
+            Getting in early is still an option. A year from now, it won’t feel
+            like one.
           </p>
-          <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight sm:text-5xl">
-            You don’t need to understand the tech. You just need it to work.
+          <h2 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-5xl">
+            No tech knowledge needed. Just a business worth growing.
           </h2>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-mist-dim">
-            “AI” and “automation” sound complicated. They’re not, really. It
-            just means handing the repetitive jobs to software so your time
-            goes where it matters. Here’s the honest version.
+            AI and automation sound like they’re for big companies with IT
+            departments. They’re not. Here’s what it actually means for a small
+            business like yours.
           </p>
         </Reveal>
 

@@ -26,26 +26,23 @@ export default function Hero() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-electric opacity-60" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-electric" />
           </span>
-          Taking on three projects, completely free
+          Portfolio building — flexible pricing
         </div>
 
         <h1
           ref={headlineRef}
-          className="mt-6 max-w-4xl text-[2.5rem] font-bold leading-[1.05] tracking-tight sm:text-[3.25rem] lg:text-[4.5rem]"
+          className="mt-6 max-w-4xl text-[2.75rem] font-bold leading-[1.02] tracking-tight sm:text-[3.75rem] lg:text-[5rem]"
         >
-          AI and automation for{' '}
-          <span className="text-gradient">small businesses</span> that
-          haven’t got time to waste.
+          Less admin. <span className="text-gradient">More momentum.</span>
         </h1>
 
         <p
           ref={subheadRef}
           className="mt-6 max-w-2xl text-lg leading-relaxed text-mist-dim sm:text-xl"
         >
-          We take the repetitive, time-eating tasks off your plate — the rotas,
-          the emails, the spreadsheets, the same questions answered ten times a
-          day — and automate them. So you can get back to actually growing the
-          business.
+          Your time is the most valuable thing in your business. We take the
+          admin, the repetition, and the noise off your plate — so you can spend
+          it on the right things.
         </p>
 
         <div
@@ -56,30 +53,32 @@ export default function Hero() {
             href="#contact"
             className="group inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-electric to-violet px-7 py-4 text-base font-semibold text-ink glow-ring"
           >
-            Get your free project
+            Get in touch
             <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
           </MagneticButton>
           <a
             href="#services"
             className="inline-flex items-center justify-center gap-2 rounded-2xl border border-line bg-ink-soft/60 px-7 py-4 text-base font-semibold text-mist backdrop-blur transition-colors hover:border-electric/40"
           >
-            See what I can build
+            See what we can build
           </a>
         </div>
 
         <div
           ref={statsRef}
-          className="mt-12 grid max-w-2xl grid-cols-3 gap-4 border-t border-line pt-7"
+          className="mt-12 grid max-w-3xl grid-cols-1 gap-4 border-t border-line pt-7 sm:grid-cols-3"
         >
           {[
-            ['Hours back', 'every single week'],
-            ['Fewer mistakes', 'than doing it by hand'],
-            ['Built for you', 'not off a shelf'],
-          ].map(([big, small]) => (
-            <div key={big}>
-              <p className="text-sm font-bold text-mist sm:text-base">{big}</p>
-              <p className="text-xs text-mist-dim sm:text-sm">{small}</p>
-            </div>
+            'Break the loop. Build the business.',
+            'Made for you, not the masses.',
+            'Runs while you sleep.',
+          ].map((line) => (
+            <p
+              key={line}
+              className="text-sm font-semibold leading-snug text-mist sm:text-base"
+            >
+              {line}
+            </p>
           ))}
         </div>
       </div>
