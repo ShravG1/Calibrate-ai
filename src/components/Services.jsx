@@ -1,18 +1,34 @@
+import { useLayoutEffect, useRef, useState } from 'react'
+import { useReducedMotion } from 'framer-motion'
 import Reveal from './Reveal.jsx'
-import ServiceCard from './ServiceCard.jsx'
 import { services } from '../data.jsx'
+import { useServicesPin } from '../hooks/useServicesPin.js'
 
 export default function Services() {
+  const reduce = useReducedMotion()
+  const [pinned, setPinned] = useState(false)
+  const [active, setActive] = useState(0)
+  const pinRef = useRef(null)
+
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') return
+    const mq = window.matchMedia('(min-width: 768px)')
+    const update = () => setPinned(mq.matches && !reduce)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [reduce])
+
+  useServicesPin({
+    enabled: pinned,
+    sectionRef: pinRef,
+    count: services.length,
+    onActiveChange: setActive,
+  })
+
   return (
-    <section id="services" className="relative px-5 py-24 sm:px-8 sm:py-32">
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-px"
-        style={{
-          background:
-            'linear-gradient(90deg, transparent, rgba(56,189,248,0.4), transparent)',
-        }}
-      />
-      <div className="mx-auto max-w-6xl">
+    <section id="services" className="relative">
+      <div className="mx-auto max-w-6xl px-5 pt-24 sm:px-8 sm:pt-32">
         <Reveal>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-electric">
             What’s possible. Here’s how we help.
@@ -26,15 +42,83 @@ export default function Services() {
             actually need.
           </p>
         </Reveal>
+      </div>
 
-        <div className="mt-12 grid gap-4">
-          {services.map((service, i) => (
-            <Reveal key={service.id} delay={Math.min(i * 0.06, 0.2)}>
-              <ServiceCard service={service} index={i} />
+      {pinned ? (
+        <div ref={pinRef} className="relative mt-16 h-[520vh]">
+          <div className="sticky top-0 grid h-screen place-items-center overflow-hidden px-5 sm:px-8">
+            {services.map((s, i) => (
+              <article
+                key={s.id}
+                data-card-index={i}
+                className="col-start-1 row-start-1 mx-auto w-full max-w-4xl"
+              >
+                <p className="services-eyebrow text-xs font-bold uppercase tracking-[0.22em] text-electric/80 sm:text-sm">
+                  {String(i + 1).padStart(2, '0')} of {String(services.length).padStart(2, '0')}
+                </p>
+                <h3 className="services-title mt-5 text-4xl font-bold leading-[1.04] tracking-tight sm:text-5xl lg:text-6xl">
+                  {s.title}
+                </h3>
+                <p className="services-summary mt-5 max-w-2xl text-lg leading-relaxed text-mist-dim sm:text-xl">
+                  {s.summary}
+                </p>
+                <ul className="mt-7 max-w-2xl space-y-3">
+                  {s.points.map((p) => (
+                    <li
+                      key={p}
+                      className="services-bullet flex gap-3 text-base leading-relaxed text-mist sm:text-lg"
+                    >
+                      <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-electric shadow-[0_0_8px_rgba(0,255,204,0.55)]" />
+                      <span>{p}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+
+            <div
+              aria-hidden
+              className="pointer-events-none absolute right-5 top-1/2 col-start-1 row-start-1 flex -translate-y-1/2 flex-col items-center gap-3 lg:right-8"
+            >
+              {services.map((_, i) => (
+                <span
+                  key={i}
+                  className={`block rounded-full transition-all duration-300 ease-out ${
+                    i === active
+                      ? 'h-3 w-3 bg-electric shadow-[0_0_12px_rgba(0,255,204,0.55)]'
+                      : 'h-2 w-2 bg-mist-dim/30'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="mx-auto mt-12 max-w-4xl space-y-4 px-5 pb-24 sm:px-8 sm:pb-32">
+          {services.map((s, i) => (
+            <Reveal key={s.id} delay={Math.min(i * 0.06, 0.18)}>
+              <article className="rounded-3xl border border-line bg-ink-card/60 p-6 sm:p-7">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-electric/80">
+                  {String(i + 1).padStart(2, '0')}
+                </p>
+                <h3 className="mt-3 text-2xl font-bold tracking-tight">{s.title}</h3>
+                <p className="mt-3 leading-relaxed text-mist-dim">{s.summary}</p>
+                <ul className="mt-4 space-y-2.5">
+                  {s.points.map((p) => (
+                    <li
+                      key={p}
+                      className="flex gap-3 text-sm leading-relaxed text-mist-dim"
+                    >
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-electric" />
+                      <span>{p}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
             </Reveal>
           ))}
         </div>
-      </div>
+      )}
     </section>
   )
 }
