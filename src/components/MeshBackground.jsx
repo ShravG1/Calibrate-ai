@@ -40,22 +40,35 @@ export default function MeshBackground() {
 
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      {blobs.map((b, i) => (
-        <ParallaxBlob key={i} blob={b} reduce={reduce} smooth={smooth} />
-      ))}
-
-      <div className="absolute inset-0 grain opacity-50" />
-      <motion.div
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(120,140,200,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(120,140,200,0.05) 1px, transparent 1px)',
-          backgroundSize: '64px 64px',
-          maskImage: mask,
-          WebkitMaskImage: mask,
-          y: useTransform(smooth, (v) => v * -0.05),
-        }}
+      {/* Inner scale layer — Contact's ScrollTrigger writes --mesh-scale on
+          the root, this layer reads it and zooms the mesh in as the user
+          scrolls into Contact. transform-origin: center keeps the zoom
+          symmetrical. */}
+      <div
         className="absolute inset-0"
-      />
+        style={{
+          transform: 'scale(var(--mesh-scale, 1))',
+          transformOrigin: 'center',
+          transition: 'transform 0s',
+        }}
+      >
+        {blobs.map((b, i) => (
+          <ParallaxBlob key={i} blob={b} reduce={reduce} smooth={smooth} />
+        ))}
+
+        <div className="absolute inset-0 grain opacity-50" />
+        <motion.div
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(120,140,200,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(120,140,200,0.05) 1px, transparent 1px)',
+            backgroundSize: '64px 64px',
+            maskImage: mask,
+            WebkitMaskImage: mask,
+            y: useTransform(smooth, (v) => v * -0.05),
+          }}
+          className="absolute inset-0"
+        />
+      </div>
     </div>
   )
 }
