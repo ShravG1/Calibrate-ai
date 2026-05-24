@@ -11,6 +11,7 @@ export const services = [
   {
     id: 'back-end',
     icon: ClockIcon,
+    category: 'Operations',
     title: 'The Back End, Handled',
     summary:
       'The invoicing, the bookings, the inventory, the documents — all the behind-the-scenes work that eats your week. We automate it so it just happens, without you having to think about it.',
@@ -24,6 +25,7 @@ export const services = [
   {
     id: 'outreach',
     icon: ChatIcon,
+    category: 'Marketing',
     title: 'Outreach On Autopilot',
     summary:
       'Email campaigns, WhatsApp messages, social posts, review requests — reaching your customers consistently and automatically, without you writing a single thing from scratch each time.',
@@ -37,6 +39,7 @@ export const services = [
   {
     id: 'intelligence',
     icon: DataIcon,
+    category: 'Data',
     title: 'Intelligence You Can Act On',
     summary:
       'Your business already has the data. We turn it into dashboards, forecasts and competitor insights that tell you exactly where to focus — no spreadsheet digging required.',
@@ -50,6 +53,7 @@ export const services = [
   {
     id: 'web',
     icon: ProductIcon,
+    category: 'Product',
     title: 'Built For The Web',
     summary:
       'Websites, PWA apps, customer portals, AI chatbots — everything your customers see and interact with online, built properly and designed to work hard for your business.',
@@ -63,6 +67,7 @@ export const services = [
   {
     id: 'one-flow',
     icon: TeamIcon,
+    category: 'Integrations',
     title: 'One Flow. All Connected.',
     summary:
       "Your calendar, CRM, email, booking system — all talking to each other. No more copy-pasting between apps or things falling through the cracks because two tools don't connect.",
@@ -76,6 +81,7 @@ export const services = [
   {
     id: 'advisory',
     icon: TutorIcon,
+    category: 'Advisory',
     title: 'AI Advisory & Consultancy',
     summary:
       "Not sure where to start or what's even worth automating? We come in, look at how your business runs, and tell you exactly what would make the biggest difference — no jargon, no fluff.",

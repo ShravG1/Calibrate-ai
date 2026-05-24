@@ -47,16 +47,24 @@ export default function Services() {
       {pinned ? (
         <div ref={pinRef} className="relative mt-16 h-[520vh]">
           <div className="sticky top-0 grid h-screen place-items-center overflow-hidden px-5 sm:px-8">
-            {services.map((s, i) => (
+            {services.map((s, i) => {
+              const Icon = s.icon
+              return (
               <article
                 key={s.id}
                 data-card-index={i}
                 className="col-start-1 row-start-1 mx-auto w-full max-w-4xl"
               >
-                <p className="services-eyebrow text-xs font-bold uppercase tracking-[0.22em] text-electric/80 sm:text-sm">
-                  {String(i + 1).padStart(2, '0')} of {String(services.length).padStart(2, '0')}
+                {Icon && (
+                  <Icon
+                    className="services-icon h-[72px] w-[72px] text-electric"
+                    strokeWidth={1.4}
+                  />
+                )}
+                <p className="services-eyebrow mt-6 text-xs font-bold uppercase tracking-[0.22em] text-electric/80 sm:text-sm">
+                  {String(i + 1).padStart(2, '0')} OF {String(services.length).padStart(2, '0')} · {s.category.toUpperCase()}
                 </p>
-                <h3 className="services-title mt-5 text-4xl font-bold leading-[1.04] tracking-tight sm:text-5xl lg:text-6xl">
+                <h3 className="services-title mt-4 text-4xl font-bold leading-[1.04] tracking-tight sm:text-5xl lg:text-6xl">
                   {s.title}
                 </h3>
                 <p className="services-summary mt-5 max-w-2xl text-lg leading-relaxed text-mist-dim sm:text-xl">
@@ -74,7 +82,8 @@ export default function Services() {
                   ))}
                 </ul>
               </article>
-            ))}
+              )
+            })}
 
             <div
               aria-hidden
@@ -99,7 +108,7 @@ export default function Services() {
             <Reveal key={s.id} delay={Math.min(i * 0.06, 0.18)}>
               <article className="rounded-3xl border border-line bg-ink-card/60 p-6 sm:p-7">
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-electric/80">
-                  {String(i + 1).padStart(2, '0')}
+                  {String(i + 1).padStart(2, '0')} · {s.category.toUpperCase()}
                 </p>
                 <h3 className="mt-3 text-2xl font-bold tracking-tight">{s.title}</h3>
                 <p className="mt-3 leading-relaxed text-mist-dim">{s.summary}</p>

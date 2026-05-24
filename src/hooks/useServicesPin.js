@@ -26,11 +26,14 @@ export function useServicesPin({ enabled, sectionRef, count, onActiveChange }) {
     let lastIdx = -1
     const ctx = gsap.context(() => {
       cards.forEach((card, i) => {
+        const icon = card.querySelector('.services-icon')
         const eyebrow = card.querySelector('.services-eyebrow')
         const title = card.querySelector('.services-title')
         const summary = card.querySelector('.services-summary')
         const bullets = card.querySelectorAll('.services-bullet')
-        gsap.set(card, { opacity: i === 0 ? 1 : 0 })
+        // Non-first cards sit off to the right, ready to slide in.
+        gsap.set(card, { opacity: i === 0 ? 1 : 0, x: i === 0 ? 0 : 60 })
+        if (icon) gsap.set(icon, { scale: 0.85, opacity: 0 })
         gsap.set([eyebrow, title], { x: -40, opacity: 0 })
         gsap.set(summary, { y: 20, opacity: 0 })
         gsap.set(bullets, { y: 10, opacity: 0 })
@@ -54,6 +57,7 @@ export function useServicesPin({ enabled, sectionRef, count, onActiveChange }) {
       })
 
       cards.forEach((card, i) => {
+        const icon = card.querySelector('.services-icon')
         const eyebrow = card.querySelector('.services-eyebrow')
         const title = card.querySelector('.services-title')
         const summary = card.querySelector('.services-summary')
@@ -61,17 +65,37 @@ export function useServicesPin({ enabled, sectionRef, count, onActiveChange }) {
         const start = i * BEAT
 
         if (i > 0) {
-          // Cross-dissolve: previous card fades out as this one fades in.
+          // Horizontal slide: previous card slides left + fades out,
+          // this card slides in from the right + fades in.
           tl.to(
             cards[i - 1],
-            { opacity: 0, duration: DISSOLVE, ease: 'power1.inOut' },
+            {
+              opacity: 0,
+              x: -60,
+              duration: DISSOLVE,
+              ease: 'power2.inOut',
+            },
             start - DISSOLVE,
           )
           tl.fromTo(
             card,
-            { opacity: 0 },
-            { opacity: 1, duration: DISSOLVE, ease: 'power1.inOut' },
+            { opacity: 0, x: 60 },
+            {
+              opacity: 1,
+              x: 0,
+              duration: DISSOLVE,
+              ease: 'power2.inOut',
+            },
             start - DISSOLVE,
+          )
+        }
+        if (icon) {
+          // Lands just before the title sweep begins.
+          tl.fromTo(
+            icon,
+            { scale: 0.85, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.4)' },
+            start - 0.1,
           )
         }
         tl.fromTo(
