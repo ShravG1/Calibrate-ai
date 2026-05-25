@@ -1,7 +1,6 @@
 import { contact } from '../data.jsx'
 
 const links = [
-  { href: '#why', label: 'Why AI' },
   { href: '#services', label: 'Services' },
   { href: '#pricing', label: 'Pricing' },
   { href: '#work', label: 'Case Studies' },

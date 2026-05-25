@@ -8,9 +8,8 @@ export default function Hero() {
   const headlineRef = useRef(null)
   const subheadRef = useRef(null)
   const ctasRef = useRef(null)
-  const statsRef = useRef(null)
 
-  useHeroIntro({ badgeRef, headlineRef, subheadRef, ctasRef, statsRef })
+  useHeroIntro({ badgeRef, headlineRef, subheadRef, ctasRef })
 
   return (
     <section
@@ -64,24 +63,6 @@ export default function Hero() {
           >
             See what we can build
           </a>
-        </div>
-
-        <div
-          ref={statsRef}
-          className="mt-12 grid max-w-3xl grid-cols-1 gap-4 border-t border-line pt-7 sm:grid-cols-3"
-        >
-          {[
-            'Break the loop. Build the business.',
-            'Made for you, not the masses.',
-            'Runs while you sleep.',
-          ].map((line) => (
-            <p
-              key={line}
-              className="text-sm font-semibold leading-snug text-mist sm:text-base"
-            >
-              {line}
-            </p>
-          ))}
         </div>
       </div>
     </section>

@@ -12,7 +12,6 @@ export function useHeroIntro({
   headlineRef,
   subheadRef,
   ctasRef,
-  statsRef,
 }) {
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return
@@ -23,12 +22,11 @@ export function useHeroIntro({
     const subhead = subheadRef.current
     const ctas = ctasRef.current
     const badge = badgeRef?.current
-    const stats = statsRef?.current
     if (!headline || !subhead || !ctas) return
 
     // Hide synchronously before paint so the timeline owns the reveal.
     gsap.set(headline, { opacity: 0 })
-    gsap.set([badge, subhead, ctas, stats].filter(Boolean), { opacity: 0, y: 20 })
+    gsap.set([badge, subhead, ctas].filter(Boolean), { opacity: 0, y: 20 })
 
     let split
     let tl
@@ -75,13 +73,6 @@ export function useHeroIntro({
         { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out' },
         0.5,
       )
-      if (stats) {
-        tl.to(
-          stats,
-          { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out' },
-          0.7,
-        )
-      }
     }
 
     const fontsReady = document.fonts?.ready ?? Promise.resolve()
@@ -92,9 +83,9 @@ export function useHeroIntro({
       tl?.kill()
       split?.revert()
       gsap.set(
-        [headline, badge, subhead, ctas, stats].filter(Boolean),
+        [headline, badge, subhead, ctas].filter(Boolean),
         { clearProps: 'opacity,transform' },
       )
     }
-  }, [badgeRef, headlineRef, subheadRef, ctasRef, statsRef])
+  }, [badgeRef, headlineRef, subheadRef, ctasRef])
 }

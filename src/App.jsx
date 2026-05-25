@@ -3,7 +3,6 @@ import { useReducedMotion } from 'framer-motion'
 import { useLenis } from './hooks/useLenis.js'
 import Nav from './components/Nav.jsx'
 import Hero from './components/Hero.jsx'
-import WhyAI from './components/WhyAI.jsx'
 import Services from './components/Services.jsx'
 import Pricing from './components/Pricing.jsx'
 import CaseStudies from './components/CaseStudies.jsx'
@@ -55,7 +54,6 @@ export default function App() {
       <Nav />
       <main>
         <Hero />
-        <WhyAI />
         <Services />
         <Pricing />
         <CaseStudies />
