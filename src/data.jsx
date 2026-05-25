@@ -5,13 +5,13 @@ export const services = [
     id: 'operations',
     icon: ClockIcon,
     category: 'Operations',
-    title: 'Run your business smarter',
+    title: 'Get your evenings back.',
     summary:
       'The invoicing, the bookings, the inventory, the integrations — all the back-office work that eats your week. We connect your existing tools and automate the repetition so the business runs itself, quietly, in the background.',
     points: [
       'Invoices raised and sent automatically — no more end of month panic.',
       'Booking and appointment systems that manage themselves.',
-      "Inventory tracked in real time so you're never caught short.",
+      "Stock counts that update themselves so you're never caught short.",
       'Your existing tools connected so data flows between them automatically.',
       'One joined-up system instead of six separate ones you have to manage manually.',
     ],
@@ -20,7 +20,7 @@ export const services = [
     id: 'customers',
     icon: ChatIcon,
     category: 'Customers',
-    title: 'Reach more customers without lifting a finger',
+    title: 'Outreach that handles itself.',
     summary:
       "Email campaigns, WhatsApp messages, websites, customer portals — everything your customers see and interact with. We build it once and automate it forever, so reaching them consistently doesn't cost you time you don't have.",
     points: [

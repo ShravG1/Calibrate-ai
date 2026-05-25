@@ -83,7 +83,7 @@ export default function Contact() {
       if (!headline || !subhead) return []
 
       const split = new SplitText(headline, {
-        type: 'chars',
+        type: 'words,chars',
         charsClass: 'contact-char',
         aria: 'auto',
       })
@@ -227,7 +227,7 @@ export default function Contact() {
               </p>
               <h2
                 ref={headlineRef}
-                className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
+                className="mt-3 text-3xl font-semibold tracking-tight text-balance break-words sm:text-4xl"
               >
                 Tell me what’s eating your time.
               </h2>
