@@ -26,9 +26,9 @@ export default function Reveal({ children, y = 22, className = '' }) {
           ease: 'power3.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 95%',
-            end: 'top 55%',
-            scrub: 0.5,
+            start: 'top 100%',
+            end: 'top 15%',
+            scrub: 0.6,
             invalidateOnRefresh: true,
           },
         },
