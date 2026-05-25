@@ -92,7 +92,7 @@ export default function Pricing() {
         >
           Portfolio building — flexible pricing
         </p>
-        <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
+        <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance break-words sm:text-5xl">
           <span ref={part1Ref} className="inline-block">Real work.</span>{' '}
           <span ref={part2Ref} className="inline-block">Honest pricing.</span>{' '}
           <span ref={part3Ref} className="inline-block text-gradient">

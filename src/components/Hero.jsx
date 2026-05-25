@@ -30,7 +30,7 @@ export default function Hero() {
 
         <h1
           ref={headlineRef}
-          className="mt-6 max-w-4xl text-[2.75rem] font-bold leading-[1.02] tracking-tight sm:text-[3.75rem] lg:text-[5rem]"
+          className="mt-6 max-w-4xl text-[2.75rem] font-bold leading-[1.02] tracking-tight text-balance break-words sm:text-[3.75rem] lg:text-[5rem]"
         >
           Less admin. <span className="text-gradient">More momentum.</span>
         </h1>

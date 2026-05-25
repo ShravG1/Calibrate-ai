@@ -124,7 +124,7 @@ export default function About() {
             </p>
             <h2
               ref={headlineRef}
-              className="mt-3 text-3xl font-semibold tracking-tight sm:text-5xl"
+              className="mt-3 text-3xl font-semibold tracking-tight text-balance break-words sm:text-5xl"
             >
               Hi, I’m Shrav.
             </h2>

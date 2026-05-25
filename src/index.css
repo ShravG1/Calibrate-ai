@@ -72,6 +72,16 @@
     color: transparent;
   }
 
+  /* Descender breathing room — background-clip: text crops at the glyph
+     extents, so without these the descenders on "y/p/g" get clipped when
+     the gradient sits inside a tight-leading heading. Scoped to the outer
+     .text-gradient only (not the *) so SplitText word-spans inside it
+     don't pick up the padding and start stacking extra space per word. */
+  .text-gradient {
+    padding-bottom: 0.1em;
+    line-height: 1.2;
+  }
+
   .glow-ring {
     box-shadow:
       0 0 0 1px rgba(0, 255, 204, 0.25),

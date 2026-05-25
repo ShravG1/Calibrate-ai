@@ -98,7 +98,7 @@ export default function CaseStudies() {
           </p>
           <h2
             ref={headlineRef}
-            className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight sm:text-5xl"
+            className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight text-balance break-words sm:text-5xl"
           >
             Real projects, written up properly.
           </h2>
