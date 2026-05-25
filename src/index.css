@@ -89,4 +89,71 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  /* Aura — two-layer hover effect for gradient CTAs (Phase 2E).
+     Layer 1 (conic): slowly rotating teal→sky→blue conic gradient mixed
+     into the underlying linear gradient.
+     Layer 2 (radial): cursor-following teal spotlight driven by --aura-x
+     / --aura-y CSS vars set from JS (see useAura hook).
+     Activated by adding `aura-host` to the button. Inactive until hovered. */
+  .aura-host {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .aura-conic {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 200%;
+    aspect-ratio: 1 / 1;
+    transform: translate(-50%, -50%) rotate(0deg);
+    background: conic-gradient(
+      from 0deg,
+      #00ffcc,
+      #00aaff,
+      #0055ff,
+      #00aaff,
+      #00ffcc
+    );
+    opacity: 0;
+    transition: opacity 300ms ease;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+
+  .aura-host:hover .aura-conic {
+    opacity: 0.6;
+    animation: aura-spin 8s linear infinite;
+  }
+
+  .aura-radial {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle 200px at var(--aura-x, 50%) var(--aura-y, 50%),
+      rgba(0, 255, 204, 0.35),
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 200ms ease;
+    pointer-events: none;
+  }
+
+  .aura-host:hover .aura-radial {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aura-host:hover .aura-conic {
+      animation: none;
+    }
+  }
+}
+
+@keyframes aura-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }

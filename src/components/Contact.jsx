@@ -5,6 +5,7 @@ import { SplitText } from 'gsap/SplitText'
 import { contact } from '../data.jsx'
 import { MailIcon, WhatsAppIcon, ArrowIcon, CheckIcon } from '../icons.jsx'
 import { useEntranceTimeline } from '../hooks/useEntranceTimeline.js'
+import { useAura } from '../hooks/useAura.js'
 
 gsap.registerPlugin(ScrollTrigger, SplitText)
 
@@ -54,6 +55,11 @@ export default function Contact() {
   // outside the entrance timeline because it's a scrubbed effect, not a
   // one-shot. Skips on reduced motion.
   useScrollMeshScale(sectionRef)
+
+  // Hover aura on the submit button (Phase 2E). Cursor-following radial
+  // glow + conic rotation, gated on `sent` so it stops once the form is
+  // replaced with the success state.
+  useAura(submitRef, !sent)
 
   useEntranceTimeline({
     sectionRef,
@@ -322,10 +328,14 @@ export default function Contact() {
                     ref={submitRef}
                     type="submit"
                     data-cursor-magnetic="true"
-                    className="group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric to-violet px-6 py-3.5 text-base font-semibold text-ink transition-transform hover:scale-[1.02] active:scale-95"
+                    className="group aura-host inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric to-violet px-6 py-3.5 text-base font-semibold text-ink transition-transform hover:scale-[1.02] active:scale-95"
                   >
-                    Send it over
-                    <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
+                    <span aria-hidden className="aura-conic" />
+                    <span aria-hidden className="aura-radial" />
+                    <span className="relative z-10 inline-flex items-center justify-center gap-2">
+                      Send it over
+                      <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
+                    </span>
                   </button>
                 </form>
               )}
