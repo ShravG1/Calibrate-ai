@@ -45,7 +45,7 @@ export default function Services() {
       </div>
 
       {pinned ? (
-        <div ref={pinRef} className="relative mt-16 h-[940vh]">
+        <div ref={pinRef} className="relative mt-16 h-[520vh]">
           <div className="sticky top-0 grid h-screen place-items-center overflow-hidden px-5 sm:px-8">
             {services.map((s, i) => {
               const Icon = s.icon
