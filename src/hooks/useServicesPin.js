@@ -69,13 +69,24 @@ export function useServicesPin({ enabled, sectionRef, count, onActiveChange }) {
         if (i > 0) {
           // Horizontal slide: previous card slides left + fades out,
           // this card slides in from the right + fades in.
+          // Outgoing slide stays smooth (power2.inOut), but its opacity uses
+          // power4.in so the card stays readable for the first ~60% of the
+          // dissolve and only drops away in the final stretch.
+          tl.to(
+            cards[i - 1],
+            {
+              x: -60,
+              duration: DISSOLVE,
+              ease: 'power2.inOut',
+            },
+            start - DISSOLVE,
+          )
           tl.to(
             cards[i - 1],
             {
               opacity: 0,
-              x: -60,
               duration: DISSOLVE,
-              ease: 'power2.inOut',
+              ease: 'power4.in',
             },
             start - DISSOLVE,
           )
