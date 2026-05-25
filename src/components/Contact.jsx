@@ -330,7 +330,11 @@ export default function Contact() {
                     data-cursor-magnetic="true"
                     className="group aura-host inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric to-violet px-6 py-3.5 text-base font-semibold text-ink transition-transform hover:scale-[1.02] active:scale-95"
                   >
-                    <span aria-hidden className="aura-conic" />
+                    <span aria-hidden className="aura-conic">
+                      <span className="aura-blob aura-blob-1" />
+                      <span className="aura-blob aura-blob-2" />
+                      <span className="aura-blob aura-blob-3" />
+                    </span>
                     <span aria-hidden className="aura-radial" />
                     <span className="relative z-10 inline-flex items-center justify-center gap-2">
                       Send it over
