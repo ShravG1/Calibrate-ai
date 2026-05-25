@@ -26,8 +26,8 @@ export default function Reveal({ children, y = 22, className = '' }) {
           ease: 'power3.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 85%',
-            end: 'top 30%',
+            start: 'top 95%',
+            end: 'top 55%',
             scrub: 0.5,
             invalidateOnRefresh: true,
           },

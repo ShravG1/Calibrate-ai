@@ -35,7 +35,7 @@ export const services = [
     id: 'strategy',
     icon: DataIcon,
     category: 'Strategy',
-    title: 'See clearly and decide with confidence',
+    title: 'See clearly and decide with confidence.',
     summary:
       "Your business already has the data and the questions. We turn the data into dashboards and forecasts you'll actually use, and we sit down with you to map exactly where automation would make the biggest difference. No jargon, no fluff.",
     points: [
