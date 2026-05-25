@@ -30,9 +30,9 @@ export function useEntranceTimeline({ sectionRef, build, deps = [] }) {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: 'top 100%',
-            end: 'top 15%',
-            scrub: 0.6,
+            start: 'top 80%',
+            end: 'top 30%',
+            scrub: 1.0,
             invalidateOnRefresh: true,
           },
         })
