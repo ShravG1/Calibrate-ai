@@ -160,34 +160,50 @@
     animation: aura-drift-3 3.5s ease-in-out infinite;
   }
 
-  /* Electric streak layer — diagonal pairs of (dark hairline + bright teal
-     line) scrolling across the button. Sits above the colour blobs to
-     punctuate the energy. */
+  /* Electric streak layer — three repeating gradients at widely-spaced
+     angles (35°/95°/155°, ~60° apart so no two are parallel) scrolling at
+     different speeds. Their crossings create an irregular crackle pattern
+     rather than parallel stripes. */
   .aura-streaks {
     position: absolute;
     inset: 0;
     pointer-events: none;
     opacity: 0;
     transition: opacity 200ms ease;
-    background: repeating-linear-gradient(
-      42deg,
-      transparent 0px,
-      transparent 9px,
-      rgba(0, 0, 0, 0.35) 10px,
-      rgba(0, 0, 0, 0.35) 11px,
-      transparent 12px,
-      transparent 22px,
-      rgba(0, 255, 204, 0.55) 23px,
-      rgba(0, 255, 204, 0.55) 25px,
-      transparent 26px
-    );
-    background-size: 200% 100%;
-    animation: aura-streak 1.4s linear infinite;
+    background:
+      repeating-linear-gradient(
+        35deg,
+        transparent 0px,
+        transparent 16px,
+        rgba(0, 255, 204, 0.5) 17px,
+        rgba(0, 255, 204, 0.5) 18px,
+        transparent 20px
+      ),
+      repeating-linear-gradient(
+        95deg,
+        transparent 0px,
+        transparent 26px,
+        rgba(0, 170, 255, 0.4) 27px,
+        transparent 29px
+      ),
+      repeating-linear-gradient(
+        155deg,
+        transparent 0px,
+        transparent 22px,
+        rgba(0, 0, 0, 0.4) 23px,
+        rgba(0, 0, 0, 0.4) 24px,
+        transparent 26px
+      );
+    background-size: 200% 100%, 100% 200%, 200% 200%;
+    animation:
+      aura-streak-1 1.9s linear infinite,
+      aura-streak-2 2.4s linear infinite,
+      aura-streak-3 2.1s linear infinite;
     mix-blend-mode: overlay;
   }
 
   .aura-host:hover .aura-streaks {
-    opacity: 0.75;
+    opacity: 0.8;
   }
 
   .aura-radial {
@@ -234,7 +250,17 @@
   50%      { transform: translate(20%, -15%); }
 }
 
-@keyframes aura-streak {
-  from { background-position: 0% 0%; }
-  to   { background-position: 100% 0%; }
+@keyframes aura-streak-1 {
+  from { background-position: 0% 0%, 0% 0%, 0% 0%; }
+  to   { background-position: 100% 0%, 0% 0%, 0% 0%; }
+}
+
+@keyframes aura-streak-2 {
+  from { background-position: 0% 0%, 0% 0%, 0% 0%; }
+  to   { background-position: 0% 0%, 0% 100%, 0% 0%; }
+}
+
+@keyframes aura-streak-3 {
+  from { background-position: 0% 0%, 0% 0%, 0% 0%; }
+  to   { background-position: 0% 0%, 0% 0%, 100% 100%; }
 }
