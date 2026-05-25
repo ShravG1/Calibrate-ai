@@ -125,6 +125,6 @@ export const caseStudies = [
 ]
 
 export const contact = {
-  email: 'meshavie@gmail.com',
+  email: 'calibrate.ai.uk@gmail.com',
   whatsapp: '', // e.g. '447000000000' — leave blank to hide the WhatsApp button
 }
