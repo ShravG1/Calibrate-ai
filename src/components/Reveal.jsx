@@ -1,16 +1,46 @@
-import { motion } from 'framer-motion'
+import { useRef, useLayoutEffect } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-// Subtle entrance: fades up into place once, when scrolled into view.
-export default function Reveal({ children, delay = 0, y = 22, className = '' }) {
+gsap.registerPlugin(ScrollTrigger)
+
+// Scroll-scrubbed entrance: fades up in lockstep with scroll position.
+// Animation begins when element top enters at 85% and completes at 30%.
+// Bi-directional by nature of scrub. Bypassed entirely on reduced-motion.
+export default function Reveal({ children, y = 22, className = '' }) {
+  const ref = useRef(null)
+
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const el = ref.current
+    if (!el) return
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el,
+        { opacity: 0, y },
+        {
+          opacity: 1,
+          y: 0,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            end: 'top 30%',
+            scrub: 0.5,
+            invalidateOnRefresh: true,
+          },
+        },
+      )
+    }, el)
+
+    return () => ctx.revert()
+  }, [y])
+
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, margin: '-80px' }}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
+    <div ref={ref} className={className}>
       {children}
-    </motion.div>
+    </div>
   )
 }

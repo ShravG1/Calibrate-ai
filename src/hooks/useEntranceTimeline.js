@@ -28,13 +28,11 @@ export function useEntranceTimeline({ sectionRef, build, deps = [] }) {
       if (cancelled || !sectionRef.current) return
       ctx = gsap.context(() => {
         const tl = gsap.timeline({
-          paused: true,
           scrollTrigger: {
             trigger: section,
             start: 'top 85%',
-            end: 'bottom 15%',
-            toggleActions: 'play reverse play reverse',
-            fastScrollEnd: true,
+            end: 'top 30%',
+            scrub: 0.5,
             invalidateOnRefresh: true,
           },
         })

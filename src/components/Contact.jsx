@@ -101,9 +101,7 @@ export default function Contact() {
         scale: 0.7,
         filter: 'blur(8px)',
       })
-      // Stash the subhead text so the typewriter can pull it out, then blank
-      // the visible textContent. aria-label keeps screen readers happy.
-      subhead.dataset.fullText = SUBHEAD_TEXT
+      // Blank the visible textContent; aria-label preserves screen-reader access.
       subhead.setAttribute('aria-label', SUBHEAD_TEXT)
       subhead.textContent = ''
       gsap.set(subhead, { opacity: 1 })
@@ -132,23 +130,22 @@ export default function Contact() {
         0.3,
       )
 
-      // Typewriter subhead starting 0.4s after the headline begins.
-      const intervals = []
-      tl.call(
-        () => {
-          const text = subhead.dataset.fullText || ''
-          if (!text) return
-          let i = 0
-          const id = setInterval(() => {
-            i += 1
-            subhead.textContent = text.slice(0, i)
-            if (i >= text.length) clearInterval(id)
-          }, 25)
-          intervals.push(id)
+      // Scroll-scrubbed typewriter: proxy.chars maps to scroll progress so
+      // chars appear/disappear in lockstep with scroll, both directions.
+      const proxy = { chars: 0 }
+      gsap.to(proxy, {
+        chars: SUBHEAD_TEXT.length,
+        ease: 'none',
+        onUpdate() {
+          subhead.textContent = SUBHEAD_TEXT.slice(0, Math.floor(proxy.chars))
         },
-        null,
-        0.7,
-      )
+        scrollTrigger: {
+          trigger: subhead,
+          start: 'top 85%',
+          end: 'top 35%',
+          scrub: 0.5,
+        },
+      })
 
       // Form cascade starting 0.3s after subhead begins (0.7 + 0.3 = 1.0).
       if (allFormElements.length) {
@@ -194,13 +191,8 @@ export default function Contact() {
 
       return [
         () => split.revert(),
-        () => intervals.forEach(clearInterval),
         () => {
-          // Restore the subhead text in case it was wiped before the
-          // typewriter finished (component unmount mid-animation).
-          if (subhead && subhead.textContent !== SUBHEAD_TEXT) {
-            subhead.textContent = SUBHEAD_TEXT
-          }
+          if (subhead) subhead.textContent = SUBHEAD_TEXT
         },
       ]
     },
