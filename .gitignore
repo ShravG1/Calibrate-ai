@@ -29,3 +29,6 @@ CALIBRATE_SPEC.md
 
 # Cloudflare Workers CLI state — contains account auth, never commit
 .wrangler/
+
+# Local breadcrumb — user's reference file, never tracked
+WHAT-IS-THIS.txt
