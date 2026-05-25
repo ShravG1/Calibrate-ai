@@ -250,7 +250,7 @@ export default function Contact() {
                   <a
                     href={waHref}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noreferrer noopener"
                     className="flex items-center gap-3 rounded-xl border border-line bg-ink/60 px-4 py-3 text-sm font-medium transition-colors hover:border-electric/40"
                   >
                     <WhatsAppIcon className="h-5 w-5 text-electric" />
