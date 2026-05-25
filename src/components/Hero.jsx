@@ -16,7 +16,18 @@ export default function Hero() {
       id="top"
       className="relative flex min-h-[100svh] items-center px-5 pt-28 pb-20 sm:px-8"
     >
-      <div className="mx-auto w-full max-w-5xl">
+      {/* Radial darkening behind the text — cushions the brightened shader
+          so the headline and subhead stay legible. Edges stay transparent
+          so the plasma still reads at the corners of the hero. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(circle at center, rgba(0, 0, 0, 0.4) 0%, transparent 70%)',
+        }}
+      />
+      <div className="relative mx-auto w-full max-w-5xl">
         <div
           ref={badgeRef}
           className="inline-flex items-center gap-2 rounded-full border border-line bg-ink-soft/70 px-3.5 py-1.5 text-xs font-medium text-mist-dim backdrop-blur"

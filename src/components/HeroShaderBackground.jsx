@@ -104,12 +104,19 @@ const fragmentShader = /* glsl */ `
     color = mix(color, teal, smoothstep(0.55 - shift, 1.0, t));
 
     // Vignette toward the edges so the centre of the viewport reads as
-    // brighter / more "active." Helps the hero content carry visual weight.
+    // brighter / more "active." Tightened (0.5..1.0 instead of 0.7..1.0)
+    // to preserve the centre-vs-edge contrast after the 1.4× brightness
+    // lift below pushes mid-tones toward saturation.
     float dist = distance(vUv, vec2(0.5));
     float vignette = smoothstep(0.9, 0.3, dist);
-    color *= mix(0.7, 1.0, vignette);
+    color *= mix(0.5, 1.0, vignette);
 
-    gl_FragColor = vec4(color, 0.55);
+    // Brightness lift so the plasma bands actually pop. Channels that
+    // exceed 1.0 clamp at display — the highlight tones drift toward
+    // pure cyan as intended (the brand's "energy" reading).
+    color *= 1.4;
+
+    gl_FragColor = vec4(color, 0.85);
   }
 `
 
