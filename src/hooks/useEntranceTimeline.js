@@ -31,8 +31,11 @@ export function useEntranceTimeline({ sectionRef, build, deps = [] }) {
           paused: true,
           scrollTrigger: {
             trigger: section,
-            start: 'top 80%',
-            toggleActions: 'play none none none',
+            start: 'top 85%',
+            end: 'bottom 15%',
+            toggleActions: 'play reverse play reverse',
+            fastScrollEnd: true,
+            invalidateOnRefresh: true,
           },
         })
         const result = build(tl, section)
