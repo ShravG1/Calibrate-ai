@@ -9,19 +9,17 @@ import {
 
 // Global ambient backdrop. Three slow-drifting colour blobs over a faint
 // grid. Promoted to a fixed, app-level layer so it persists across sections.
-// Each blob has its own parallax rate (foreground ~3x background), a unique
-// scroll-linked scale + rotation target so they breathe independently, and
-// optional opacity range so the dominant hue shifts teal → blue down the page.
+// Each blob has its own parallax rate (foreground ~3x background) and a
+// unique scroll-linked scale + rotation target so they breathe independently.
 const blobs = [
   {
-    // Electric teal — top-left, mid layer. Fades as we scroll → blue takes over.
+    // Electric teal — top-left, mid layer.
     className: '-left-[12%] -top-[10%] h-[42rem] w-[42rem] bg-electric/20',
     animate: { x: [0, 80, -40, 0] },
     duration: 28,
     parallax: -220,
     scaleTo: 1.18,
     rotateTo: 8,
-    opacityRange: [1, 0.62],
   },
   {
     // Violet — top-right, foreground (fastest parallax).
@@ -31,18 +29,15 @@ const blobs = [
     parallax: -360,
     scaleTo: 1.22,
     rotateTo: -6,
-    opacityRange: null,
   },
   {
-    // Sky blue — bottom-centre, background (slowest parallax). Intensifies
-    // toward the bottom — completes the teal → blue dominance shift.
+    // Sky blue — bottom-centre, background (slowest parallax).
     className: 'left-[28%] top-[60%] h-[34rem] w-[34rem] bg-sky-400/15',
     animate: { x: [0, 60, -60, 0] },
     duration: 31,
     parallax: -120,
     scaleTo: 1.12,
     rotateTo: 12,
-    opacityRange: [0.6, 1],
   },
 ]
 
@@ -150,11 +145,6 @@ function ParallaxBlob({
   )
   const scale = useTransform(smoothProgress, [0, 1], [1, blob.scaleTo])
   const rotate = useTransform(smoothProgress, [0, 1], [0, blob.rotateTo])
-  const opacity = useTransform(
-    smoothProgress,
-    [0, 1],
-    blob.opacityRange || [1, 1],
-  )
 
   if (reduce) {
     return (
@@ -168,7 +158,6 @@ function ParallaxBlob({
         y,
         scale: richMotion ? scale : 1,
         rotate: richMotion ? rotate : 0,
-        opacity: richMotion && blob.opacityRange ? opacity : 1,
         willChange: 'transform',
       }}
       className={`absolute rounded-full blur-[120px] ${blob.className}`}
