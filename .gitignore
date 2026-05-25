@@ -26,3 +26,6 @@ dist-ssr
 # Local copy / brand-spec reference — not tracked
 COPY.md
 CALIBRATE_SPEC.md
+
+# Cloudflare Workers CLI state — contains account auth, never commit
+.wrangler/
