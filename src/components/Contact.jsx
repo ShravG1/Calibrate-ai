@@ -336,6 +336,7 @@ export default function Contact() {
                       <span className="aura-blob aura-blob-3" />
                     </span>
                     <span aria-hidden className="aura-radial" />
+                    <span aria-hidden className="aura-streaks" />
                     <span className="relative z-10 inline-flex items-center justify-center gap-2">
                       Send it over
                       <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />

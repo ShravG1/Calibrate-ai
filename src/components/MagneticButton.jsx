@@ -54,6 +54,7 @@ export default function MagneticButton({
             <span className="aura-blob aura-blob-3" />
           </span>
           <span aria-hidden className="aura-radial" />
+          <span aria-hidden className="aura-streaks" />
           <span className="relative z-10 inline-flex items-center justify-center gap-2">
             {children}
           </span>
