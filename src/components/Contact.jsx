@@ -321,6 +321,7 @@ export default function Contact() {
                   <button
                     ref={submitRef}
                     type="submit"
+                    data-cursor-magnetic="true"
                     className="group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric to-violet px-6 py-3.5 text-base font-semibold text-ink transition-transform hover:scale-[1.02] active:scale-95"
                   >
                     Send it over

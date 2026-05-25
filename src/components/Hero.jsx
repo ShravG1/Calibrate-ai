@@ -51,6 +51,7 @@ export default function Hero() {
         >
           <MagneticButton
             href="#contact"
+            data-cursor-magnetic="true"
             className="group inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-electric to-violet px-7 py-4 text-base font-semibold text-ink glow-ring"
           >
             Get in touch

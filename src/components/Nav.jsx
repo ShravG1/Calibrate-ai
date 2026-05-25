@@ -193,6 +193,7 @@ export default function Nav() {
           <div className="flex items-center gap-2">
             <a
               href="#contact"
+              data-cursor-magnetic="true"
               className="hidden rounded-xl bg-mist px-4 py-2.5 text-sm font-semibold text-ink transition-transform hover:scale-[1.03] active:scale-95 sm:block"
             >
               Let’s talk

@@ -9,6 +9,16 @@ const AMPLITUDE = 1.5            // wave peak, px — almost straight
 const WAVELENGTHS = 1            // single cycle across the streak
 const DRAIN_PER_FRAME = 3        // retract speed when hovered
 
+// Magnetic field over CTAs marked with data-cursor-magnetic="true".
+// The visible cursor (head + trail) drifts toward the nearest target's
+// centre when within range. Real click position is unaffected — the offset
+// is purely cosmetic. Spring is implemented as a critically-ish-damped
+// velocity integrator (stiffness ~200 / damping ~25 in Framer terms).
+const MAG_RANGE = 100            // px — outside this radius, no pull
+const MAG_MAX = 18               // px — cap on magnitude of the visible offset
+const MAG_STIFFNESS = 0.18
+const MAG_DAMPING = 0.65
+
 // Wave-trail cursor — a small teal head dot follows the pointer
 // ~instantly, while a single SVG path traces the last ~30 sample
 // positions and ripples with a sine displacement that echoes the
@@ -30,6 +40,8 @@ export default function Cursor() {
   const hoveredRef = useRef(false)
   const visibleRef = useRef(false)
   const reduceRef = useRef(false)
+  const magnetics = useRef([])
+  const magOffset = useRef({ x: 0, y: 0, vx: 0, vy: 0 })
 
   const svgRef = useRef(null)
   const pathRef = useRef(null)
@@ -118,6 +130,39 @@ export default function Cursor() {
     }
   }, [active])
 
+  // Discover magnetic targets and keep the list fresh as the DOM changes
+  // (sections mounting, Contact form swapping for the success state, etc.).
+  // We cache element refs only — the rects/centres are read on each frame
+  // in the rAF loop so scroll position stays correct without a scroll
+  // listener.
+  useEffect(() => {
+    if (!active) return
+    if (typeof document === 'undefined') return
+
+    let scheduled = 0
+    const refresh = () => {
+      const els = document.querySelectorAll('[data-cursor-magnetic="true"]')
+      magnetics.current = Array.from(els)
+    }
+    refresh()
+
+    const observer = new MutationObserver(() => {
+      cancelAnimationFrame(scheduled)
+      scheduled = requestAnimationFrame(refresh)
+    })
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['data-cursor-magnetic'],
+    })
+
+    return () => {
+      observer.disconnect()
+      cancelAnimationFrame(scheduled)
+    }
+  }, [active])
+
   // rAF loop. All per-frame work happens here via refs + DOM writes.
   useEffect(() => {
     if (!active) return
@@ -127,11 +172,57 @@ export default function Cursor() {
       const hy = pointer.current.y
       const r = reduceRef.current
 
-      // Position the head element.
+      // Magnetic target offset — spring toward the nearest magnetic CTA's
+      // centre when within range. Zeroed on reduced motion.
+      let targetOx = 0
+      let targetOy = 0
+      if (!r && magnetics.current.length) {
+        let bestPull = 0
+        let bestDx = 0
+        let bestDy = 0
+        let bestDist = 0
+        for (let i = 0; i < magnetics.current.length; i++) {
+          const el = magnetics.current[i]
+          const rect = el.getBoundingClientRect()
+          const cx = rect.left + rect.width / 2
+          const cy = rect.top + rect.height / 2
+          const dx = cx - hx
+          const dy = cy - hy
+          const dist = Math.hypot(dx, dy)
+          if (dist >= MAG_RANGE) continue
+          const t = 1 - dist / MAG_RANGE
+          const pull = t * t // quadratic falloff
+          if (pull > bestPull) {
+            bestPull = pull
+            bestDx = dx
+            bestDy = dy
+            bestDist = dist
+          }
+        }
+        if (bestPull > 0) {
+          // Unit vector × min(dist, MAG_MAX) × pull. The min() prevents the
+          // visible cursor from overshooting the centre when pointer is
+          // very close.
+          const len = bestDist || 1
+          const magnitude = Math.min(bestDist, MAG_MAX) * bestPull
+          targetOx = (bestDx / len) * magnitude
+          targetOy = (bestDy / len) * magnitude
+        }
+      }
+      // Damped spring integration toward the target offset.
+      const off = magOffset.current
+      off.vx += (targetOx - off.x) * MAG_STIFFNESS - off.vx * MAG_DAMPING
+      off.vy += (targetOy - off.y) * MAG_STIFFNESS - off.vy * MAG_DAMPING
+      off.x += off.vx
+      off.y += off.vy
+      const ox = off.x
+      const oy = off.y
+
+      // Position the head element — visible head sits at pointer + offset.
       const headEl = headRef.current
       if (headEl) {
         headEl.style.transform =
-          `translate3d(${hx}px, ${hy}px, 0) translate(-50%, -50%)`
+          `translate3d(${hx + ox}px, ${hy + oy}px, 0) translate(-50%, -50%)`
       }
 
       // History bookkeeping.
@@ -171,7 +262,9 @@ export default function Cursor() {
             const env = Math.sin(t * Math.PI)
             const w =
               Math.sin(t * Math.PI * 2 * WAVELENGTHS) * AMPLITUDE * env
-            pts[i] = { x: p.x, y: p.y + w }
+            // Translate every sample by the current magnetic offset so the
+            // trail moves rigidly with the head — head + trail stay connected.
+            pts[i] = { x: p.x + ox, y: p.y + oy + w }
           }
           path.setAttribute('d', catmullRom(pts))
           if (grad) {
