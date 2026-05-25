@@ -1,7 +1,12 @@
-import { useRef, useState } from 'react'
+import { lazy, Suspense, useRef, useState } from 'react'
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
 import { useAura } from '../hooks/useAura.js'
-import AuraCanvas from './AuraCanvas.jsx'
+
+// Lazy-load — Three.js + R3F (~880KB raw / ~236KB gzipped) only fetched
+// once a user first hovers a gradient CTA. Fallback is null because the
+// aura is purely decorative; if the chunk fails to load the button still
+// works and the user sees the plain gradient.
+const AuraCanvas = lazy(() => import('./AuraCanvas.jsx'))
 
 // Anchor that drifts gently toward the cursor while hovered, then springs
 // back. With `aura={true}` it also mounts an R3F shader plasma surface
@@ -52,7 +57,11 @@ export default function MagneticButton({
       className={aura ? `${className} aura-host` : className}
       {...props}
     >
-      {auraActive && <AuraCanvas active={hovered} mouseRef={mouseRef} />}
+      {auraActive && (
+        <Suspense fallback={null}>
+          <AuraCanvas active={hovered} mouseRef={mouseRef} />
+        </Suspense>
+      )}
       {aura ? (
         <span className="relative z-10 inline-flex items-center justify-center gap-2">
           {children}

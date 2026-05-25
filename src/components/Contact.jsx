@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useLayoutEffect, useRef, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -7,7 +7,10 @@ import { contact } from '../data.jsx'
 import { MailIcon, WhatsAppIcon, ArrowIcon, CheckIcon } from '../icons.jsx'
 import { useEntranceTimeline } from '../hooks/useEntranceTimeline.js'
 import { useAura } from '../hooks/useAura.js'
-import AuraCanvas from './AuraCanvas.jsx'
+
+// Lazy-loaded — see MagneticButton.jsx for rationale. Same module is
+// shared across both call sites via Vite's chunk graph.
+const AuraCanvas = lazy(() => import('./AuraCanvas.jsx'))
 
 gsap.registerPlugin(ScrollTrigger, SplitText)
 
@@ -339,10 +342,12 @@ export default function Contact() {
                     className="group aura-host inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric to-violet px-6 py-3.5 text-base font-semibold text-ink transition-transform hover:scale-[1.02] active:scale-95"
                   >
                     {auraEnabled && (
-                      <AuraCanvas
-                        active={submitHovered}
-                        mouseRef={submitMouseRef}
-                      />
+                      <Suspense fallback={null}>
+                        <AuraCanvas
+                          active={submitHovered}
+                          mouseRef={submitMouseRef}
+                        />
+                      </Suspense>
                     )}
                     <span className="relative z-10 inline-flex items-center justify-center gap-2">
                       Send it over
