@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
+import { useReducedMotion } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
@@ -6,6 +7,7 @@ import { contact } from '../data.jsx'
 import { MailIcon, WhatsAppIcon, ArrowIcon, CheckIcon } from '../icons.jsx'
 import { useEntranceTimeline } from '../hooks/useEntranceTimeline.js'
 import { useAura } from '../hooks/useAura.js'
+import AuraCanvas from './AuraCanvas.jsx'
 
 gsap.registerPlugin(ScrollTrigger, SplitText)
 
@@ -18,6 +20,8 @@ const fieldClass =
 export default function Contact() {
   const [form, setForm] = useState({ name: '', business: '', message: '' })
   const [sent, setSent] = useState(false)
+  const [submitHovered, setSubmitHovered] = useState(false)
+  const reduce = useReducedMotion()
 
   const sectionRef = useRef(null)
   const eyebrowRef = useRef(null)
@@ -56,10 +60,12 @@ export default function Contact() {
   // one-shot. Skips on reduced motion.
   useScrollMeshScale(sectionRef)
 
-  // Hover aura on the submit button (Phase 2E). Cursor-following radial
-  // glow + conic rotation, gated on `sent` so it stops once the form is
-  // replaced with the success state.
-  useAura(submitRef, !sent)
+  // Hover aura on the submit button — WebGL shader plasma via AuraCanvas.
+  // Hook tracks cursor position in normalised (0..1) coords and feeds it
+  // into the shader's uMouse uniform. Gated on `!sent` (form still
+  // mounted) and reduced-motion.
+  const auraEnabled = !sent && !reduce
+  const submitMouseRef = useAura(submitRef, auraEnabled)
 
   useEntranceTimeline({
     sectionRef,
@@ -328,15 +334,16 @@ export default function Contact() {
                     ref={submitRef}
                     type="submit"
                     data-cursor-magnetic="true"
+                    onMouseEnter={() => setSubmitHovered(true)}
+                    onMouseLeave={() => setSubmitHovered(false)}
                     className="group aura-host inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric to-violet px-6 py-3.5 text-base font-semibold text-ink transition-transform hover:scale-[1.02] active:scale-95"
                   >
-                    <span aria-hidden className="aura-conic">
-                      <span className="aura-blob aura-blob-1" />
-                      <span className="aura-blob aura-blob-2" />
-                      <span className="aura-blob aura-blob-3" />
-                    </span>
-                    <span aria-hidden className="aura-radial" />
-                    <span aria-hidden className="aura-streaks" />
+                    {auraEnabled && (
+                      <AuraCanvas
+                        active={submitHovered}
+                        mouseRef={submitMouseRef}
+                      />
+                    )}
                     <span className="relative z-10 inline-flex items-center justify-center gap-2">
                       Send it over
                       <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />

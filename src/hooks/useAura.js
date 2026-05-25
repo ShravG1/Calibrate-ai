@@ -1,30 +1,32 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
-// Track cursor position inside a host element and write it into the
-// element's --aura-x / --aura-y CSS variables. A radial-gradient layer on
-// the element can then read those vars to render a glow that follows the
-// pointer. Writes are throttled with requestAnimationFrame — multiple
-// mousemove events in a single frame coalesce into one DOM write.
+// Track cursor position inside a host element and write a normalised
+// (0..1) position into the returned ref. Y is flipped to match WebGL UV
+// convention (origin at bottom-left), which is what the shader expects on
+// its uMouse uniform. Writes are rAF-throttled so multiple mousemove
+// events per frame coalesce into one update.
 export function useAura(ref, enabled = true) {
+  const mouse = useRef({ x: 0.5, y: 0.5 })
+
   useEffect(() => {
     if (!enabled) return
     const el = ref.current
     if (!el) return
 
     let rafId = 0
-    let px = 0
-    let py = 0
+    let px = 0.5
+    let py = 0.5
 
     const flush = () => {
       rafId = 0
-      el.style.setProperty('--aura-x', `${px}px`)
-      el.style.setProperty('--aura-y', `${py}px`)
+      mouse.current.x = px
+      mouse.current.y = py
     }
 
     const onMove = (e) => {
       const r = el.getBoundingClientRect()
-      px = e.clientX - r.left
-      py = e.clientY - r.top
+      px = (e.clientX - r.left) / Math.max(r.width, 1)
+      py = 1 - (e.clientY - r.top) / Math.max(r.height, 1)
       if (!rafId) rafId = requestAnimationFrame(flush)
     }
 
@@ -34,4 +36,6 @@ export function useAura(ref, enabled = true) {
       cancelAnimationFrame(rafId)
     }
   }, [ref, enabled])
+
+  return mouse
 }
