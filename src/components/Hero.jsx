@@ -2,17 +2,21 @@ import { useRef } from 'react'
 import { ArrowIcon } from '../icons.jsx'
 import MagneticButton from './MagneticButton.jsx'
 import { useHeroIntro } from '../hooks/useHeroIntro.js'
+import { useHeroExit } from '../hooks/useHeroExit.js'
 
 export default function Hero() {
+  const sectionRef = useRef(null)
   const badgeRef = useRef(null)
   const headlineRef = useRef(null)
   const subheadRef = useRef(null)
   const ctasRef = useRef(null)
 
   useHeroIntro({ badgeRef, headlineRef, subheadRef, ctasRef })
+  useHeroExit({ badgeRef, headlineRef, subheadRef, ctasRef, sectionRef })
 
   return (
     <section
+      ref={sectionRef}
       id="top"
       className="relative flex min-h-[100svh] items-center px-5 pt-28 pb-20 sm:px-8"
     >
