@@ -38,7 +38,7 @@ export function useHeroExit({ badgeRef, headlineRef, subheadRef, ctasRef, sectio
           scrollTrigger: {
             trigger: section,
             start: 'top top',
-            end: 'top 30%',
+            end: '+=40%',
             scrub: 0.8,
           },
         })

@@ -30,14 +30,33 @@ export function useEntranceTimeline({ sectionRef, build, deps = [] }) {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: 'top 75%',
-            end: 'top 40%',
-            scrub: 0.8,
+            start: 'top 90%',
+            end: 'bottom 10%',
+            scrub: 0.6,
             invalidateOnRefresh: true,
           },
         })
         const result = build(tl, section)
         if (Array.isArray(result)) cleanups = result
+
+        // Exit phase: animate SplitText word/char spans out as section scrolls
+        // past the viewport top. Queries after build() so spans exist.
+        const enterDuration = tl.duration()
+        const words = Array.from(
+          section.querySelectorAll('[class*="-word"],[class*="-char"]'),
+        )
+        if (words.length) {
+          tl.to(
+            words,
+            {
+              y: -24,
+              opacity: 0,
+              stagger: { amount: 0.3, from: 'end' },
+              ease: 'power1.in',
+            },
+            enterDuration + 0.3,
+          )
+        }
       }, section)
     }
 
