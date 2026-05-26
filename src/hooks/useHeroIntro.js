@@ -44,7 +44,12 @@ export function useHeroIntro({
       gsap.set(headlineRef.current, { opacity: 1 })
       gsap.set(split.words, { y: 40, opacity: 0 })
 
-      tl = gsap.timeline()
+      tl = gsap.timeline({
+        onComplete: () => {
+          window.dispatchEvent(new CustomEvent('heroIntroComplete'))
+          window.__heroIntroComplete = true
+        },
+      })
       tl.to(
         split.words,
         {

@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger)
 // Pin height (Services.jsx) is set to give ~140vh of scroll per beat — long
 // enough to read a card before the next replaces it.
 const BEAT = 1
-const DISSOLVE = 0.4
+const DISSOLVE = 0.2
 
 // Pinned-scroll storytelling timeline for the Services section.
 // Caller passes the tall scroll-container ref (which establishes the pin
