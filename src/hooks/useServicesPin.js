@@ -131,9 +131,23 @@ export function useServicesPin({ enabled, sectionRef, count, onActiveChange }) {
         )
       })
 
-      // Lock the timeline length so each card — especially the last — gets
-      // the full dwell of its beat before progress reaches 1.
-      tl.to({}, { duration: 0.0001 }, count * BEAT)
+      // Exit beat for the last card — mirrors the fade-out of preceding cards.
+      const lastCard = cards[count - 1]
+      if (lastCard) {
+        tl.to(
+          lastCard,
+          { x: -60, duration: DISSOLVE, ease: 'power2.inOut' },
+          count * BEAT,
+        )
+        tl.to(
+          lastCard,
+          { opacity: 0, duration: DISSOLVE, ease: 'power4.in' },
+          count * BEAT,
+        )
+      }
+
+      // Lock the timeline length to include the final card's exit beat.
+      tl.to({}, { duration: 0.0001 }, count * BEAT + DISSOLVE)
     }, section)
 
     return () => ctx.revert()

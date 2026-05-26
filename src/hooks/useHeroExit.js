@@ -38,23 +38,23 @@ export function useHeroExit({ badgeRef, headlineRef, subheadRef, ctasRef, sectio
           scrollTrigger: {
             trigger: section,
             start: 'top top',
-            end: 'bottom 20%',
+            end: 'top 30%',
             scrub: 0.8,
           },
         })
-          .to(badge, { y: -120, opacity: 0, ease: 'power2.in' }, 0)
+          .to(badge, { y: -120, opacity: 0, ease: 'power1.in' }, 0)
           .to(
             headlineTarget,
             {
               y: -100,
               opacity: 0,
               stagger: { amount: 0.4, from: 'start' },
-              ease: 'power2.in',
+              ease: 'power1.in',
             },
             0.05,
           )
-          .to(subhead, { y: -60, opacity: 0, ease: 'power2.in' }, 0.15)
-          .to(ctas, { y: -30, opacity: 0, ease: 'power2.in' }, 0.25)
+          .to(subhead, { y: -60, opacity: 0, ease: 'power1.in' }, 0.15)
+          .to(ctas, { y: -30, opacity: 0, ease: 'power1.in' }, 0.25)
       }, section)
     }
 
