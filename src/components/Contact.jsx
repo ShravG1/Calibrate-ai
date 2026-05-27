@@ -14,6 +14,8 @@ const AuraCanvas = lazy(() => import('./AuraCanvas.jsx'))
 
 gsap.registerPlugin(ScrollTrigger, SplitText)
 
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xwvzakgl'
+
 const SUBHEAD_TEXT =
   'No pressure and no sales pitch. Send a quick message about your business and what’s driving you mad — I’ll come back with honest thoughts on whether we can help.'
 
@@ -22,7 +24,7 @@ const fieldClass =
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', business: '', message: '' })
-  const [sent, setSent] = useState(false)
+  const [status, setStatus] = useState('idle') // 'idle' | 'sending' | 'sent' | 'error'
   const [submitHovered, setSubmitHovered] = useState(false)
   const reduce = useReducedMotion()
 
@@ -37,19 +39,32 @@ export default function Contact() {
   const update = (key) => (e) =>
     setForm((f) => ({ ...f, [key]: e.target.value }))
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const subject = `Project enquiry — ${form.name || 'a friend'}`
-    const body = [
-      `Name: ${form.name}`,
-      `Business: ${form.business}`,
-      '',
-      form.message,
-    ].join('\n')
-    window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(
-      subject,
-    )}&body=${encodeURIComponent(body)}`
-    setSent(true)
+    if (status === 'sending') return
+    setStatus('sending')
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: form.name,
+          business: form.business,
+          message: form.message,
+          _subject: `Project enquiry — ${form.name || 'a friend'}`,
+        }),
+      })
+      if (res.ok) {
+        setStatus('sent')
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
   }
 
   const waHref = contact.whatsapp
@@ -65,9 +80,9 @@ export default function Contact() {
 
   // Hover aura on the submit button — WebGL shader plasma via AuraCanvas.
   // Hook tracks cursor position in normalised (0..1) coords and feeds it
-  // into the shader's uMouse uniform. Gated on `!sent` (form still
-  // mounted) and reduced-motion.
-  const auraEnabled = !sent && !reduce
+  // into the shader's uMouse uniform. Gated on form still mounted and
+  // reduced-motion.
+  const auraEnabled = status !== 'sent' && !reduce
   const submitMouseRef = useAura(submitRef, auraEnabled)
 
   useEntranceTimeline({
@@ -253,19 +268,19 @@ export default function Contact() {
             </div>
 
             <div>
-              {sent ? (
+              {status === 'sent' ? (
                 <div className="grid h-full place-items-center rounded-2xl border border-electric/30 bg-ink/60 p-8 text-center">
                   <div>
                     <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-electric/15 text-electric">
                       <CheckIcon className="h-7 w-7" />
                     </span>
                     <h3 className="mt-4 text-xl font-bold">
-                      Your email’s ready to send
+                      Your message is on its way.
                     </h3>
                     <p className="mt-2 text-sm leading-relaxed text-mist-dim">
-                      I’ve opened your mail app with the details filled in.
-                      Just hit send and I’ll be in touch soon. If nothing
-                      opened, drop me a line at {contact.email}.
+                      Thanks for getting in touch. I’ll come back to you
+                      within a couple of days. If anything’s urgent, drop
+                      me a line at {contact.email}.
                     </p>
                   </div>
                 </div>
@@ -275,6 +290,17 @@ export default function Contact() {
                   onSubmit={handleSubmit}
                   className="flex flex-col gap-4"
                 >
+                  {/* Honeypot — Formspree silently discards submissions where
+                      _gotcha is filled. Bots auto-fill every input; humans
+                      never see this one. */}
+                  <input
+                    type="text"
+                    name="_gotcha"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    style={{ position: 'absolute', left: '-9999px' }}
+                  />
                   <div data-field>
                     <label
                       htmlFor="c-name"
@@ -325,13 +351,23 @@ export default function Contact() {
                       placeholder="A line or two about the jobs you wish would just sort themselves out…"
                     />
                   </div>
+                  {status === 'error' && (
+                    <div
+                      role="alert"
+                      className="rounded-xl border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200"
+                    >
+                      Something went wrong sending that. Try again, or email
+                      me directly at {contact.email}.
+                    </div>
+                  )}
                   <button
                     ref={submitRef}
                     type="submit"
+                    disabled={status === 'sending'}
                     data-cursor-magnetic="true"
                     onMouseEnter={() => setSubmitHovered(true)}
                     onMouseLeave={() => setSubmitHovered(false)}
-                    className="group aura-host inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric to-violet px-6 py-3.5 text-base font-semibold text-ink transition-transform hover:scale-[1.02] active:scale-95"
+                    className="group aura-host inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric to-violet px-6 py-3.5 text-base font-semibold text-ink transition-transform hover:scale-[1.02] active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
                   >
                     {auraEnabled && (
                       <Suspense fallback={null}>
@@ -342,7 +378,7 @@ export default function Contact() {
                       </Suspense>
                     )}
                     <span className="relative z-10 inline-flex items-center justify-center gap-2">
-                      Send it over
+                      {status === 'sending' ? 'Sending…' : 'Send it over'}
                       <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
                     </span>
                   </button>
