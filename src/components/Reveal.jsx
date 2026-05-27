@@ -29,7 +29,7 @@ export default function Reveal({ children, y = 22, className = '' }) {
       // Enter: fade up from below
       tl.fromTo(el, { y, opacity: 0 }, { y: 0, opacity: 1, ease: 'power1.out' }, 0)
       // Exit: fade up out of view (starts at 0.75 on timeline)
-      tl.to(el, { y: -y, opacity: 0, ease: 'power1.in' }, 0.75)
+      tl.to(el, { y: -60, opacity: 0, ease: 'power1.in' }, 0.75)
     }, el)
 
     return () => ctx.revert()

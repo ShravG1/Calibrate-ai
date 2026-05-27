@@ -1,11 +1,10 @@
-import { useRef } from 'react'
+import { useRef, useLayoutEffect } from 'react'
 import { gsap } from 'gsap'
-import { SplitText } from 'gsap/SplitText'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import MagneticButton from './MagneticButton.jsx'
 import { ArrowIcon } from '../icons.jsx'
-import { useEntranceTimeline } from '../hooks/useEntranceTimeline.js'
 
-gsap.registerPlugin(SplitText)
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Pricing() {
   const sectionRef = useRef(null)
@@ -16,68 +15,73 @@ export default function Pricing() {
   const bodyRef = useRef(null)
   const ctaRef = useRef(null)
 
-  useEntranceTimeline({
-    sectionRef,
-    build: (tl) => {
-      const eyebrow = eyebrowRef.current
-      const part1 = part1Ref.current
-      const part2 = part2Ref.current
-      const part3 = part3Ref.current
-      const body = bodyRef.current
-      const cta = ctaRef.current
-      if (!part1 || !part2 || !part3) return []
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-      const split1 = new SplitText(part1, { type: 'words', wordsClass: 'pricing-word', aria: 'auto' })
-      const split2 = new SplitText(part2, { type: 'words', wordsClass: 'pricing-word', aria: 'auto' })
-      const split3 = new SplitText(part3, { type: 'words', wordsClass: 'pricing-word', aria: 'auto' })
+    const section = sectionRef.current
+    const eyebrow = eyebrowRef.current
+    const part1 = part1Ref.current
+    const part2 = part2Ref.current
+    const part3 = part3Ref.current
+    const body = bodyRef.current
+    const cta = ctaRef.current
+    if (!section || !eyebrow || !part1 || !part2 || !part3 || !body || !cta) return
 
-      const allWords = [...split1.words, ...split2.words, ...split3.words]
-      gsap.set([eyebrow, body, cta], { opacity: 0 })
-      gsap.set([part1, part2, part3], { opacity: 1 })
-      gsap.set(allWords, { y: 40, opacity: 0, scale: 0.95 })
-      gsap.set(body, { y: 20 })
-      gsap.set(cta, { y: 0, scale: 0.95 })
+    const els = [eyebrow, part1, part2, part3, body, cta]
 
-      tl.to(eyebrow, { opacity: 1, duration: 0.4, ease: 'power2.out' }, 0)
+    // Pre-hide before layout settles so there's no flash
+    gsap.set(els, { y: 24, opacity: 0 })
 
-      const batch = { duration: 0.7, ease: 'expo.out', stagger: 0.05 }
-      tl.to(
-        split1.words,
-        { y: 0, opacity: 1, scale: 1, ...batch },
-        0.2,
-      )
-      // 0.25s gap, then batch 2.
-      tl.to(
-        split2.words,
-        { y: 0, opacity: 1, scale: 1, ...batch },
-        '>0.25',
-      )
-      // 0.25s gap, then batch 3 (the gradient line).
-      tl.to(
-        split3.words,
-        { y: 0, opacity: 1, scale: 1, ...batch },
-        '>0.25',
-      )
-      // Body fades up once the verdict completes.
-      tl.to(
-        body,
-        { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' },
-        '>0.1',
-      )
-      // CTA enters 0.2s after body starts — they land near-together.
-      tl.to(
-        cta,
-        { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.2)' },
-        '<0.2',
-      )
+    let cancelled = false
+    let ctx
 
-      return [
-        () => split1.revert(),
-        () => split2.revert(),
-        () => split3.revert(),
-      ]
-    },
-  })
+    const run = () => {
+      if (cancelled || !sectionRef.current) return
+
+      ctx = gsap.context(() => {
+        // Enter: tight cascade as section approaches centre.
+        // Each element uses an explicit fromTo so scrub is clean in both directions.
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 80%',
+            end: 'top 30%',
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+          },
+        })
+          .fromTo(eyebrow, { y: 24, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out' }, 0)
+          .fromTo(part1,   { y: 24, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out' }, 0.05)
+          .fromTo(part2,   { y: 24, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out' }, 0.1)
+          .fromTo(part3,   { y: 24, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out' }, 0.15)
+          .fromTo(body,    { y: 24, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out' }, 0.2)
+          .fromTo(cta,     { y: 24, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out' }, 0.25)
+
+        // Exit: lift all elements away as section scrolls past viewport top.
+        // Explicit fromTo so GSAP's internal state from enter doesn't bleed in.
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: 'top -50%',
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+          },
+        })
+          .fromTo(els, { y: 0, opacity: 1 }, { y: -60, opacity: 0, stagger: 0.02, ease: 'power1.in' }, 0)
+      }, section)
+    }
+
+    // Defer until fonts + one rAF so Services' 548vh pin height is measured correctly
+    const fontsReady = document.fonts?.ready ?? Promise.resolve()
+    fontsReady.then(run)
+
+    return () => {
+      cancelled = true
+      ctx?.revert()
+    }
+  }, [])
 
   return (
     <section
@@ -103,14 +107,14 @@ export default function Pricing() {
           ref={bodyRef}
           className="mt-6 text-lg leading-relaxed text-mist-dim sm:text-xl"
         >
-          Right now I’m in the business of building a portfolio I’m genuinely
-          proud of. That means I’m taking on select projects at little to no
-          cost — depending on what’s involved and how much it lets me show.
-          There’s no fixed price and no hard rule. Some things will be
-          completely free. Some will cost a little. Either way it won’t be
+          Right now I'm in the business of building a portfolio I'm genuinely
+          proud of. That means I'm taking on select projects at little to no
+          cost — depending on what's involved and how much it lets me show.
+          There's no fixed price and no hard rule. Some things will be
+          completely free. Some will cost a little. Either way it won't be
           what an agency would charge you — not even close. The best thing to
-          do is just tell me what you need. I’ll be straight with you about
-          what’s possible and what it would involve. No pitch, no pressure.
+          do is just tell me what you need. I'll be straight with you about
+          what's possible and what it would involve. No pitch, no pressure.
         </p>
         <div ref={ctaRef} className="mt-10 flex justify-center">
           <MagneticButton
