@@ -154,10 +154,16 @@ export default function Contact() {
         onUpdate() {
           subhead.textContent = SUBHEAD_TEXT.slice(0, Math.floor(proxy.chars))
         },
+        // Trigger range tuned so anchor-jump to #contact lands on a completed
+        // typewriter. After the nav offset, the subhead element sits around
+        // 45-50% from viewport top (because of card padding + eyebrow +
+        // headline above it), so `end: 'top 50%'` ensures progress clamps to
+        // 1 at anchor landing. The wider start ('top 90%') keeps the
+        // animation visible during natural scroll as the text enters view.
         scrollTrigger: {
           trigger: subhead,
-          start: 'top 85%',
-          end: 'top 60%',
+          start: 'top 90%',
+          end: 'top 50%',
           scrub: 0.4,
         },
       })

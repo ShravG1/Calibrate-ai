@@ -8,15 +8,16 @@ gsap.registerPlugin(ScrollTrigger)
 // on prefers-reduced-motion. Waits for fonts.ready before measuring/splitting
 // so the choreography doesn't jump when fonts arrive a few frames late.
 //
-// Split into TWO ScrollTriggers so anchor-jumps land on fully-revealed
-// content. A single scrub timeline from 'top 90%' → 'bottom 10%' would
-// leave the timeline at ~44% progress when an anchor link lands the
-// section top at ~10% from viewport top — meaning form fields / cards /
-// footer hidden when the user arrives. Instead:
+// Two separate ScrollTriggers so:
+//   1. Natural-scroll users see the animation play in the meaningful part
+//      of the viewport (section moving from lower-mid up to upper-third).
+//   2. Anchor-jumps (which land the section top at ~10% from viewport top)
+//      arrive on fully-revealed content because progress clamps to 1.
 //
-//   Entry  — top 85% → top 55%, scrub 0.4. Completes before the anchor
-//            landing position, so anchor-jumps see fully-revealed content.
-//   Exit   — top 5% → top -40%, scrub 0.4. Only fires once the section is
+//   Entry  — top 75% → top 35%, scrub 0.4. Plays during the visible half of
+//            the section's approach. Completes before anchor-landing scroll
+//            position so anchor jumps show finished animations.
+//   Exit   — top -5% → top -45%, scrub 0.4. Fires only as the section is
 //            actually scrolling past the top of the viewport.
 //
 // `build(tl, section)` constructs the entry timeline. It may return an
@@ -39,8 +40,8 @@ export function useEntranceTimeline({ sectionRef, build, deps = [] }) {
         const entryTl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: 'top 85%',
-            end: 'top 55%',
+            start: 'top 75%',
+            end: 'top 35%',
             scrub: 0.4,
             invalidateOnRefresh: true,
           },
@@ -61,8 +62,8 @@ export function useEntranceTimeline({ sectionRef, build, deps = [] }) {
             ease: 'power1.in',
             scrollTrigger: {
               trigger: section,
-              start: 'top 5%',
-              end: 'top -40%',
+              start: 'top -5%',
+              end: 'top -45%',
               scrub: 0.4,
               invalidateOnRefresh: true,
             },
