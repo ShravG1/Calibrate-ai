@@ -45,8 +45,8 @@ export default function Pricing() {
         gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: 'top 70%',
-            end: 'top 50%',
+            start: 'top 60%',
+            end: 'top 40%',
             scrub: 0.6,
             invalidateOnRefresh: true,
           },
