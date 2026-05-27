@@ -156,9 +156,9 @@ export default function Contact() {
         },
         scrollTrigger: {
           trigger: subhead,
-          start: 'top 80%',
-          end: 'top 40%',
-          scrub: 0.8,
+          start: 'top 85%',
+          end: 'top 60%',
+          scrub: 0.4,
         },
       })
 

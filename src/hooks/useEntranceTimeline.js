@@ -4,14 +4,23 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Shared boilerplate for "play once when the section enters at 80%" entrance
-// timelines. Skips entirely on prefers-reduced-motion (content stays in its
-// natural visible state). Waits for fonts.ready before measuring/splitting so
-// the choreography doesn't jump when fonts arrive a few frames late.
+// Shared boilerplate for section entrance + exit choreography. Skips entirely
+// on prefers-reduced-motion. Waits for fonts.ready before measuring/splitting
+// so the choreography doesn't jump when fonts arrive a few frames late.
 //
-// `build(tl, section)` constructs the timeline. It may return an array of
-// cleanup callbacks (e.g. clearInterval handles) which run alongside the
-// gsap.context revert on unmount.
+// Split into TWO ScrollTriggers so anchor-jumps land on fully-revealed
+// content. A single scrub timeline from 'top 90%' → 'bottom 10%' would
+// leave the timeline at ~44% progress when an anchor link lands the
+// section top at ~10% from viewport top — meaning form fields / cards /
+// footer hidden when the user arrives. Instead:
+//
+//   Entry  — top 85% → top 55%, scrub 0.4. Completes before the anchor
+//            landing position, so anchor-jumps see fully-revealed content.
+//   Exit   — top 5% → top -40%, scrub 0.4. Only fires once the section is
+//            actually scrolling past the top of the viewport.
+//
+// `build(tl, section)` constructs the entry timeline. It may return an
+// array of cleanup callbacks which run alongside the gsap.context revert.
 export function useEntranceTimeline({ sectionRef, build, deps = [] }) {
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return
@@ -27,35 +36,37 @@ export function useEntranceTimeline({ sectionRef, build, deps = [] }) {
     const start = () => {
       if (cancelled || !sectionRef.current) return
       ctx = gsap.context(() => {
-        const tl = gsap.timeline({
+        const entryTl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: 'top 90%',
-            end: 'bottom 10%',
-            scrub: 0.6,
+            start: 'top 85%',
+            end: 'top 55%',
+            scrub: 0.4,
             invalidateOnRefresh: true,
           },
         })
-        const result = build(tl, section)
+        const result = build(entryTl, section)
         if (Array.isArray(result)) cleanups = result
 
-        // Exit phase: animate SplitText word/char spans out as section scrolls
-        // past the viewport top. Queries after build() so spans exist.
-        const enterDuration = tl.duration()
+        // Exit: fade SplitText spans out as the section scrolls past the
+        // viewport top. Querying after build() so spans exist.
         const words = Array.from(
           section.querySelectorAll('[class*="-word"],[class*="-char"]'),
         )
         if (words.length) {
-          tl.to(
-            words,
-            {
-              y: -24,
-              opacity: 0,
-              stagger: { amount: 0.3, from: 'end' },
-              ease: 'power1.in',
+          gsap.to(words, {
+            y: -24,
+            opacity: 0,
+            stagger: { amount: 0.3, from: 'end' },
+            ease: 'power1.in',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 5%',
+              end: 'top -40%',
+              scrub: 0.4,
+              invalidateOnRefresh: true,
             },
-            enterDuration + 0.3,
-          )
+          })
         }
       }, section)
     }
