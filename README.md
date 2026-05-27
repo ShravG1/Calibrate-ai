@@ -1,44 +1,48 @@
-# Shrav — AI & Automation Services
+# Calibrate
 
-A personal landing site for Shrav's AI and automation services for small
-businesses. Dark, futuristic, and warm — built to be sent to friends and
-friends-of-friends.
+AI and automation services for UK small businesses.
 
-## Tech
+Live site: https://calibrate-ai.uk
 
-- React + Vite
+## Stack
+
+- React 19 + Vite 8
 - Tailwind CSS v4
-- Framer Motion (entrance animations, smooth scroll)
-- Deployed on Vercel
+- GSAP 3.15 (ScrollTrigger, SplitText) for scroll-driven choreography
+- Lenis 1.3 for smooth scroll
+- React Three Fiber + Three.js for the hero WebGL shader (lazy-loaded)
+- Framer Motion 12 for Reveal and magnetic-cursor interactions
 
-## Sections
-
-Hero · Why AI · Services (five expandable cards) · Pricing (three free
-projects) · Case Studies (placeholder layout) · About Shrav · Contact.
-
-## Dev
+## Local dev
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Build
+Production build:
 
 ```bash
 npm run build
+npm run preview
 ```
 
-## Editing content
+## Structure
 
-- Services and case studies live in `src/data.jsx`.
-- Contact email / WhatsApp number are at the bottom of `src/data.jsx`
-  (set `whatsapp` to a number like `447000000000` to show the WhatsApp
-  button; leave it blank to hide it).
-- Case Studies use placeholder copy and image slots — swap real project
-  details and screenshots in once they're ready.
+- `src/App.jsx` — section composition (Nav, Hero, Services, About, CaseStudies, Pricing, Contact, Footer)
+- `src/components/` — section components and shared primitives (Reveal, MagneticButton, Cursor, MeshBackground, HeroShaderBackground, AuraCanvas)
+- `src/hooks/` — scroll/animation hooks (`useLenis`, `useHeroIntro`, `useHeroExit`, `useServicesPin`, `useEntranceTimeline`, `useAura`)
+- `src/data.jsx` — services copy, case-study placeholders, contact details
+- `src/index.css` — Tailwind v4 `@theme` tokens and global utilities
 
-## Deploy (Vercel)
+## Content edits
 
-Import the repo into Vercel. Framework preset: **Vite**. Build command
-`npm run build`, output directory `dist`.
+Most copy lives in `src/data.jsx`. Section-specific microcopy is inline
+in each component file under `src/components/`. Contact email and
+WhatsApp number are at the bottom of `src/data.jsx` (leave `whatsapp`
+blank to hide the button).
+
+## Deploy
+
+Vercel auto-deploys on push to `main`. Framework preset: Vite. Build
+command `npm run build`, output directory `dist`.

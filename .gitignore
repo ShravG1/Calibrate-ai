@@ -32,3 +32,6 @@ CALIBRATE_SPEC.md
 
 # Local breadcrumb — user's reference file, never tracked
 WHAT-IS-THIS.txt
+
+# Stale single-file HTML mirror of the React site — never re-commit
+claude-artifact.html
