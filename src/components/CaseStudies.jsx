@@ -86,7 +86,7 @@ export default function CaseStudies() {
     <section
       ref={sectionRef}
       id="work"
-      className="relative px-5 py-12 sm:px-8 sm:py-16"
+      className="relative px-5 py-8 sm:px-8 sm:py-12"
     >
       <div className="mx-auto max-w-6xl">
         <div>
@@ -112,7 +112,7 @@ export default function CaseStudies() {
           </p>
         </div>
 
-        <div ref={cardsRef} className="mt-8 grid gap-5 md:grid-cols-3">
+        <div ref={cardsRef} className="mt-6 grid gap-5 md:grid-cols-3">
           {caseStudies.map((cs) => (
             <article
               key={cs.id}
