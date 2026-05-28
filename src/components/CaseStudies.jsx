@@ -86,7 +86,7 @@ export default function CaseStudies() {
     <section
       ref={sectionRef}
       id="work"
-      className="relative px-5 py-24 sm:px-8 sm:py-32"
+      className="relative px-5 py-12 sm:px-8 sm:py-16"
     >
       <div className="mx-auto max-w-6xl">
         <div>
@@ -112,13 +112,13 @@ export default function CaseStudies() {
           </p>
         </div>
 
-        <div ref={cardsRef} className="mt-12 grid gap-5 md:grid-cols-3">
+        <div ref={cardsRef} className="mt-8 grid gap-5 md:grid-cols-3">
           {caseStudies.map((cs) => (
             <article
               key={cs.id}
               className="flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-ink-card/60"
             >
-              <div className="relative m-3 grid aspect-[16/10] place-items-center rounded-2xl border-2 border-dashed border-line/80 bg-ink-soft/40">
+              <div className="relative m-3 grid aspect-[16/7] place-items-center rounded-2xl border-2 border-dashed border-line/80 bg-ink-soft/40">
                 <div className="flex flex-col items-center gap-2 px-4 text-center text-mist-dim/70">
                   <svg
                     width="22"
@@ -143,7 +143,7 @@ export default function CaseStudies() {
                 </span>
               </div>
 
-              <div className="flex flex-1 flex-col gap-4 px-6 pb-6 pt-2">
+              <div className="flex flex-1 flex-col gap-3 px-5 pb-5 pt-1">
                 <h3 className="text-lg font-bold">{cs.title}</h3>
                 <Field label="The problem">{cs.problem}</Field>
                 <Field label="The solution">{cs.solution}</Field>
