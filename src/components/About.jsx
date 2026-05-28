@@ -88,7 +88,7 @@ export default function About() {
     <section
       ref={sectionRef}
       id="about"
-      className="relative px-5 py-24 sm:px-8 sm:py-32"
+      className="relative px-5 py-12 sm:px-8 sm:py-16"
     >
       <div className="mx-auto max-w-5xl">
         <div className="grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-center">

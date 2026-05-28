@@ -223,7 +223,7 @@ export default function Contact() {
     <section
       ref={sectionRef}
       id="contact"
-      className="relative px-5 py-24 sm:px-8 sm:py-32"
+      className="relative px-5 py-12 sm:px-8 sm:py-16"
     >
       <div className="mx-auto max-w-5xl">
         <div className="relative overflow-hidden rounded-[2rem] border border-line bg-ink-card/70 p-7 sm:p-12">

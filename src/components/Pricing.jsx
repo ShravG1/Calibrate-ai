@@ -87,7 +87,7 @@ export default function Pricing() {
     <section
       ref={sectionRef}
       id="pricing"
-      className="relative px-5 py-24 sm:px-8 sm:py-32"
+      className="relative px-5 py-12 sm:px-8 sm:py-16"
     >
       <div className="mx-auto max-w-3xl text-center">
         <p
