@@ -97,6 +97,8 @@ export default function Contact() {
 
       if (!headline || !subhead) return []
 
+      let srOnly = null
+
       const split = new SplitText(headline, {
         type: 'words,chars',
         charsClass: 'contact-char',
@@ -116,8 +118,15 @@ export default function Contact() {
         scale: 0.7,
         filter: 'blur(8px)',
       })
-      // Blank the visible textContent; aria-label preserves screen-reader access.
-      subhead.setAttribute('aria-label', SUBHEAD_TEXT)
+      // Blank the visible textContent for the scrub typewriter. aria-label on a
+      // <p> is a prohibited ARIA attribute (paragraphs aren't nameable), so
+      // instead hide the animated node from AT and expose the full copy via an
+      // sr-only sibling. Both are reverted on cleanup / reduced-motion.
+      subhead.setAttribute('aria-hidden', 'true')
+      srOnly = document.createElement('span')
+      srOnly.className = 'sr-only'
+      srOnly.textContent = SUBHEAD_TEXT
+      subhead.parentNode.insertBefore(srOnly, subhead.nextSibling)
       subhead.textContent = ''
       gsap.set(subhead, { opacity: 1 })
       if (allFormElements.length) {
@@ -213,7 +222,11 @@ export default function Contact() {
       return [
         () => split.revert(),
         () => {
-          if (subhead) subhead.textContent = SUBHEAD_TEXT
+          if (subhead) {
+            subhead.textContent = SUBHEAD_TEXT
+            subhead.removeAttribute('aria-hidden')
+          }
+          if (srOnly) srOnly.remove()
         },
       ]
     },
