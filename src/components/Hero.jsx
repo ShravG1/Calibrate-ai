@@ -4,6 +4,12 @@ import MagneticButton from './MagneticButton.jsx'
 import { useHeroIntro } from '../hooks/useHeroIntro.js'
 import { useHeroExit } from '../hooks/useHeroExit.js'
 
+const proofChips = [
+  '~6 min → 20 sec receipt generation',
+  'Year-end tax visible in real time',
+  '4 shipped projects',
+]
+
 export default function Hero() {
   const sectionRef = useRef(null)
   const badgeRef = useRef(null)
@@ -79,6 +85,21 @@ export default function Hero() {
             See the services
           </a>
         </div>
+
+        <ul className="mt-8 flex flex-wrap gap-2 text-xs text-mist-dim">
+          {proofChips.map((chip) => (
+            <li
+              key={chip}
+              className="inline-flex items-center gap-1.5 rounded-full border border-line bg-ink-soft/50 px-3 py-1.5 backdrop-blur"
+            >
+              <span
+                aria-hidden
+                className="h-1.5 w-1.5 rounded-full bg-electric shadow-[0_0_8px_rgba(0,255,204,0.5)]"
+              />
+              {chip}
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   )
