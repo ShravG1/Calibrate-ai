@@ -109,6 +109,33 @@ export const caseStudies = [
   },
 ]
 
+export const faqs = [
+  {
+    q: 'Do you work with businesses in my industry?',
+    a: "Probably. The four projects on this page span hospitality, ecommerce, operations and consumer apps — but the underlying skill is connecting the tools you already use and automating the repetition. If you can describe what's eating your time, I can usually tell you within one conversation whether it's a fit.",
+  },
+  {
+    q: 'How much does this cost?',
+    a: "Right now I'm building a portfolio, so discovery calls are free and some smaller builds are too. Larger builds get quoted up front with a fixed scope and price — no agency markup, no surprise invoices. If I'm not the right person for it I'll say so on the call.",
+  },
+  {
+    q: 'How long does a typical project take?',
+    a: "Small automations — a single workflow, a tidied-up dashboard, a Formspree-style integration — usually land within 1–2 weeks. Full builds (custom apps, multi-tool integrations, AI agents) are 4–8 weeks depending on scope. You'll get a realistic timeline before you commit, not after.",
+  },
+  {
+    q: 'Do I have to switch tools or platforms?',
+    a: "No. The whole point is connecting what you already pay for — your existing invoicing, bookings, spreadsheets, WhatsApp, email — so they talk to each other. Switching tools is sometimes the right call, but it's a recommendation, never a precondition.",
+  },
+  {
+    q: 'Is automating WhatsApp messages allowed in the UK?',
+    a: 'Yes, via the WhatsApp Business API and only with the right templates, opt-ins and PECR/UK GDPR compliance. I build to those rules — the easiest way to get banned from WhatsApp is to send unsolicited messages, and that helps no one.',
+  },
+  {
+    q: 'What happens after the build — am I stuck with you?',
+    a: "Never. Everything I build sits in your accounts (your cloud, your domains, your data) and comes with documentation a non-technical person can hand to another developer. If you'd rather I stay on for ongoing changes I can — but it's an option, not a lock-in.",
+  },
+]
+
 export const contact = {
   email: 'calibrate.ai.uk@gmail.com',
   whatsapp: '', // e.g. '447000000000' — leave blank to hide the WhatsApp button

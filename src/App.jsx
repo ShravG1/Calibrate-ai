@@ -7,6 +7,7 @@ import Services from './components/Services.jsx'
 import Pricing from './components/Pricing.jsx'
 import CaseStudies from './components/CaseStudies.jsx'
 import About from './components/About.jsx'
+import FAQ from './components/FAQ.jsx'
 import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
 import MeshBackground from './components/MeshBackground.jsx'
@@ -64,6 +65,7 @@ export default function App() {
         <Pricing />
         <CaseStudies />
         <About />
+        <FAQ />
         <Contact />
       </main>
       <Footer />

@@ -6,6 +6,7 @@ const links = [
   { href: '#pricing', label: 'Pricing' },
   { href: '#work', label: 'Case Studies' },
   { href: '#about', label: 'About' },
+  { href: '#faq', label: 'FAQ' },
 ]
 
 // Inline lockup so the embedded Plus Jakarta Sans text renders.
