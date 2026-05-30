@@ -106,9 +106,10 @@ export default function CaseStudies() {
             ref={subheadRef}
             className="mt-5 max-w-2xl text-lg leading-relaxed text-mist-dim"
           >
-            Four shipped projects, written up properly — the problem it solved,
-            what was built, and the result it delivered. Some details and
-            figures are blurred where they belong to a client.
+            Four shipped projects spanning operations, finance, hospitality
+            and consumer apps — the problem each one solved, what was built,
+            and the result it delivered. Some details and figures are blurred
+            where they belong to a client.
           </p>
         </div>
 
