@@ -6,11 +6,12 @@
   --color-ink-soft: #0a1220;       /* surface / card */
   --color-ink-card: #0f1830;       /* raised surface */
   --color-mist: #ffffff;           /* text primary */
-  --color-mist-dim: #4a6a8a;       /* text secondary */
+  --color-mist-dim: #8aa4be;       /* text secondary — 4.6:1 on ink (WCAG AA) */
   --color-electric: #00ffcc;       /* accent primary — teal */
   --color-electric-deep: #00d9ad;
   --color-violet: #0055ff;         /* accent secondary — electric blue */
-  --color-line: #1a2540;           /* border */
+  --color-line: #1a2540;           /* border — decorative */
+  --color-line-strong: #5a7090;    /* border — interactive (3.1:1 on ink-card, WCAG 1.4.11) */
 
   --font-display: "Switzer", -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, sans-serif;

@@ -20,7 +20,7 @@ const SUBHEAD_TEXT =
   'No pressure and no sales pitch. Send a quick message about your business and what’s driving you mad — I’ll come back with honest thoughts on whether we can help.'
 
 const fieldClass =
-  'w-full rounded-xl border border-line bg-ink/70 px-4 py-3 text-mist placeholder:text-mist-dim/60 outline-none transition-colors focus:border-electric/50 focus:ring-2 focus:ring-electric/20'
+  'w-full rounded-xl border border-line-strong bg-ink/70 px-4 py-3 text-mist placeholder:text-mist-dim outline-none transition-colors focus:border-electric/60 focus:ring-2 focus:ring-electric/20'
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', business: '', message: '' })
