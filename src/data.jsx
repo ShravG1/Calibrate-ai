@@ -7,7 +7,7 @@ export const services = [
     category: 'Operations',
     title: 'Get your evenings back.',
     summary:
-      'The invoicing, the bookings, the inventory, the integrations — all the back-office work that eats your week. We connect your existing tools and automate the repetition so the business runs itself, quietly, in the background.',
+      'The invoicing, the bookings, the inventory, the integrations — all the back-office work that eats your week. I connect your existing tools and automate the repetition so the business runs itself, quietly, in the background.',
     points: [
       'Invoices raised and sent automatically — no more end of month panic.',
       'Booking and appointment systems that manage themselves.',
@@ -22,7 +22,7 @@ export const services = [
     category: 'Customers',
     title: 'Outreach that handles itself.',
     summary:
-      "Email campaigns, WhatsApp messages, websites, customer portals — everything your customers see and interact with. We build it once and automate it forever, so reaching them consistently doesn't cost you time you don't have.",
+      "Email campaigns, WhatsApp messages, websites, customer portals — everything your customers see and interact with. I build it once and automate it forever, so reaching them consistently doesn't cost you time you don't have.",
     points: [
       'Mass email campaigns built from your existing customer data — sent in minutes, not hours.',
       'WhatsApp Business automation for follow-ups, confirmations and updates.',
@@ -37,13 +37,13 @@ export const services = [
     category: 'Strategy',
     title: 'See clearly and decide with confidence.',
     summary:
-      "Your business already has the data and the questions. We turn the data into dashboards and forecasts you'll actually use, and we sit down with you to map exactly where automation would make the biggest difference. No jargon, no fluff.",
+      "Your business already has the data and the questions. I turn the data into dashboards and forecasts you'll actually use, and sit down with you to map exactly where automation would make the biggest difference. No jargon, no fluff.",
     points: [
       "Raw data turned into clean visual dashboards you'll actually look at.",
       'Sales forecasting so you can plan ahead instead of reacting.',
-      'We map how your business runs and identify exactly where automation would help most.',
+      'I map how your business runs and identify exactly where automation would help most.',
       "Honest advice on what's worth building and what isn't — no upselling.",
-      'A clear action plan you can take away and act on, with or without us.',
+      'A clear action plan you can take away and act on, with or without me.',
     ],
   },
 ]

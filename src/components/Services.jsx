@@ -31,7 +31,7 @@ export default function Services() {
       <div className="mx-auto max-w-6xl px-5 pt-24 sm:px-8 sm:pt-32">
         <Reveal>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-electric">
-            What’s possible. Here’s how we help.
+            AI &amp; automation services — here’s how I help.
           </p>
           <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight sm:text-5xl">
             Most businesses have more to automate than they realise.

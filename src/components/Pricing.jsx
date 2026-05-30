@@ -94,7 +94,7 @@ export default function Pricing() {
           ref={eyebrowRef}
           className="text-sm font-semibold uppercase tracking-[0.2em] text-electric"
         >
-          Portfolio building — flexible pricing
+          Discovery is free — builds are quoted up front
         </p>
         <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance break-words sm:text-5xl">
           <span ref={part1Ref} className="inline-block">Real work.</span>{' '}
@@ -123,7 +123,7 @@ export default function Pricing() {
             data-cursor-magnetic="true"
             className="group inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-electric to-violet px-7 py-4 text-base font-semibold text-ink glow-ring"
           >
-            Tell us what you need
+            Let’s talk
             <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
           </MagneticButton>
         </div>
