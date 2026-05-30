@@ -16,9 +16,10 @@ export default function Hero() {
   const headlineRef = useRef(null)
   const subheadRef = useRef(null)
   const ctasRef = useRef(null)
+  const chipsRef = useRef(null)
 
-  useHeroIntro({ badgeRef, headlineRef, subheadRef, ctasRef })
-  useHeroExit({ badgeRef, headlineRef, subheadRef, ctasRef, sectionRef })
+  useHeroIntro({ badgeRef, headlineRef, subheadRef, ctasRef, chipsRef })
+  useHeroExit({ badgeRef, headlineRef, subheadRef, ctasRef, chipsRef, sectionRef })
 
   return (
     <section
@@ -86,7 +87,10 @@ export default function Hero() {
           </a>
         </div>
 
-        <ul className="mt-8 flex flex-wrap gap-2 text-xs text-mist-dim">
+        <ul
+          ref={chipsRef}
+          className="mt-8 flex flex-wrap gap-2 text-xs text-mist-dim"
+        >
           {proofChips.map((chip) => (
             <li
               key={chip}

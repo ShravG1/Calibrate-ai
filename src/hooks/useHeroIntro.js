@@ -5,13 +5,14 @@ import { SplitText } from 'gsap/SplitText'
 gsap.registerPlugin(SplitText)
 
 // One-shot cinematic intro for the hero. Splits the headline into words and
-// choreographs badge → headline words → subhead → CTAs → stats on a single
-// GSAP timeline so the sequence reads as one breath.
+// choreographs badge → headline words → subhead → CTAs → proof chips on a
+// single GSAP timeline so the sequence reads as one breath.
 export function useHeroIntro({
   badgeRef,
   headlineRef,
   subheadRef,
   ctasRef,
+  chipsRef,
 }) {
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return
@@ -22,11 +23,14 @@ export function useHeroIntro({
     const subhead = subheadRef.current
     const ctas = ctasRef.current
     const badge = badgeRef?.current
+    const chipsContainer = chipsRef?.current
+    const chips = chipsContainer ? Array.from(chipsContainer.children) : []
     if (!headline || !subhead || !ctas) return
 
     // Hide synchronously before paint so the timeline owns the reveal.
     gsap.set(headline, { opacity: 0 })
     gsap.set([badge, subhead, ctas].filter(Boolean), { opacity: 0, y: 20 })
+    if (chips.length) gsap.set(chips, { opacity: 0, y: 16 })
 
     let split
     let tl
@@ -78,6 +82,19 @@ export function useHeroIntro({
         { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out' },
         0.5,
       )
+      if (chips.length) {
+        tl.to(
+          chips,
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.55,
+            stagger: 0.08,
+            ease: 'power2.out',
+          },
+          0.75,
+        )
+      }
     }
 
     const fontsReady = document.fonts?.ready ?? Promise.resolve()
@@ -88,9 +105,9 @@ export function useHeroIntro({
       tl?.kill()
       split?.revert()
       gsap.set(
-        [headline, badge, subhead, ctas].filter(Boolean),
+        [headline, badge, subhead, ctas, ...chips].filter(Boolean),
         { clearProps: 'opacity,transform' },
       )
     }
-  }, [badgeRef, headlineRef, subheadRef, ctasRef])
+  }, [badgeRef, headlineRef, subheadRef, ctasRef, chipsRef])
 }

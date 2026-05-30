@@ -13,7 +13,14 @@ gsap.registerPlugin(ScrollTrigger)
 //   2. intro onComplete: dispatches 'heroIntroComplete', sets window.__heroIntroComplete.
 //   3. Exit setup fires: ScrollTrigger created, starting from intro's final state.
 //   4. scrollY = 0 → exit progress = 0 → elements stay visible. Clean.
-export function useHeroExit({ badgeRef, headlineRef, subheadRef, ctasRef, sectionRef }) {
+export function useHeroExit({
+  badgeRef,
+  headlineRef,
+  subheadRef,
+  ctasRef,
+  chipsRef,
+  sectionRef,
+}) {
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -26,6 +33,8 @@ export function useHeroExit({ badgeRef, headlineRef, subheadRef, ctasRef, sectio
       const headline = headlineRef.current
       const subhead = subheadRef.current
       const ctas = ctasRef.current
+      const chipsContainer = chipsRef?.current
+      const chips = chipsContainer ? Array.from(chipsContainer.children) : []
       if (!section || !headline) return
 
       // .hero-word spans created by useHeroIntro's SplitText — guaranteed to
@@ -34,7 +43,7 @@ export function useHeroExit({ badgeRef, headlineRef, subheadRef, ctasRef, sectio
       const headlineTarget = words.length ? words : headline
 
       ctx = gsap.context(() => {
-        gsap.timeline({
+        const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
             start: 'top top',
@@ -55,6 +64,18 @@ export function useHeroExit({ badgeRef, headlineRef, subheadRef, ctasRef, sectio
           )
           .to(subhead, { y: -60, opacity: 0, ease: 'power1.in' }, 0.15)
           .to(ctas, { y: -30, opacity: 0, ease: 'power1.in' }, 0.25)
+        if (chips.length) {
+          tl.to(
+            chips,
+            {
+              y: -20,
+              opacity: 0,
+              stagger: 0.04,
+              ease: 'power1.in',
+            },
+            0.3,
+          )
+        }
       }, section)
     }
 
@@ -69,5 +90,5 @@ export function useHeroExit({ badgeRef, headlineRef, subheadRef, ctasRef, sectio
       window.removeEventListener('heroIntroComplete', setup)
       ctx?.revert()
     }
-  }, [badgeRef, headlineRef, subheadRef, ctasRef, sectionRef])
+  }, [badgeRef, headlineRef, subheadRef, ctasRef, chipsRef, sectionRef])
 }
