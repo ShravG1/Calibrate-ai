@@ -50,31 +50,58 @@ export const services = [
 
 export const caseStudies = [
   {
-    id: 'cs-1',
-    tag: 'Coming soon',
-    title: 'Project coming soon',
-    problem: 'A short description of the problem this business was facing.',
-    solution: 'What was built and how it fit into their day-to-day.',
+    id: 'cs-layers',
+    tag: 'Mobile · Personal tool',
+    title: 'Layers — what to wear, decided',
+    image: '/case-studies/01-layers.jpg',
+    imageAlt: 'Layers app showing today\'s recommended outfit based on weather',
+    problem:
+      'Five minutes lost every morning checking weather and second-guessing what to wear.',
+    solution:
+      'A mobile-first app that reads live weather and recommends an outfit, learning from too cold / just right / too warm feedback.',
     outcome:
-      'The measurable result — time saved, errors reduced, money kept in the business.',
+      'Decision time dropped to seconds. Combos that worked are remembered, so tomorrow\'s call is sharper than today\'s.',
   },
   {
-    id: 'cs-2',
-    tag: 'Coming soon',
-    title: 'Project coming soon',
-    problem: 'A short description of the problem this business was facing.',
-    solution: 'What was built and how it fit into their day-to-day.',
+    id: 'cs-vat',
+    tag: 'Internal tool · Hospitality',
+    title: 'VAT receipt generator',
+    image: '/case-studies/02-vat-receipt.png',
+    imageAlt: 'VAT receipt generator form with venue, guest and booking fields',
+    problem:
+      'Staff retyping the same VAT receipts dozens of times a week for refund requests.',
+    solution:
+      'A form-driven tool — pick venue, fill the booking details, hit generate. Outputs a compliant PDF with the correct VAT breakdown.',
     outcome:
-      'The measurable result — time saved, errors reduced, money kept in the business.',
+      'Receipt creation dropped from ~6 minutes to ~20 seconds. Zero typos in HMRC-bound paperwork.',
   },
   {
-    id: 'cs-3',
-    tag: 'Coming soon',
-    title: 'Project coming soon',
-    problem: 'A short description of the problem this business was facing.',
-    solution: 'What was built and how it fit into their day-to-day.',
+    id: 'cs-rota',
+    tag: 'Operations · SaaS',
+    title: 'Staff rota dashboard',
+    image: '/case-studies/03-rota.png',
+    imageAlt:
+      'Rota dashboard with coverage stats, today and tomorrow shift timelines',
+    problem:
+      'Managers running rotas from spreadsheets — no visibility on coverage gaps, sickness, or open cover requests.',
+    solution:
+      'A single dashboard: live coverage stats, uncovered shifts flagged, cover requests queued, plus a full audit trail.',
     outcome:
-      'The measurable result — time saved, errors reduced, money kept in the business.',
+      'Gaps caught the day they appear, not the morning of. One screen replaces four tabs and a WhatsApp group.',
+  },
+  {
+    id: 'cs-ebay',
+    tag: 'Finance · Reseller',
+    title: 'eBay reseller ledger',
+    image: '/case-studies/04-ebay-tracker.png',
+    imageAlt:
+      'eBay tracker dashboard with profit, tax owed, monthly chart and category breakdown',
+    problem:
+      'A reseller juggling spreadsheets to track stock, fees, sales — and what HMRC was owed at year-end.',
+    solution:
+      'An automated ledger that syncs eBay sales, matches Gmail receipts, calculates net profit, tracks unsold stock and projects tax headroom.',
+    outcome:
+      'Year-end tax position visible in real time. Hours of monthly bookkeeping cut to a glance.',
   },
 ]
 

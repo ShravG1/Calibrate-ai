@@ -106,38 +106,49 @@ export default function CaseStudies() {
             ref={subheadRef}
             className="mt-5 max-w-2xl text-lg leading-relaxed text-mist-dim"
           >
-            The first finished projects will land here — each one written up
-            with the problem it solved, what was built, and the result it
-            delivered. No vague promises, just the actual outcomes.
+            Four shipped projects, written up properly — the problem it solved,
+            what was built, and the result it delivered. Some details and
+            figures are blurred where they belong to a client.
           </p>
         </div>
 
-        <div ref={cardsRef} className="mt-6 grid gap-5 md:grid-cols-3">
+        <div ref={cardsRef} className="mt-6 grid gap-5 md:grid-cols-2">
           {caseStudies.map((cs) => (
             <article
               key={cs.id}
               className="flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-ink-card/60"
             >
-              <div className="relative m-3 grid aspect-[16/7] place-items-center rounded-2xl border-2 border-dashed border-line/80 bg-ink-soft/40">
-                <div className="flex flex-col items-center gap-2 px-4 text-center text-mist-dim/70">
-                  <svg
-                    width="22"
-                    height="22"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <rect x="3" y="4" width="18" height="16" rx="2" />
-                    <circle cx="9" cy="10" r="2" />
-                    <path d="m4 18 5-5 4 4 3-3 4 4" />
-                  </svg>
-                  <span className="text-[11px] font-medium uppercase tracking-[0.16em]">
-                    image coming soon
-                  </span>
-                </div>
+              <div className="relative m-3 aspect-[16/10] overflow-hidden rounded-2xl border border-line/60 bg-ink-soft/60">
+                {cs.image ? (
+                  <img
+                    src={cs.image}
+                    alt={cs.imageAlt || cs.title}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-contain"
+                  />
+                ) : (
+                  <div className="absolute inset-0 grid place-items-center">
+                    <div className="flex flex-col items-center gap-2 px-4 text-center text-mist-dim/70">
+                      <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <rect x="3" y="4" width="18" height="16" rx="2" />
+                        <circle cx="9" cy="10" r="2" />
+                        <path d="m4 18 5-5 4 4 3-3 4 4" />
+                      </svg>
+                      <span className="text-[11px] font-medium uppercase tracking-[0.16em]">
+                        image coming soon
+                      </span>
+                    </div>
+                  </div>
+                )}
                 <span className="absolute left-3 top-3 rounded-full border border-line bg-ink/80 px-2.5 py-1 text-[10px] font-semibold text-mist-dim backdrop-blur">
                   {cs.tag}
                 </span>
