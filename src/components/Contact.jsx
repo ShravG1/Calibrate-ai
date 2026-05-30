@@ -379,6 +379,9 @@ export default function Contact() {
                       me directly at {contact.email}.
                     </div>
                   )}
+                  <p className="text-xs text-mist-dim">
+                    I usually reply within 1 working day.
+                  </p>
                   <button
                     ref={submitRef}
                     type="submit"
@@ -401,6 +404,16 @@ export default function Contact() {
                       <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
                     </span>
                   </button>
+                  <p className="text-[11px] leading-relaxed text-mist-dim">
+                    Submitting sends your message via Formspree.{' '}
+                    <a
+                      href="/privacy.html"
+                      className="underline decoration-line-strong underline-offset-2 hover:text-mist"
+                    >
+                      See privacy notice
+                    </a>
+                    .
+                  </p>
                 </form>
               )}
             </div>

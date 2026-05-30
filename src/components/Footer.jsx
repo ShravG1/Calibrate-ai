@@ -6,6 +6,7 @@ const links = [
   { href: '#work', label: 'Case Studies' },
   { href: '#about', label: 'About' },
   { href: '#contact', label: 'Contact' },
+  { href: '/privacy.html', label: 'Privacy' },
 ]
 
 function CalibrateWordmark({ className = '' }) {
