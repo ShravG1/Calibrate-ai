@@ -40,40 +40,29 @@ export default function Pricing() {
       if (cancelled || !sectionRef.current) return
 
       ctx = gsap.context(() => {
-        // Enter: tight cascade as section approaches centre.
-        // Each element uses an explicit fromTo so scrub is clean in both directions.
+        // Play-once entrance — triggered when the section enters at top 80%,
+        // then runs to completion. Previously this was a scrubbed timeline
+        // tied to the top 60% → top 40% scroll window, which left the
+        // headline ("Real work. Honest pricing. No agency markup.") visibly
+        // mid-cascade at any partial scroll position.
         gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: 'top 60%',
-            end: 'top 40%',
-            scrub: 0.6,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse',
             invalidateOnRefresh: true,
           },
         })
-          .fromTo(eyebrow, { y: 24, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out' }, 0)
-          .fromTo(part1,   { y: 24, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out' }, 0.05)
-          .fromTo(part2,   { y: 24, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out' }, 0.1)
-          .fromTo(part3,   { y: 24, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out' }, 0.15)
-          .fromTo(body,    { y: 24, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out' }, 0.2)
-          .fromTo(cta,     { y: 24, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out' }, 0.25)
-
-        // Exit: lift all elements away as section scrolls past viewport top.
-        // Explicit fromTo so GSAP's internal state from enter doesn't bleed in.
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 10%',
-            end: 'top -15%',
-            scrub: 0.6,
-            invalidateOnRefresh: true,
-          },
-        })
-          .fromTo(els, { y: 0, opacity: 1 }, { y: -60, opacity: 0, stagger: 0.02, ease: 'power1.in' }, 0)
+          .to(eyebrow, { y: 0, opacity: 1, duration: 0.45, ease: 'power2.out' }, 0)
+          .to(part1,   { y: 0, opacity: 1, duration: 0.5,  ease: 'power2.out' }, 0.08)
+          .to(part2,   { y: 0, opacity: 1, duration: 0.5,  ease: 'power2.out' }, 0.16)
+          .to(part3,   { y: 0, opacity: 1, duration: 0.5,  ease: 'power2.out' }, 0.24)
+          .to(body,    { y: 0, opacity: 1, duration: 0.55, ease: 'power2.out' }, 0.32)
+          .to(cta,     { y: 0, opacity: 1, duration: 0.55, ease: 'power2.out' }, 0.4)
       }, section)
     }
 
-    // Defer until fonts + one rAF so Services' 548vh pin height is measured correctly
+    // Defer until fonts settle so the pin distance is measured correctly
     const fontsReady = document.fonts?.ready ?? Promise.resolve()
     fontsReady.then(run)
 
@@ -94,7 +83,7 @@ export default function Pricing() {
           ref={eyebrowRef}
           className="text-sm font-semibold uppercase tracking-[0.2em] text-electric"
         >
-          Portfolio building — flexible pricing
+          Discovery is free — builds are quoted up front
         </p>
         <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance break-words sm:text-5xl">
           <span ref={part1Ref} className="inline-block">Real work.</span>{' '}
@@ -123,7 +112,7 @@ export default function Pricing() {
             data-cursor-magnetic="true"
             className="group inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-electric to-violet px-7 py-4 text-base font-semibold text-ink glow-ring"
           >
-            Tell us what you need
+            Let’s talk
             <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
           </MagneticButton>
         </div>

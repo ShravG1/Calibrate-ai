@@ -105,7 +105,8 @@ export default function About() {
               <div className="absolute inset-0 grid place-items-center p-8">
                 <img
                   src="/calibrate-icon.svg"
-                  alt="Calibrate"
+                  alt=""
+                  aria-hidden="true"
                   className="h-32 w-32 drop-shadow-[0_0_30px_rgba(0,255,204,0.35)]"
                 />
               </div>

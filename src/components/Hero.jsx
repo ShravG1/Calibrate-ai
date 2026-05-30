@@ -4,6 +4,12 @@ import MagneticButton from './MagneticButton.jsx'
 import { useHeroIntro } from '../hooks/useHeroIntro.js'
 import { useHeroExit } from '../hooks/useHeroExit.js'
 
+const proofChips = [
+  '~6 min → 20 sec receipt generation',
+  'Year-end tax visible in real time',
+  '4 shipped projects',
+]
+
 export default function Hero() {
   const sectionRef = useRef(null)
   const badgeRef = useRef(null)
@@ -54,9 +60,9 @@ export default function Hero() {
           ref={subheadRef}
           className="mt-6 max-w-2xl text-lg leading-relaxed text-mist-dim sm:text-xl"
         >
-          Your time is the most valuable thing in your business. We take the
-          admin, the repetition, and the noise off your plate — so you can spend
-          it on the right things.
+          Calibrate is an AI &amp; automation consultancy for UK small
+          businesses. I take the admin, the repetition and the noise off your
+          plate — so your time goes where it actually matters.
         </p>
 
         <div
@@ -69,16 +75,31 @@ export default function Hero() {
             data-cursor-magnetic="true"
             className="group inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-electric to-violet px-7 py-4 text-base font-semibold text-ink glow-ring"
           >
-            Get in touch
+            Let’s talk
             <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
           </MagneticButton>
           <a
             href="#services"
             className="inline-flex items-center justify-center gap-2 rounded-2xl border border-line bg-ink-soft/60 px-7 py-4 text-base font-semibold text-mist backdrop-blur transition-colors hover:border-electric/40"
           >
-            See what we can build
+            See the services
           </a>
         </div>
+
+        <ul className="mt-8 flex flex-wrap gap-2 text-xs text-mist-dim">
+          {proofChips.map((chip) => (
+            <li
+              key={chip}
+              className="inline-flex items-center gap-1.5 rounded-full border border-line bg-ink-soft/50 px-3 py-1.5 backdrop-blur"
+            >
+              <span
+                aria-hidden
+                className="h-1.5 w-1.5 rounded-full bg-electric shadow-[0_0_8px_rgba(0,255,204,0.5)]"
+              />
+              {chip}
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   )

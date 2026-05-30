@@ -5,7 +5,9 @@ const links = [
   { href: '#pricing', label: 'Pricing' },
   { href: '#work', label: 'Case Studies' },
   { href: '#about', label: 'About' },
+  { href: '#faq', label: 'FAQ' },
   { href: '#contact', label: 'Contact' },
+  { href: '/privacy.html', label: 'Privacy' },
 ]
 
 function CalibrateWordmark({ className = '' }) {
@@ -71,7 +73,7 @@ export default function Footer() {
           </p>
         </div>
 
-        <nav className="flex flex-wrap gap-x-5 gap-y-2">
+        <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-2">
           {links.map((l) => (
             <a
               key={l.href}

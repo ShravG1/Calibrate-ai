@@ -7,6 +7,7 @@ import Services from './components/Services.jsx'
 import Pricing from './components/Pricing.jsx'
 import CaseStudies from './components/CaseStudies.jsx'
 import About from './components/About.jsx'
+import FAQ from './components/FAQ.jsx'
 import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
 import MeshBackground from './components/MeshBackground.jsx'
@@ -49,15 +50,22 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-ink text-mist">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-mist focus:px-4 focus:py-2 focus:font-semibold focus:text-ink"
+      >
+        Skip to content
+      </a>
       <Backdrop />
       <Cursor />
       <Nav />
-      <main>
+      <main id="main-content">
         <Hero />
         <Services />
         <Pricing />
         <CaseStudies />
         <About />
+        <FAQ />
         <Contact />
       </main>
       <Footer />

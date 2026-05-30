@@ -35,6 +35,9 @@ export function useServicesPin({ enabled, sectionRef, count, onActiveChange }) {
         const bullets = card.querySelectorAll('.services-bullet')
         // Non-first cards sit off to the right, ready to slide in.
         gsap.set(card, { opacity: i === 0 ? 1 : 0, x: i === 0 ? 0 : 60 })
+        // Visually hidden cards must also be hidden from AT, or NVDA/VoiceOver
+        // reads all three card titles back-to-back regardless of scroll.
+        if (i !== 0) card.setAttribute('aria-hidden', 'true')
         if (icon) gsap.set(icon, { scale: 0.85, opacity: 0 })
         gsap.set([eyebrow, title], { x: -40, opacity: 0 })
         gsap.set(summary, { y: 20, opacity: 0 })
@@ -53,6 +56,11 @@ export function useServicesPin({ enabled, sectionRef, count, onActiveChange }) {
             if (idx !== lastIdx) {
               lastIdx = idx
               onActiveChange?.(idx)
+              // Keep the AT exposure in lockstep with the visual active card.
+              cards.forEach((c, ci) => {
+                if (ci === idx) c.removeAttribute('aria-hidden')
+                else c.setAttribute('aria-hidden', 'true')
+              })
             }
           },
         },
@@ -150,6 +158,9 @@ export function useServicesPin({ enabled, sectionRef, count, onActiveChange }) {
       tl.to({}, { duration: 0.0001 }, count * BEAT + DISSOLVE)
     }, section)
 
-    return () => ctx.revert()
+    return () => {
+      ctx.revert()
+      cards.forEach((c) => c.removeAttribute('aria-hidden'))
+    }
   }, [enabled, sectionRef, count, onActiveChange])
 }

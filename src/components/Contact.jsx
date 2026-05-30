@@ -20,13 +20,27 @@ const SUBHEAD_TEXT =
   'No pressure and no sales pitch. Send a quick message about your business and what’s driving you mad — I’ll come back with honest thoughts on whether we can help.'
 
 const fieldClass =
-  'w-full rounded-xl border border-line bg-ink/70 px-4 py-3 text-mist placeholder:text-mist-dim/60 outline-none transition-colors focus:border-electric/50 focus:ring-2 focus:ring-electric/20'
+  'w-full rounded-xl border border-line-strong bg-ink/70 px-4 py-3 text-mist placeholder:text-mist-dim outline-none transition-colors focus:border-electric/60 focus:ring-2 focus:ring-electric/20'
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', business: '', message: '' })
   const [status, setStatus] = useState('idle') // 'idle' | 'sending' | 'sent' | 'error'
   const [submitHovered, setSubmitHovered] = useState(false)
+  // See MagneticButton.jsx — gate the R3F-backed aura behind first-hover +
+  // fine-pointer so touch/never-hovered visitors don't pay the ~234KB
+  // gzipped chunk cost.
+  const [auraNeeded, setAuraNeeded] = useState(false)
+  const [finePointer, setFinePointer] = useState(false)
   const reduce = useReducedMotion()
+
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') return
+    const mq = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const update = () => setFinePointer(mq.matches)
+    update()
+    mq.addEventListener?.('change', update)
+    return () => mq.removeEventListener?.('change', update)
+  }, [])
 
   const sectionRef = useRef(null)
   const eyebrowRef = useRef(null)
@@ -80,13 +94,15 @@ export default function Contact() {
 
   // Hover aura on the submit button — WebGL shader plasma via AuraCanvas.
   // Hook tracks cursor position in normalised (0..1) coords and feeds it
-  // into the shader's uMouse uniform. Gated on form still mounted and
-  // reduced-motion.
-  const auraEnabled = status !== 'sent' && !reduce
-  const submitMouseRef = useAura(submitRef, auraEnabled)
+  // into the shader's uMouse uniform. Gated on form still mounted,
+  // reduced-motion, fine-pointer device, and first-hover so the R3F chunk
+  // isn't loaded until the user signals they might trigger it.
+  const auraAvailable = status !== 'sent' && !reduce && finePointer
+  const submitMouseRef = useAura(submitRef, auraAvailable)
 
   useEntranceTimeline({
     sectionRef,
+    noExit: true,
     build: (tl) => {
       const eyebrow = eyebrowRef.current
       const headline = headlineRef.current
@@ -379,16 +395,22 @@ export default function Contact() {
                       me directly at {contact.email}.
                     </div>
                   )}
+                  <p className="text-xs text-mist-dim">
+                    I usually reply within 1 working day.
+                  </p>
                   <button
                     ref={submitRef}
                     type="submit"
                     disabled={status === 'sending'}
                     data-cursor-magnetic="true"
-                    onMouseEnter={() => setSubmitHovered(true)}
+                    onMouseEnter={() => {
+                      setSubmitHovered(true)
+                      if (auraAvailable && !auraNeeded) setAuraNeeded(true)
+                    }}
                     onMouseLeave={() => setSubmitHovered(false)}
                     className="group aura-host inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric to-violet px-6 py-3.5 text-base font-semibold text-ink transition-transform hover:scale-[1.02] active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
                   >
-                    {auraEnabled && (
+                    {auraAvailable && auraNeeded && (
                       <Suspense fallback={null}>
                         <AuraCanvas
                           active={submitHovered}
@@ -401,6 +423,16 @@ export default function Contact() {
                       <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
                     </span>
                   </button>
+                  <p className="text-[11px] leading-relaxed text-mist-dim">
+                    Submitting sends your message via Formspree.{' '}
+                    <a
+                      href="/privacy.html"
+                      className="underline decoration-line-strong underline-offset-2 hover:text-mist"
+                    >
+                      See privacy notice
+                    </a>
+                    .
+                  </p>
                 </form>
               )}
             </div>

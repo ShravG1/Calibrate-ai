@@ -8,21 +8,28 @@ gsap.registerPlugin(ScrollTrigger)
 // on prefers-reduced-motion. Waits for fonts.ready before measuring/splitting
 // so the choreography doesn't jump when fonts arrive a few frames late.
 //
-// Two separate ScrollTriggers so:
-//   1. Natural-scroll users see the animation play in the meaningful part
-//      of the viewport (section moving from lower-mid up to upper-third).
-//   2. Anchor-jumps (which land the section top at ~10% from viewport top)
-//      arrive on fully-revealed content because progress clamps to 1.
+// Two scroll-trigger modes:
+//   - default: scrubbed entrance. Animation maps to scroll position from
+//     top 75% → top 35%. Good for short timelines where every element is
+//     visible during the scrub window.
+//   - playOnce: triggered entrance. When the section first enters at
+//     top 80%, the entire build() timeline plays through once. Better for
+//     staggered cascades (FAQ items, etc.) where the user shouldn't have
+//     to scroll perfectly to "see" the animation, and where partial scrub
+//     states look glitchy.
 //
-//   Entry  — top 75% → top 35%, scrub 0.4. Plays during the visible half of
-//            the section's approach. Completes before anchor-landing scroll
-//            position so anchor jumps show finished animations.
-//   Exit   — top -5% → top -45%, scrub 0.4. Fires only as the section is
-//            actually scrolling past the top of the viewport.
+// noExit skips the trailing fade-out for terminal sections (e.g. Contact)
+// that shouldn't dissolve as the user reaches them.
 //
 // `build(tl, section)` constructs the entry timeline. It may return an
 // array of cleanup callbacks which run alongside the gsap.context revert.
-export function useEntranceTimeline({ sectionRef, build, deps = [] }) {
+export function useEntranceTimeline({
+  sectionRef,
+  build,
+  playOnce = false,
+  noExit = false,
+  deps = [],
+}) {
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -37,17 +44,25 @@ export function useEntranceTimeline({ sectionRef, build, deps = [] }) {
     const start = () => {
       if (cancelled || !sectionRef.current) return
       ctx = gsap.context(() => {
-        const entryTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 75%',
-            end: 'top 35%',
-            scrub: 0.4,
-            invalidateOnRefresh: true,
-          },
-        })
+        const entryScrollTrigger = playOnce
+          ? {
+              trigger: section,
+              start: 'top 80%',
+              toggleActions: 'play none none reverse',
+              invalidateOnRefresh: true,
+            }
+          : {
+              trigger: section,
+              start: 'top 75%',
+              end: 'top 35%',
+              scrub: 0.4,
+              invalidateOnRefresh: true,
+            }
+        const entryTl = gsap.timeline({ scrollTrigger: entryScrollTrigger })
         const result = build(entryTl, section)
         if (Array.isArray(result)) cleanups = result
+
+        if (noExit) return
 
         // Exit: fade SplitText spans out as the section scrolls past the
         // viewport top. Querying after build() so spans exist.
