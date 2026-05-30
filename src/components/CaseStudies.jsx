@@ -126,7 +126,10 @@ export default function CaseStudies() {
                   <img
                     src={cs.image}
                     alt={cs.imageAlt || cs.title}
+                    width={cs.imageWidth}
+                    height={cs.imageHeight}
                     loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 h-full w-full object-contain"
                   />
                 ) : (

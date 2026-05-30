@@ -53,7 +53,9 @@ export const caseStudies = [
     id: 'cs-rota',
     tag: 'Operations',
     title: 'Staff rota dashboard',
-    image: '/case-studies/03-rota-crop.png',
+    image: '/case-studies/03-rota-crop.webp',
+    imageWidth: 1706,
+    imageHeight: 533,
     imageAlt:
       'Rota dashboard with coverage stats and live shift timeline for the day',
     aspect: 'aspect-[16/9]',
@@ -68,7 +70,9 @@ export const caseStudies = [
     id: 'cs-ebay',
     tag: 'Reseller P&L',
     title: 'eBay reseller ledger',
-    image: '/case-studies/04-ebay-crop.png',
+    image: '/case-studies/04-ebay-crop.webp',
+    imageWidth: 1907,
+    imageHeight: 596,
     imageAlt:
       'eBay tracker showing monthly profit chart and category breakdown donut',
     aspect: 'aspect-[16/9]',
@@ -83,7 +87,9 @@ export const caseStudies = [
     id: 'cs-vat',
     tag: 'Hospitality',
     title: 'VAT receipt generator',
-    image: '/case-studies/02-vat-receipt.png',
+    image: '/case-studies/02-vat-receipt.webp',
+    imageWidth: 641,
+    imageHeight: 798,
     imageAlt: 'VAT receipt generator form with venue, guest and booking fields',
     aspect: 'aspect-[3/4]',
     problem:
@@ -97,7 +103,9 @@ export const caseStudies = [
     id: 'cs-layers',
     tag: 'Personal app',
     title: 'Layers — what to wear, decided',
-    image: '/case-studies/01-layers.jpg',
+    image: '/case-studies/01-layers.webp',
+    imageWidth: 641,
+    imageHeight: 924,
     imageAlt: "Layers app showing today's recommended outfit based on weather",
     aspect: 'aspect-[3/4]',
     problem:
