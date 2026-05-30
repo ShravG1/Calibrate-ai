@@ -193,7 +193,7 @@ export default function Nav() {
             <a
               href="#contact"
               data-cursor-magnetic="true"
-              className="hidden rounded-xl bg-mist px-4 py-2.5 text-sm font-semibold text-ink transition-transform hover:scale-[1.03] active:scale-95 sm:block"
+              className="inline-flex items-center rounded-xl bg-mist px-3 py-2 text-xs font-semibold text-ink transition-transform hover:scale-[1.03] active:scale-95 sm:px-4 sm:py-2.5 sm:text-sm"
             >
               Let’s talk
             </a>
