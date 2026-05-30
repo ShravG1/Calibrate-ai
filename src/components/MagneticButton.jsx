@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
 import { useAura } from '../hooks/useAura.js'
 
@@ -21,14 +21,30 @@ export default function MagneticButton({
   const ref = useRef(null)
   const reduce = useReducedMotion()
   const [hovered, setHovered] = useState(false)
+  // Track whether the aura chunk has ever been needed on this page session.
+  // Once true it stays mounted so subsequent hovers don't pay the chunk-load
+  // cost — but until the first hover, R3F never touches the initial bundle.
+  const [auraNeeded, setAuraNeeded] = useState(false)
+  // Touch / coarse-pointer devices skip the aura entirely (the hover state
+  // it depends on doesn't exist there).
+  const [finePointer, setFinePointer] = useState(false)
   const x = useMotionValue(0)
   const y = useMotionValue(0)
   const spring = { stiffness: 260, damping: 18, mass: 0.4 }
   const sx = useSpring(x, spring)
   const sy = useSpring(y, spring)
 
-  const mouseRef = useAura(ref, aura && !reduce)
-  const auraActive = aura && !reduce
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const mq = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const update = () => setFinePointer(mq.matches)
+    update()
+    mq.addEventListener?.('change', update)
+    return () => mq.removeEventListener?.('change', update)
+  }, [])
+
+  const auraAvailable = aura && !reduce && finePointer
+  const mouseRef = useAura(ref, auraAvailable)
 
   const handleMove = (e) => {
     if (reduce || !ref.current) return
@@ -37,7 +53,10 @@ export default function MagneticButton({
     y.set((e.clientY - (r.top + r.height / 2)) * strength)
   }
 
-  const onEnter = () => setHovered(true)
+  const onEnter = () => {
+    setHovered(true)
+    if (auraAvailable && !auraNeeded) setAuraNeeded(true)
+  }
   const onLeave = () => {
     setHovered(false)
     x.set(0)
@@ -57,7 +76,7 @@ export default function MagneticButton({
       className={aura ? `${className} aura-host` : className}
       {...props}
     >
-      {auraActive && (
+      {auraAvailable && auraNeeded && (
         <Suspense fallback={null}>
           <AuraCanvas active={hovered} mouseRef={mouseRef} />
         </Suspense>

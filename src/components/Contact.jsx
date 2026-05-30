@@ -26,7 +26,21 @@ export default function Contact() {
   const [form, setForm] = useState({ name: '', business: '', message: '' })
   const [status, setStatus] = useState('idle') // 'idle' | 'sending' | 'sent' | 'error'
   const [submitHovered, setSubmitHovered] = useState(false)
+  // See MagneticButton.jsx — gate the R3F-backed aura behind first-hover +
+  // fine-pointer so touch/never-hovered visitors don't pay the ~234KB
+  // gzipped chunk cost.
+  const [auraNeeded, setAuraNeeded] = useState(false)
+  const [finePointer, setFinePointer] = useState(false)
   const reduce = useReducedMotion()
+
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') return
+    const mq = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const update = () => setFinePointer(mq.matches)
+    update()
+    mq.addEventListener?.('change', update)
+    return () => mq.removeEventListener?.('change', update)
+  }, [])
 
   const sectionRef = useRef(null)
   const eyebrowRef = useRef(null)
@@ -80,10 +94,11 @@ export default function Contact() {
 
   // Hover aura on the submit button — WebGL shader plasma via AuraCanvas.
   // Hook tracks cursor position in normalised (0..1) coords and feeds it
-  // into the shader's uMouse uniform. Gated on form still mounted and
-  // reduced-motion.
-  const auraEnabled = status !== 'sent' && !reduce
-  const submitMouseRef = useAura(submitRef, auraEnabled)
+  // into the shader's uMouse uniform. Gated on form still mounted,
+  // reduced-motion, fine-pointer device, and first-hover so the R3F chunk
+  // isn't loaded until the user signals they might trigger it.
+  const auraAvailable = status !== 'sent' && !reduce && finePointer
+  const submitMouseRef = useAura(submitRef, auraAvailable)
 
   useEntranceTimeline({
     sectionRef,
@@ -387,11 +402,14 @@ export default function Contact() {
                     type="submit"
                     disabled={status === 'sending'}
                     data-cursor-magnetic="true"
-                    onMouseEnter={() => setSubmitHovered(true)}
+                    onMouseEnter={() => {
+                      setSubmitHovered(true)
+                      if (auraAvailable && !auraNeeded) setAuraNeeded(true)
+                    }}
                     onMouseLeave={() => setSubmitHovered(false)}
                     className="group aura-host inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-electric to-violet px-6 py-3.5 text-base font-semibold text-ink transition-transform hover:scale-[1.02] active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
                   >
-                    {auraEnabled && (
+                    {auraAvailable && auraNeeded && (
                       <Suspense fallback={null}>
                         <AuraCanvas
                           active={submitHovered}
