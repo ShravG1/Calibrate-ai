@@ -71,7 +71,7 @@ export default function Footer() {
           </p>
         </div>
 
-        <nav className="flex flex-wrap gap-x-5 gap-y-2">
+        <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-2">
           {links.map((l) => (
             <a
               key={l.href}

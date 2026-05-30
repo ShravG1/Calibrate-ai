@@ -172,7 +172,7 @@ export default function Nav() {
             : 'bg-transparent border-b border-transparent'
         }`}
       >
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
+        <nav aria-label="Primary" className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
           <a href="#top" aria-label="Calibrate" className="flex items-center">
             <CalibrateLockup className="block h-9 w-auto sm:h-10" />
           </a>
@@ -199,8 +199,9 @@ export default function Nav() {
             </a>
             <button
               type="button"
-              aria-label="Toggle menu"
+              aria-label={open ? 'Close menu' : 'Open menu'}
               aria-expanded={open}
+              aria-controls="primary-nav-mobile"
               onClick={() => setOpen((v) => !v)}
               className="grid h-10 w-10 place-items-center rounded-xl border border-line text-mist md:hidden"
             >
@@ -218,6 +219,7 @@ export default function Nav() {
         <AnimatePresence>
           {open && (
             <motion.div
+              id="primary-nav-mobile"
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
