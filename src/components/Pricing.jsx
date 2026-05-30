@@ -73,7 +73,7 @@ export default function Pricing() {
       }, section)
     }
 
-    // Defer until fonts + one rAF so Services' 548vh pin height is measured correctly
+    // Defer until fonts + one rAF so Services' pin height is measured correctly
     const fontsReady = document.fonts?.ready ?? Promise.resolve()
     fontsReady.then(run)
 
