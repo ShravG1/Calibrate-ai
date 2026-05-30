@@ -86,7 +86,7 @@ export default function CaseStudies() {
     <section
       ref={sectionRef}
       id="work"
-      className="relative px-5 py-8 sm:px-8 sm:py-12"
+      className="relative px-5 py-12 sm:px-8 sm:py-20"
     >
       <div className="mx-auto max-w-6xl">
         <div>
@@ -116,9 +116,11 @@ export default function CaseStudies() {
           {caseStudies.map((cs) => (
             <article
               key={cs.id}
-              className="flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-ink-card/60"
+              className="group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-ink-card/60 transition duration-300 hover:-translate-y-0.5 hover:border-electric/40"
             >
-              <div className="relative m-3 aspect-[16/10] overflow-hidden rounded-2xl border border-line/60 bg-ink-soft/60">
+              <div
+                className={`relative m-3 ${cs.aspect || 'aspect-[16/10]'} overflow-hidden rounded-2xl border border-line/60 bg-black`}
+              >
                 {cs.image ? (
                   <img
                     src={cs.image}

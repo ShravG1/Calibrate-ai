@@ -50,38 +50,13 @@ export const services = [
 
 export const caseStudies = [
   {
-    id: 'cs-layers',
-    tag: 'Mobile · Personal tool',
-    title: 'Layers — what to wear, decided',
-    image: '/case-studies/01-layers.jpg',
-    imageAlt: 'Layers app showing today\'s recommended outfit based on weather',
-    problem:
-      'Five minutes lost every morning checking weather and second-guessing what to wear.',
-    solution:
-      'A mobile-first app that reads live weather and recommends an outfit, learning from too cold / just right / too warm feedback.',
-    outcome:
-      'Decision time dropped to seconds. Combos that worked are remembered, so tomorrow\'s call is sharper than today\'s.',
-  },
-  {
-    id: 'cs-vat',
-    tag: 'Internal tool · Hospitality',
-    title: 'VAT receipt generator',
-    image: '/case-studies/02-vat-receipt.png',
-    imageAlt: 'VAT receipt generator form with venue, guest and booking fields',
-    problem:
-      'Staff retyping the same VAT receipts dozens of times a week for refund requests.',
-    solution:
-      'A form-driven tool — pick venue, fill the booking details, hit generate. Outputs a compliant PDF with the correct VAT breakdown.',
-    outcome:
-      'Receipt creation dropped from ~6 minutes to ~20 seconds. Zero typos in HMRC-bound paperwork.',
-  },
-  {
     id: 'cs-rota',
-    tag: 'Operations · SaaS',
+    tag: 'Operations',
     title: 'Staff rota dashboard',
-    image: '/case-studies/03-rota.png',
+    image: '/case-studies/03-rota-crop.png',
     imageAlt:
-      'Rota dashboard with coverage stats, today and tomorrow shift timelines',
+      'Rota dashboard with coverage stats and live shift timeline for the day',
+    aspect: 'aspect-[16/9]',
     problem:
       'Managers running rotas from spreadsheets — no visibility on coverage gaps, sickness, or open cover requests.',
     solution:
@@ -91,17 +66,46 @@ export const caseStudies = [
   },
   {
     id: 'cs-ebay',
-    tag: 'Finance · Reseller',
+    tag: 'Reseller P&L',
     title: 'eBay reseller ledger',
-    image: '/case-studies/04-ebay-tracker.png',
+    image: '/case-studies/04-ebay-crop.png',
     imageAlt:
-      'eBay tracker dashboard with profit, tax owed, monthly chart and category breakdown',
+      'eBay tracker showing monthly profit chart and category breakdown donut',
+    aspect: 'aspect-[16/9]',
     problem:
       'A reseller juggling spreadsheets to track stock, fees, sales — and what HMRC was owed at year-end.',
     solution:
       'An automated ledger that syncs eBay sales, matches Gmail receipts, calculates net profit, tracks unsold stock and projects tax headroom.',
     outcome:
       'Year-end tax position visible in real time. Hours of monthly bookkeeping cut to a glance.',
+  },
+  {
+    id: 'cs-vat',
+    tag: 'Hospitality',
+    title: 'VAT receipt generator',
+    image: '/case-studies/02-vat-receipt.png',
+    imageAlt: 'VAT receipt generator form with venue, guest and booking fields',
+    aspect: 'aspect-[3/4]',
+    problem:
+      'Staff retyping the same VAT receipts dozens of times a week for refund requests.',
+    solution:
+      'A form-driven tool — pick venue, fill the booking details, hit generate. Outputs a compliant PDF with the correct VAT breakdown.',
+    outcome:
+      'Receipt creation dropped from ~6 minutes to ~20 seconds. Zero typos in HMRC-bound paperwork.',
+  },
+  {
+    id: 'cs-layers',
+    tag: 'Personal app',
+    title: 'Layers — what to wear, decided',
+    image: '/case-studies/01-layers.jpg',
+    imageAlt: "Layers app showing today's recommended outfit based on weather",
+    aspect: 'aspect-[3/4]',
+    problem:
+      'Five minutes lost every morning checking weather and second-guessing what to wear.',
+    solution:
+      'A mobile-first app that reads live weather and recommends an outfit, learning from too cold / just right / too warm feedback.',
+    outcome:
+      "Decision time dropped to seconds. Combos that worked are remembered, so tomorrow's call is sharper than today's.",
   },
 ]
 
