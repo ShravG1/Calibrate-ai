@@ -102,6 +102,7 @@ export default function Contact() {
 
   useEntranceTimeline({
     sectionRef,
+    noExit: true,
     build: (tl) => {
       const eyebrow = eyebrowRef.current
       const headline = headlineRef.current

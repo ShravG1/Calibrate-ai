@@ -69,19 +69,19 @@ export const caseStudies = [
   {
     id: 'cs-ebay',
     tag: 'Reseller P&L',
-    title: 'eBay reseller ledger',
+    title: 'Custom trading dashboard — eBay API + Gmail sync',
     image: '/case-studies/04-ebay-crop.webp',
     imageWidth: 1907,
     imageHeight: 596,
     imageAlt:
-      'eBay tracker showing monthly profit chart and category breakdown donut',
+      'Trading dashboard showing monthly profit chart and category breakdown donut',
     aspect: 'aspect-[16/9]',
     problem:
       'A reseller juggling spreadsheets to track stock, fees, sales — and what HMRC was owed at year-end.',
     solution:
-      'An automated ledger that syncs eBay sales, matches Gmail receipts, calculates net profit, tracks unsold stock and projects tax headroom.',
+      'A live trading dashboard that pulls sales straight from the eBay API, matches Gmail postage and supplier receipts, classifies stock and projects tax owed in real time.',
     outcome:
-      'Year-end tax position visible in real time. Hours of monthly bookkeeping cut to a glance.',
+      'Year-end tax position visible at a glance. Hours of monthly bookkeeping replaced by a single screen that updates itself.',
   },
   {
     id: 'cs-vat',
@@ -93,7 +93,7 @@ export const caseStudies = [
     imageAlt: 'VAT receipt generator form with venue, guest and booking fields',
     aspect: 'aspect-[3/4]',
     problem:
-      'Staff retyping the same VAT receipts dozens of times a week for refund requests.',
+      'Staff retyping the same VAT receipts dozens of times a week for guests who needed them for their accounts.',
     solution:
       'A form-driven tool — pick venue, fill the booking details, hit generate. Outputs a compliant PDF with the correct VAT breakdown.',
     outcome:
@@ -133,10 +133,6 @@ export const faqs = [
   {
     q: 'Do I have to switch tools or platforms?',
     a: "No. The whole point is connecting what you already pay for — your existing invoicing, bookings, spreadsheets, WhatsApp, email — so they talk to each other. Switching tools is sometimes the right call, but it's a recommendation, never a precondition.",
-  },
-  {
-    q: 'Is automating WhatsApp messages allowed in the UK?',
-    a: 'Yes, via the WhatsApp Business API and only with the right templates, opt-ins and PECR/UK GDPR compliance. I build to those rules — the easiest way to get banned from WhatsApp is to send unsolicited messages, and that helps no one.',
   },
   {
     q: 'What happens after the build — am I stuck with you?',
